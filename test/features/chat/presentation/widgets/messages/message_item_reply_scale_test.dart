@@ -64,7 +64,7 @@ void main() {
           )
           .first,
     );
-    expect(row.height, 30);
+    expect(row.height, 27);
 
     await tester.pumpWidget(const SizedBox.shrink());
     await tester.pump(const Duration(milliseconds: 1));

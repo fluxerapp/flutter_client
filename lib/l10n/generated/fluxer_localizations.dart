@@ -30437,6 +30437,102 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'{productName} needs screen recording access. Allow screen recording in your operating system privacy settings and restart the app.'**
   String mediaPermissionBlockedScreenBody(String productName);
+
+  /// Context menu item on a message author that inserts a mention of them into the composer.
+  ///
+  /// In en, this message translates to:
+  /// **'Mention'**
+  String get messageAuthorMenuMention;
+
+  /// Context menu item on a webhook message author that copies the webhook ID.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy webhook ID'**
+  String get messageAuthorMenuCopyWebhookId;
+
+  /// Reaction pill tooltip. Order the parts so the emoji never reads as the one doing the reacting.
+  ///
+  /// In en, this message translates to:
+  /// **'{emojiName} reacted by {reactors}'**
+  String reactionTooltipReactedBy(String emojiName, String reactors);
+
+  /// Count of additional reactors appended to the reaction tooltip list.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 other} other{{count} others}}'**
+  String reactionTooltipOthers(int count);
+
+  /// Joins two reactor names in the reaction tooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'{first} and {second}'**
+  String reactionTooltipListPair(String first, String second);
+
+  /// Joins three or more reactor names in the reaction tooltip; items is already comma-separated.
+  ///
+  /// In en, this message translates to:
+  /// **'{items}, and {last}'**
+  String reactionTooltipListMany(String items, String last);
+
+  /// Second line in the reaction pill tooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Click to view all reactions'**
+  String get reactionTooltipViewAll;
+
+  /// Emoji context menu action that adds the emoji to favorites.
+  ///
+  /// In en, this message translates to:
+  /// **'Favorite emoji'**
+  String get emojiMenuFavorite;
+
+  /// Emoji context menu action that removes the emoji from favorites.
+  ///
+  /// In en, this message translates to:
+  /// **'Unfavorite emoji'**
+  String get emojiMenuUnfavorite;
+
+  /// Emoji context menu action that copies the emoji image URL.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy emoji URL'**
+  String get emojiMenuCopyUrl;
+
+  /// Emoji context menu action that opens the emoji image URL in a browser.
+  ///
+  /// In en, this message translates to:
+  /// **'Open emoji in browser'**
+  String get emojiMenuOpenInBrowser;
+
+  /// Developer-mode emoji context menu action that copies the emoji ID.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy emoji ID'**
+  String get emojiMenuCopyId;
+
+  /// Tooltip on the media download button in the media viewer and on inline media.
+  ///
+  /// In en, this message translates to:
+  /// **'Download media'**
+  String get mediaViewerDownload;
+
+  /// Tooltip on the media viewer button that rotates the media 90 degrees clockwise.
+  ///
+  /// In en, this message translates to:
+  /// **'Rotate clockwise'**
+  String get mediaViewerRotateClockwise;
+
+  /// Tooltip on the media viewer button that rotates the media 90 degrees counterclockwise.
+  ///
+  /// In en, this message translates to:
+  /// **'Rotate counterclockwise'**
+  String get mediaViewerRotateCounterclockwise;
+
+  /// Tooltip on the media viewer button that resets zoom and pan.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset media position'**
+  String get mediaViewerResetPosition;
 }
 
 class _FluxerLocalizationsDelegate

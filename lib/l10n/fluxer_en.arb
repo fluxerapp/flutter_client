@@ -22124,5 +22124,98 @@
         "type": "String"
       }
     }
+  },
+  "messageAuthorMenuMention": "Mention",
+  "@messageAuthorMenuMention": {
+    "description": "Context menu item on a message author that inserts a mention of them into the composer."
+  },
+  "messageAuthorMenuCopyWebhookId": "Copy webhook ID",
+  "@messageAuthorMenuCopyWebhookId": {
+    "description": "Context menu item on a webhook message author that copies the webhook ID."
+  },
+  "reactionTooltipReactedBy": "{emojiName} reacted by {reactors}",
+  "@reactionTooltipReactedBy": {
+    "description": "Reaction pill tooltip. Order the parts so the emoji never reads as the one doing the reacting.",
+    "placeholders": {
+      "emojiName": {
+        "type": "String"
+      },
+      "reactors": {
+        "type": "String"
+      }
+    }
+  },
+  "reactionTooltipOthers": "{count, plural, =1{1 other} other{{count} others}}",
+  "@reactionTooltipOthers": {
+    "description": "Count of additional reactors appended to the reaction tooltip list.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "reactionTooltipListPair": "{first} and {second}",
+  "@reactionTooltipListPair": {
+    "description": "Joins two reactor names in the reaction tooltip.",
+    "placeholders": {
+      "first": {
+        "type": "String"
+      },
+      "second": {
+        "type": "String"
+      }
+    }
+  },
+  "reactionTooltipListMany": "{items}, and {last}",
+  "@reactionTooltipListMany": {
+    "description": "Joins three or more reactor names in the reaction tooltip; items is already comma-separated.",
+    "placeholders": {
+      "items": {
+        "type": "String"
+      },
+      "last": {
+        "type": "String"
+      }
+    }
+  },
+  "reactionTooltipViewAll": "Click to view all reactions",
+  "@reactionTooltipViewAll": {
+    "description": "Second line in the reaction pill tooltip."
+  },
+  "emojiMenuFavorite": "Favorite emoji",
+  "@emojiMenuFavorite": {
+    "description": "Emoji context menu action that adds the emoji to favorites."
+  },
+  "emojiMenuUnfavorite": "Unfavorite emoji",
+  "@emojiMenuUnfavorite": {
+    "description": "Emoji context menu action that removes the emoji from favorites."
+  },
+  "emojiMenuCopyUrl": "Copy emoji URL",
+  "@emojiMenuCopyUrl": {
+    "description": "Emoji context menu action that copies the emoji image URL."
+  },
+  "emojiMenuOpenInBrowser": "Open emoji in browser",
+  "@emojiMenuOpenInBrowser": {
+    "description": "Emoji context menu action that opens the emoji image URL in a browser."
+  },
+  "emojiMenuCopyId": "Copy emoji ID",
+  "@emojiMenuCopyId": {
+    "description": "Developer-mode emoji context menu action that copies the emoji ID."
+  },
+  "mediaViewerDownload": "Download media",
+  "@mediaViewerDownload": {
+    "description": "Tooltip on the media download button in the media viewer and on inline media."
+  },
+  "mediaViewerRotateClockwise": "Rotate clockwise",
+  "@mediaViewerRotateClockwise": {
+    "description": "Tooltip on the media viewer button that rotates the media 90 degrees clockwise."
+  },
+  "mediaViewerRotateCounterclockwise": "Rotate counterclockwise",
+  "@mediaViewerRotateCounterclockwise": {
+    "description": "Tooltip on the media viewer button that rotates the media 90 degrees counterclockwise."
+  },
+  "mediaViewerResetPosition": "Reset media position",
+  "@mediaViewerResetPosition": {
+    "description": "Tooltip on the media viewer button that resets zoom and pan."
   }
 }

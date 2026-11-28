@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
@@ -7,6 +8,8 @@ import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/mobile_composer_bar.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/author/message_author_context_menu.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/author/message_author_tap_target.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/messages/channel_message_stream_provider.dart';
@@ -14,6 +17,7 @@ import 'package:fluxer_app/features/chat/providers/messages/message_references_p
 import 'package:fluxer_app/features/chat/utils/composer/mention_reply_preference_utils.dart';
 import 'package:fluxer_app/features/chat/utils/composer/typing_indicator_text.dart';
 import 'package:fluxer_app/features/chat/utils/messages/channel_message_stream.dart';
+import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -140,6 +144,37 @@ class InlineReplyPreview extends ConsumerWidget {
     final nameColor = (roleColor ?? context.colors.textChat).withValues(
       alpha: 0.64,
     );
+    final bool authorInteractive =
+        replyMsg != null &&
+        !replyMsg.isSystemMessage &&
+        replyMsg.authorId.isNotEmpty &&
+        hiddenReplyLabel == null;
+    final MessageAuthorMenuTarget? authorTarget = authorInteractive
+        ? MessageAuthorMenuTarget(
+            userId: replyMsg.authorId,
+            channelId: replyMsg.channelId,
+            guildId: resolvedGuildId,
+            webhookId: replyMsg.isWebhookMessage ? replyMsg.webhookId : null,
+          )
+        : null;
+    Widget authorTapTarget(Widget child) {
+      if (authorTarget == null) {
+        return child;
+      }
+      return MessageAuthorTapTarget(
+        target: authorTarget,
+        onOpenProfile: (BuildContext anchor) => unawaited(
+          FluxerUserProfileSheet.show(
+            anchor,
+            userId: replyMsg!.authorId,
+            guildId: resolvedGuildId,
+            isWebhook: replyMsg.isWebhookMessage,
+            message: replyMsg.isWebhookMessage ? replyMsg : null,
+          ),
+        ),
+        child: child,
+      );
+    }
 
     return FluxerGestureDetector(
       behavior: HitTestBehavior.opaque,
@@ -191,27 +226,31 @@ class InlineReplyPreview extends ConsumerWidget {
                     color: context.colors.textPrimaryMuted,
                   )
                 else
-                  FluxerAvatar.user(
-                    fallbackText: replyAuthorDisplay.displayName,
-                    userId: replyMsg.authorId,
-                    imageUrl: replyAuthorDisplay.avatarUrl,
-                    avatarColor: replyAuthorDisplay.avatarColor,
-                    size: 16,
-                    showStatus: false,
+                  authorTapTarget(
+                    FluxerAvatar.user(
+                      fallbackText: replyAuthorDisplay.displayName,
+                      userId: replyMsg.authorId,
+                      imageUrl: replyAuthorDisplay.avatarUrl,
+                      avatarColor: replyAuthorDisplay.avatarColor,
+                      size: 16,
+                      showStatus: false,
+                    ),
                   ),
                 const SizedBox(width: 4),
                 ConstrainedBox(
                   constraints: BoxConstraints(maxWidth: maxAuthorWidth),
-                  child: Text(
-                    '${mentionsReplyAuthor ? '@' : ''}'
-                    '${replyAuthorDisplay.displayName}',
-                    style: context.textStyles.label.copyWith(
-                      color: nameColor,
-                      fontSize: _kReplyPreviewFontSize,
-                      height: _kReplyPreviewLineHeight,
+                  child: authorTapTarget(
+                    Text(
+                      '${mentionsReplyAuthor ? '@' : ''}'
+                      '${replyAuthorDisplay.displayName}',
+                      style: context.textStyles.label.copyWith(
+                        color: nameColor,
+                        fontSize: _kReplyPreviewFontSize,
+                        height: _kReplyPreviewLineHeight,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
                     ),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
                   ),
                 ),
                 const SizedBox(width: 4),
@@ -314,6 +353,21 @@ class _ReplyPreviewContent extends ConsumerWidget {
   }
 }
 
+const double _kReplySpineRadius = 10;
+
+double _replySpineRadius({
+  required double start,
+  required double lineTop,
+  required double lineBottom,
+  required double horizontalEnd,
+}) => math.max(
+  0,
+  math.min(
+    _kReplySpineRadius,
+    math.min(lineBottom - lineTop, horizontalEnd - start),
+  ),
+);
+
 class ReplyConnectorPainter extends CustomPainter {
   final double avatarCenterX;
   final double lineTop;
@@ -337,9 +391,7 @@ class ReplyConnectorPainter extends CustomPainter {
       ..color = color
       ..strokeWidth = 2
       ..style = PaintingStyle.stroke
-      ..strokeCap = StrokeCap.round;
-
-    const radius = 6.0;
+      ..strokeCap = StrokeCap.butt;
 
     if (textDirection == TextDirection.rtl) {
       canvas
@@ -347,12 +399,18 @@ class ReplyConnectorPainter extends CustomPainter {
         ..scale(-1, 1);
     }
 
+    final double radius = _replySpineRadius(
+      start: avatarCenterX,
+      lineTop: lineTop,
+      lineBottom: lineBottom,
+      horizontalEnd: horizontalEnd,
+    );
     final path = Path()
       ..moveTo(avatarCenterX, lineBottom)
       ..lineTo(avatarCenterX, lineTop + radius)
       ..arcToPoint(
         Offset(avatarCenterX + radius, lineTop),
-        radius: const Radius.circular(radius),
+        radius: Radius.circular(radius),
       )
       ..lineTo(horizontalEnd, lineTop);
 
@@ -395,9 +453,7 @@ class CompactReplyConnectorPainter extends CustomPainter {
       ..color = color
       ..strokeWidth = 2
       ..style = PaintingStyle.stroke
-      ..strokeCap = StrokeCap.round;
-
-    const radius = 6.0;
+      ..strokeCap = StrokeCap.butt;
 
     if (textDirection == TextDirection.rtl) {
       canvas
@@ -405,12 +461,18 @@ class CompactReplyConnectorPainter extends CustomPainter {
         ..scale(-1, 1);
     }
 
+    final double radius = _replySpineRadius(
+      start: spineCenterX,
+      lineTop: lineTop,
+      lineBottom: lineBottom,
+      horizontalEnd: horizontalEnd,
+    );
     final path = Path()
       ..moveTo(spineCenterX, lineBottom)
       ..lineTo(spineCenterX, lineTop + radius)
       ..arcToPoint(
         Offset(spineCenterX + radius, lineTop),
-        radius: const Radius.circular(radius),
+        radius: Radius.circular(radius),
       )
       ..lineTo(horizontalEnd, lineTop);
 

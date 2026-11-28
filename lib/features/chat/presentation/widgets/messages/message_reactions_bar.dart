@@ -3,6 +3,10 @@ import 'dart:async';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/theme/reaction_chip_colors.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/presentation/sheets/message_reactions_sheet.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/reactions/reaction_count_text.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/reactions/reaction_emoji_context_menu.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/reactions/reaction_tooltip_content.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/wallpaper/chat_wallpaper_text_theme.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
@@ -19,6 +23,7 @@ const _kReactionEmojiSize = 19.0;
 const _kAddReactionIconSize = 19.0;
 const _kDesktopReactionEmojiSize = 20.0;
 const _kDesktopAddReactionIconSize = 20.0;
+const Duration _kReactionTooltipDelay = Duration(milliseconds: 500);
 
 typedef ReactionToggleCallback =
     void Function(String emoji, {String? emojiId, bool animated});
@@ -56,9 +61,11 @@ class MessageReactionsBar extends StatelessWidget {
     this.onReactionLongPress,
     this.showAddReaction = false,
     this.isMobile = false,
+    this.message,
     super.key,
   });
 
+  final Message? message;
   final List<Reaction> reactions;
   final String channelId;
   final ReactionToggleCallback onReactionTap;
@@ -78,6 +85,7 @@ class MessageReactionsBar extends StatelessWidget {
             _ReactionChip(
               reaction: reaction,
               desktop: desktop,
+              message: message,
               onTap: () {
                 FluxerHaptics.selection();
                 onReactionTap(
@@ -112,8 +120,10 @@ class _ReactionChip extends StatelessWidget {
     required this.desktop,
     required this.onTap,
     this.onLongPress,
+    this.message,
   });
 
+  final Message? message;
   final Reaction reaction;
   final bool desktop;
   final VoidCallback onTap;
@@ -126,13 +136,24 @@ class _ReactionChip extends StatelessWidget {
         : _kReactionEmojiSize;
     final hasReacted = reaction.hasReacted;
     final String emojiName = reaction.emoji;
-    return Semantics(
+    final Message? message = this.message;
+    final bool desktopInteractive = desktop && message != null;
+    final Widget chip = Semantics(
       button: true,
       toggled: hasReacted,
       label: '$emojiName, ${reaction.count}',
       child: FluxerGestureDetector(
         onTap: onTap,
-        onLongPress: onLongPress,
+        onLongPress: desktopInteractive ? null : onLongPress,
+        onSecondaryTapUp: desktopInteractive && reaction.isCustom
+            ? (TapUpDetails details) => unawaited(
+                showReactionEmojiContextMenu(
+                  context,
+                  position: details.globalPosition,
+                  reaction: reaction,
+                ),
+              )
+            : null,
         child: ExcludeSemantics(
           child: _ReactionChipSurface(
             desktop: desktop,
@@ -151,8 +172,8 @@ class _ReactionChip extends StatelessWidget {
                 else
                   UnicodeEmojiWidget(emoji: reaction.emoji, size: emojiSize),
                 const SizedBox(width: 6),
-                Text(
-                  '${reaction.count}',
+                ReactionCountText(
+                  count: reaction.count,
                   style: context.textStyles.smallText.copyWith(
                     color: _chipCountColor(context, hasReacted: hasReacted),
                     fontWeight: desktop ? FontWeight.w600 : FontWeight.w700,
@@ -163,6 +184,22 @@ class _ReactionChip extends StatelessWidget {
           ),
         ),
       ),
+    );
+    if (!desktopInteractive) {
+      return chip;
+    }
+    return FluxerTooltip(
+      richMessage: ReactionTooltipContent(message: message, reaction: reaction),
+      showDelay: _kReactionTooltipDelay,
+      maxWidth: FluxerTooltipMaxWidth.none,
+      onTooltipTap: () => unawaited(
+        showMessageReactionsSheet(
+          context,
+          message: message,
+          initialReaction: reaction,
+        ),
+      ),
+      child: chip,
     );
   }
 }
@@ -331,6 +368,7 @@ class _InlineAddReactionButtonState extends State<_InlineAddReactionButton> {
       closeOnEmojiSelect: true,
       visibleTabs: const [ExpressionPickerTab.emojis],
       channelId: widget.channelId,
+      placement: FluxerEmojiPickerPlacement.rightStart,
       onClose: () => setState(() => _isPickerOpen = false),
       onEmojiSelected: _handleEmojiSelected,
       child: _buildButton(

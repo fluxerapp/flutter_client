@@ -363,6 +363,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       insertTypedText: _typeIntoComposer,
       claimsKeyEvent: _composerClaimsKeyEvent,
       handleArrowUpEmpty: _handleArrowUpOnEmptyComposer,
+      insertUserMention: _insertUserMentionAtCursor,
     );
     _chatKeybindEffectsSubscription = listenChatKeybindEffects(
       ref,
@@ -597,6 +598,40 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     if (!focused) {
       _keyboardSession.handleFocusLost();
     }
+  }
+
+  bool _insertUserMentionAtCursor(String userId) {
+    if (!mounted ||
+        _slashSession.isActive ||
+        _voiceRecording.isActive ||
+        !_focusNode.canRequestFocus) {
+      return false;
+    }
+    final String text = _controller.text;
+    final TextSelection selection = _controller.selection;
+    final int a = selection.isValid
+        ? _clampOffset(selection.start, text.length)
+        : text.length;
+    final int b = selection.isValid
+        ? _clampOffset(selection.end, text.length)
+        : text.length;
+    int start = math.min(a, b);
+    int end = math.max(a, b);
+    if (start > 0 && !_isWhitespace(text.substring(start - 1, start))) {
+      _controller.value = TextEditingValue(
+        text: text.replaceRange(start, end, ' '),
+        selection: TextSelection.collapsed(offset: start + 1),
+      );
+      start += 1;
+      end = start;
+    }
+    _controller.insertUserMentionPlaceholder(
+      matchStart: start,
+      matchEnd: end,
+      userId: userId,
+    );
+    _focusNode.requestFocus();
+    return true;
   }
 
   bool _typeIntoComposer(String typed) {

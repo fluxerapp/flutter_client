@@ -10,7 +10,7 @@ const double kMessageAvatarColumnWidth =
 
 const double kMessageRowPaddingHorizontal = 16;
 const double kMessageRowPaddingVertical = 8;
-const double kMessageAvatarTopPadding = 2;
+const double kMessageAvatarTopPadding = 4;
 
 const double kSystemMessageIconSize = 18;
 const double kSystemMessageBodyFontSize = 14;

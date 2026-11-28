@@ -1452,17 +1452,32 @@ class _MarkdownInlineRenderer {
     } finally {
       _linkDepth--;
     }
-    final children = _attachLinkRecognizers(labelSpans, href);
+    final children = _attachLinkRecognizers(
+      labelSpans,
+      href,
+      masked: applyMaskedGuards,
+    );
     return TextSpan(style: linkStyle, children: children);
   }
 
-  List<InlineSpan> _attachLinkRecognizers(List<InlineSpan> spans, String href) {
+  List<InlineSpan> _attachLinkRecognizers(
+    List<InlineSpan> spans,
+    String href, {
+    bool masked = false,
+  }) {
     return spans
-        .map((InlineSpan span) => _attachLinkRecognizerToSpan(span, href))
+        .map(
+          (InlineSpan span) =>
+              _attachLinkRecognizerToSpan(span, href, masked: masked),
+        )
         .toList();
   }
 
-  InlineSpan _attachLinkRecognizerToSpan(InlineSpan span, String href) {
+  InlineSpan _attachLinkRecognizerToSpan(
+    InlineSpan span,
+    String href, {
+    bool masked = false,
+  }) {
     if (span is! TextSpan) {
       return span;
     }
@@ -1472,6 +1487,19 @@ class _MarkdownInlineRenderer {
         unawaited(_handleLinkTap(href));
       }
 
+      final FluxerMaskedLinkHoverHandler? hover = masked
+          ? config.onMaskedLinkHover
+          : null;
+      final BuildContext hoverContext = context;
+      final PointerEnterEventListener? onEnter = hover == null
+          ? null
+          : (PointerEnterEvent event) =>
+                hover(hoverContext, href, event, entered: true);
+      final PointerExitEventListener? onExit = hover == null
+          ? null
+          : (PointerExitEvent event) =>
+                hover(hoverContext, href, event, entered: false);
+
       final FluxerMarkdownLinkRegistry? registry =
           FluxerMarkdownLinkRegistry.maybeOf(context);
       if (registry != null) {
@@ -1479,6 +1507,8 @@ class _MarkdownInlineRenderer {
           text: span.text,
           style: span.style,
           mouseCursor: SystemMouseCursors.click,
+          onEnter: onEnter,
+          onExit: onExit,
           recognizer: registry.obtainRecognizer(href, onTap),
         );
       }
@@ -1486,12 +1516,14 @@ class _MarkdownInlineRenderer {
         text: span.text,
         style: span.style,
         mouseCursor: SystemMouseCursors.click,
+        onEnter: onEnter,
+        onExit: onExit,
         recognizer: FluxerMarkdownLinkRecognizer(href: href)..onTap = onTap,
       );
     }
     return TextSpan(
       style: span.style,
-      children: _attachLinkRecognizers(children, href),
+      children: _attachLinkRecognizers(children, href, masked: masked),
     );
   }
 

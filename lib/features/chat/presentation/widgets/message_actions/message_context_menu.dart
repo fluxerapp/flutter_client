@@ -285,7 +285,7 @@ class _MessageContextMenuItems extends ConsumerWidget {
       ],
       _buildAttachmentItems(context, showMediaDeleteButton),
       <Widget>[
-        if (message.content.isNotEmpty)
+        if (message.content.isNotEmpty || message.isSystemMessage)
           item(
             label: l10n.chatMessageCopyText,
             icon: PhosphorIconsFill.copy,

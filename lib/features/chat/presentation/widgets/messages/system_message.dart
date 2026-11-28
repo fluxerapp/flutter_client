@@ -16,7 +16,6 @@ import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart
 import 'package:fluxer_app/features/settings/providers/preferences/time_format_providers.dart';
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
-import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/utils/connection/connection_actions.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -38,7 +37,6 @@ class SystemMessage extends ConsumerWidget {
   final VoidCallback? onJumpToPinnedMessage;
   final VoidCallback? onViewAllPins;
   final Future<void> Function()? onLongPress;
-  final void Function(Offset position)? onSecondaryTapUp;
   final ReactionToggleCallback? onReaction;
   final bool canAddReactions;
 
@@ -48,7 +46,6 @@ class SystemMessage extends ConsumerWidget {
     this.onJumpToPinnedMessage,
     this.onViewAllPins,
     this.onLongPress,
-    this.onSecondaryTapUp,
     this.onReaction,
     this.canAddReactions = false,
     super.key,
@@ -242,6 +239,7 @@ class SystemMessage extends ConsumerWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 4),
                 child: MessageReactionsBar(
+                  message: message,
                   reactions: message.reactions,
                   channelId: message.channelId,
                   onReactionTap: (emoji, {emojiId, animated = false}) =>
@@ -321,6 +319,7 @@ class SystemMessage extends ConsumerWidget {
                   top: 4,
                 ),
                 child: MessageReactionsBar(
+                  message: message,
                   reactions: message.reactions,
                   channelId: message.channelId,
                   onReactionTap: (emoji, {emojiId, animated = false}) =>
@@ -349,14 +348,6 @@ class SystemMessage extends ConsumerWidget {
     if (onLongPress != null) {
       content = _PointerLongPressDetector(
         onLongPress: onLongPress!,
-        child: content,
-      );
-    }
-    if (onSecondaryTapUp != null) {
-      content = FluxerGestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onSecondaryTapUp: (details) =>
-            onSecondaryTapUp!(details.globalPosition),
         child: content,
       );
     }

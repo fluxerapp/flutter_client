@@ -19,14 +19,31 @@ const FluxerMediaDimensions compactMediaDimensions = FluxerMediaDimensions(
 );
 const FluxerMediaDimensions comfortableMediaDimensions = FluxerMediaDimensions(
   maxWidth: 550,
-  maxHeight: 400,
+  maxHeight: 350,
 );
+
+const double kTallEmbedMediaMaxHeight = 450;
 
 FluxerMediaDimensions mediaDimensionsForSize(MediaDimensionSize size) {
   return switch (size) {
     MediaDimensionSize.small => compactMediaDimensions,
     MediaDimensionSize.large => comfortableMediaDimensions,
   };
+}
+
+FluxerMediaDimensions embedMediaDimensionsForSize(
+  MediaDimensionSize size, {
+  int? width,
+  int? height,
+}) {
+  final FluxerMediaDimensions base = mediaDimensionsForSize(size);
+  if (width == null || height == null || height <= width) {
+    return base;
+  }
+  return FluxerMediaDimensions(
+    maxWidth: base.maxWidth,
+    maxHeight: math.max(base.maxHeight, kTallEmbedMediaMaxHeight),
+  );
 }
 
 FluxerMediaDimensions mediaDimensionsWithinWidth(

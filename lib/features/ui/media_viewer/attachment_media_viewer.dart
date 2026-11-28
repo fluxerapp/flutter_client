@@ -14,6 +14,7 @@ import 'package:fluxer_app/features/chat/presentation/sheets/mobile_media_option
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_network_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/media_load_error_placeholder.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/attachment_display_utils.dart';
+import 'package:fluxer_app/features/chat/utils/attachments/attachment_download_service.dart';
 import 'package:fluxer_app/features/chat/utils/media/favorite_media_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media/gif_preview_media_policy.dart';
 import 'package:fluxer_app/features/chat/utils/media/hdr_aware_image_url.dart';
@@ -34,6 +35,12 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
+import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
+
+const double _kDesktopMinZoom = 1;
+const double _kDesktopMaxZoom = 5;
+const double _kDesktopZoomStep = 1.25;
+const double _kDesktopZoomEpsilon = 0.001;
 
 class AttachmentMediaViewerItem {
   const AttachmentMediaViewerItem({
@@ -177,7 +184,8 @@ class _AttachmentMediaViewerShellState
   late final PageController _pageController;
   late final List<TransformationController> _touchControllers;
   late int _currentIndex;
-  bool _isDesktopZoomed = false;
+  double _desktopScale = _kDesktopMinZoom;
+  int _quarterTurns = 0;
   Offset _desktopPanOffset = Offset.zero;
   Offset? _desktopDragOrigin;
   bool _isPointerDownInsideContent = false;
@@ -266,6 +274,118 @@ class _AttachmentMediaViewerShellState
     _executeSelectIndex(_currentIndex - 1);
   }
 
+  bool get _isDesktopZoomed =>
+      _desktopScale > _kDesktopMinZoom + _kDesktopZoomEpsilon;
+
+  bool get _canDesktopZoomIn =>
+      _desktopScale < _kDesktopMaxZoom - _kDesktopZoomEpsilon;
+
+  bool get _canDesktopReset =>
+      _isDesktopZoomed || _desktopPanOffset != Offset.zero;
+
+  Offset _clampDesktopPan(Offset offset, double scale) {
+    final Size viewportSize = MediaQuery.sizeOf(context);
+    final double maxPanX = math.max(
+      0,
+      viewportSize.width * (scale - _kDesktopMinZoom) / 2,
+    );
+    final double maxPanY = math.max(
+      0,
+      viewportSize.height * (scale - _kDesktopMinZoom) / 2,
+    );
+    return Offset(
+      offset.dx.clamp(-maxPanX, maxPanX),
+      offset.dy.clamp(-maxPanY, maxPanY),
+    );
+  }
+
+  void _desktopZoomTo(double target, {Offset? focal}) {
+    final double next = target.clamp(_kDesktopMinZoom, _kDesktopMaxZoom);
+    if ((next - _desktopScale).abs() < _kDesktopZoomEpsilon) {
+      return;
+    }
+    setState(() {
+      if (next <= _kDesktopMinZoom + _kDesktopZoomEpsilon) {
+        _desktopScale = _kDesktopMinZoom;
+        _desktopPanOffset = Offset.zero;
+        return;
+      }
+      final Offset anchor = focal ?? Offset.zero;
+      final Offset pan =
+          anchor - (anchor - _desktopPanOffset) * (next / _desktopScale);
+      _desktopScale = next;
+      _desktopPanOffset = _clampDesktopPan(pan, next);
+    });
+  }
+
+  void _executeDesktopZoomIn() =>
+      _desktopZoomTo(_desktopScale * _kDesktopZoomStep);
+
+  void _executeDesktopZoomOut() =>
+      _desktopZoomTo(_desktopScale / _kDesktopZoomStep);
+
+  void _executeDesktopResetPosition() {
+    setState(() {
+      _desktopScale = _kDesktopMinZoom;
+      _desktopPanOffset = Offset.zero;
+      _isDesktopDragging = false;
+    });
+  }
+
+  void _executeRotate(int delta) {
+    setState(() {
+      _quarterTurns = (_quarterTurns + delta) % 4;
+    });
+  }
+
+  void _handleDesktopWheel(PointerSignalEvent event, Size pageSize) {
+    if (event is! PointerScrollEvent || event.scrollDelta.dy == 0) {
+      return;
+    }
+    final Offset focal = event.localPosition - pageSize.center(Offset.zero);
+    _desktopZoomTo(
+      event.scrollDelta.dy < 0
+          ? _desktopScale * _kDesktopZoomStep
+          : _desktopScale / _kDesktopZoomStep,
+      focal: focal,
+    );
+  }
+
+  void _executeCopyLink() {
+    final AttachmentMediaViewerItem item = widget.items[_currentIndex];
+    final String link = item.shareableUrl.trim();
+    if (link.isEmpty) {
+      return;
+    }
+    unawaited(copyToClipboard(context: context, value: link));
+  }
+
+  void _executeDownload() {
+    final AttachmentMediaViewerItem item = widget.items[_currentIndex];
+    final String url = (item.downloadUrl ?? item.url).trim();
+    if (url.isEmpty) {
+      return;
+    }
+    unawaited(
+      downloadChatAttachmentMedia(
+        context: context,
+        ref: ref,
+        url: url,
+        filename: item.filename,
+      ),
+    );
+  }
+
+  void _executeDeleteAttachment(Attachment attachment) {
+    final ValueChanged<Attachment>? onDelete =
+        widget.actionScope?.callbacks.onDeleteAttachment;
+    if (onDelete == null) {
+      return;
+    }
+    Navigator.of(context).pop();
+    onDelete(attachment);
+  }
+
   void _resetZoomState() {
     final bool hasTouchZoom = _touchControllers.any(
       (TransformationController controller) =>
@@ -273,12 +393,14 @@ class _AttachmentMediaViewerShellState
     );
     if (!_isDesktopZoomed &&
         _desktopPanOffset == Offset.zero &&
+        _quarterTurns == 0 &&
         !hasTouchZoom &&
         !_isTouchZoomed) {
       return;
     }
     setState(() {
-      _isDesktopZoomed = false;
+      _desktopScale = _kDesktopMinZoom;
+      _quarterTurns = 0;
       _desktopPanOffset = Offset.zero;
       _isDesktopDragging = false;
       _isTouchZoomed = false;
@@ -351,9 +473,11 @@ class _AttachmentMediaViewerShellState
 
   void _executeDesktopToggleZoom() {
     setState(() {
-      _isDesktopZoomed = !_isDesktopZoomed;
-      if (!_isDesktopZoomed) {
+      if (_isDesktopZoomed) {
+        _desktopScale = _kDesktopMinZoom;
         _desktopPanOffset = Offset.zero;
+      } else {
+        _desktopScale = _desktopZoomScale;
       }
     });
   }
@@ -457,8 +581,16 @@ class _AttachmentMediaViewerShellState
     required bool showOptionsButton,
     required bool matureMediaHidden,
     MessageMediaFavoriteTarget? favoriteTarget,
+    Attachment? attachment,
   }) {
     final MessageMediaActionScope? actionScope = widget.actionScope;
+    final bool canDelete =
+        !isMobile &&
+        attachment != null &&
+        (actionScope?.canDeleteAttachments ?? false);
+    final bool hasDownloadUrl = (currentItem.downloadUrl ?? currentItem.url)
+        .trim()
+        .isNotEmpty;
     final bool downloadsHidden =
         widget.downloadsHidden ||
         matureMediaHidden ||
@@ -517,28 +649,64 @@ class _AttachmentMediaViewerShellState
             ],
             if (!isMobile) ...[
               if (!downloadsHidden) ...[
-                Tooltip(
-                  message: l10n.mediaViewerOpenInBrowser,
-                  child: FluxerButton.mediaOverlay(
-                    onPressed: _executeOpenInBrowser,
-                    icon: PhosphorIconsBold.arrowSquareOut,
-                    isSquare: true,
-                  ),
+                _overlayButton(
+                  tooltip: l10n.mediaViewerOpenInBrowser,
+                  icon: PhosphorIconsBold.arrowSquareOut,
+                  onPressed: _executeOpenInBrowser,
+                ),
+                _overlayButton(
+                  tooltip: l10n.mediaViewerCopyLink,
+                  icon: PhosphorIconsBold.link,
+                  onPressed: _executeCopyLink,
+                ),
+              ],
+              if (favoriteTarget != null && actionScope != null) ...[
+                SavedMediaFavoriteToolbarButton(
+                  message: actionScope.message,
+                  target: favoriteTarget,
                 ),
                 const SizedBox(width: 8),
               ],
+              if (!downloadsHidden && hasDownloadUrl)
+                _overlayButton(
+                  tooltip: l10n.mediaViewerDownload,
+                  icon: PhosphorIconsBold.downloadSimple,
+                  onPressed: _executeDownload,
+                ),
+              if (canDelete)
+                _overlayButton(
+                  tooltip: l10n.chatMessageDeleteAttachment,
+                  icon: PhosphorIconsBold.trash,
+                  onPressed: () => _executeDeleteAttachment(attachment),
+                ),
               if (!useTouchGestures) ...[
-                Tooltip(
-                  message: _isDesktopZoomed
-                      ? l10n.mediaViewerZoomOut
-                      : l10n.mediaViewerZoomIn,
-                  child: FluxerButton.mediaOverlay(
-                    onPressed: _executeDesktopToggleZoom,
-                    icon: _isDesktopZoomed
-                        ? PhosphorIconsBold.magnifyingGlassMinus
-                        : PhosphorIconsBold.magnifyingGlassPlus,
-                    isSquare: true,
-                  ),
+                const SizedBox(width: 8),
+                _overlayButton(
+                  tooltip: l10n.mediaViewerRotateCounterclockwise,
+                  icon: PhosphorIconsBold.arrowCounterClockwise,
+                  onPressed: () => _executeRotate(-1),
+                ),
+                _overlayButton(
+                  tooltip: l10n.mediaViewerRotateClockwise,
+                  icon: PhosphorIconsBold.arrowClockwise,
+                  onPressed: () => _executeRotate(1),
+                ),
+                _overlayButton(
+                  tooltip: l10n.mediaViewerResetPosition,
+                  icon: PhosphorIconsBold.arrowsInSimple,
+                  onPressed: _canDesktopReset
+                      ? _executeDesktopResetPosition
+                      : null,
+                ),
+                _overlayButton(
+                  tooltip: l10n.mediaViewerZoomIn,
+                  icon: PhosphorIconsBold.magnifyingGlassPlus,
+                  onPressed: _canDesktopZoomIn ? _executeDesktopZoomIn : null,
+                ),
+                _overlayButton(
+                  tooltip: l10n.mediaViewerZoomOut,
+                  icon: PhosphorIconsBold.magnifyingGlassMinus,
+                  onPressed: _isDesktopZoomed ? _executeDesktopZoomOut : null,
                 ),
                 const SizedBox(width: 8),
               ],
@@ -551,7 +719,9 @@ class _AttachmentMediaViewerShellState
                 ),
               ),
             ],
-            if (favoriteTarget != null && widget.actionScope != null) ...[
+            if (isMobile &&
+                favoriteTarget != null &&
+                widget.actionScope != null) ...[
               SavedMediaFavoriteToolbarButton(
                 message: widget.actionScope!.message,
                 target: favoriteTarget,
@@ -568,6 +738,24 @@ class _AttachmentMediaViewerShellState
                 ),
               ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _overlayButton({
+    required String tooltip,
+    required IconData icon,
+    required VoidCallback? onPressed,
+  }) {
+    return Padding(
+      padding: const EdgeInsetsDirectional.only(end: 8),
+      child: Tooltip(
+        message: tooltip,
+        child: FluxerButton.mediaOverlay(
+          onPressed: onPressed,
+          icon: icon,
+          isSquare: true,
         ),
       ),
     );
@@ -786,6 +974,7 @@ class _AttachmentMediaViewerShellState
                             showOptionsButton: showOptionsButton,
                             matureMediaHidden: matureMediaHidden,
                             favoriteTarget: favoriteTarget,
+                            attachment: resolvedAttachment,
                           ),
                           const Spacer(),
                         ],
@@ -813,6 +1002,7 @@ class _AttachmentMediaViewerShellState
                           showOptionsButton: showOptionsButton,
                           matureMediaHidden: matureMediaHidden,
                           favoriteTarget: favoriteTarget,
+                          attachment: resolvedAttachment,
                         ),
                         Expanded(
                           child: Padding(
@@ -889,10 +1079,13 @@ class _AttachmentMediaViewerShellState
               errorPlaceholder: errorPlaceholder,
             ),
           );
+    final bool isCurrent = index == _currentIndex;
     final Widget media = MatureMediaOverlay(
       channelId: widget.channelId,
       isMatureMedia: item.isMatureMedia,
-      child: image,
+      child: !useTouchGestures && isCurrent && _quarterTurns != 0
+          ? RotatedBox(quarterTurns: _quarterTurns, child: image)
+          : image,
     );
     if (useTouchGestures) {
       return TouchMediaViewerPage(
@@ -938,14 +1131,11 @@ class _AttachmentMediaViewerShellState
                 if (dragOrigin == null) {
                   return;
                 }
-                final Size viewportSize = MediaQuery.sizeOf(context);
-                final double maxPanX = math.max(0, viewportSize.width * 0.4);
-                final double maxPanY = math.max(0, viewportSize.height * 0.35);
                 final Offset nextOffset = details.localPosition - dragOrigin;
                 setState(() {
-                  _desktopPanOffset = Offset(
-                    nextOffset.dx.clamp(-maxPanX, maxPanX),
-                    nextOffset.dy.clamp(-maxPanY, maxPanY),
+                  _desktopPanOffset = _clampDesktopPan(
+                    nextOffset,
+                    _desktopScale,
                   );
                 });
               }
@@ -966,14 +1156,29 @@ class _AttachmentMediaViewerShellState
                 });
               }
             : null,
-        child: Center(
-          child: Transform.translate(
-            offset: _desktopPanOffset,
-            child: Transform.scale(
-              scale: _isDesktopZoomed ? _desktopZoomScale : 1,
-              child: media,
-            ),
-          ),
+        child: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+            final Size pageSize = constraints.biggest;
+            return Listener(
+              onPointerSignal: isCurrent
+                  ? (PointerSignalEvent event) =>
+                        GestureBinding.instance.pointerSignalResolver.register(
+                          event,
+                          (PointerSignalEvent resolved) =>
+                              _handleDesktopWheel(resolved, pageSize),
+                        )
+                  : null,
+              child: Center(
+                child: Transform.translate(
+                  offset: isCurrent ? _desktopPanOffset : Offset.zero,
+                  child: Transform.scale(
+                    scale: isCurrent ? _desktopScale : _kDesktopMinZoom,
+                    child: media,
+                  ),
+                ),
+              ),
+            );
+          },
         ),
       ),
     );

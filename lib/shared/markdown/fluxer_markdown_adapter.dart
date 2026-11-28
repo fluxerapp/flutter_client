@@ -23,6 +23,7 @@ import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
 import 'package:fluxer_app/shared/markdown/ansi_palette_from_context.dart';
+import 'package:fluxer_app/shared/markdown/link_destination/link_destination_tooltip.dart';
 import 'package:fluxer_app/shared/markdown/message_markdown_settings.dart';
 import 'package:fluxer_app/shared/utils/emoji/emoji_registry.dart';
 import 'package:fluxer_app/shared/utils/emoji/emoji_utils.dart';
@@ -311,6 +312,7 @@ FluxerMarkdownConfig createFluxerMarkdownConfig({
     guildNavigationMentionBuilder: _fluxerGuildNavigationMentionBuilder,
     linkWidgetBuilder: _fluxerLinkWidgetBuilder,
     onTapLink: _fluxerOnTapLink,
+    onMaskedLinkHover: handleMaskedLinkHover,
     spoilersInitiallyRevealed: revealSpoilers,
     spoilerSyncController: spoilerSyncController,
     spoilerSyncKeyNormalizer: normalizeSpoilerUrl,

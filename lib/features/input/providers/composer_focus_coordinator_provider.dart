@@ -10,6 +10,7 @@ class _ComposerFocusRegistration {
     required this.insertTypedText,
     this.claimsKeyEvent,
     this.handleArrowUpEmpty,
+    this.insertUserMention,
   });
 
   final VoidCallback requestFocus;
@@ -18,6 +19,7 @@ class _ComposerFocusRegistration {
   final bool Function(String text) insertTypedText;
   final bool Function(KeyEvent event)? claimsKeyEvent;
   final bool Function()? handleArrowUpEmpty;
+  final bool Function(String userId)? insertUserMention;
 }
 
 class ComposerFocusCoordinator {
@@ -31,6 +33,7 @@ class ComposerFocusCoordinator {
     required bool Function(String text) insertTypedText,
     bool Function(KeyEvent event)? claimsKeyEvent,
     bool Function()? handleArrowUpEmpty,
+    bool Function(String userId)? insertUserMention,
   }) {
     unregister(requestFocus);
     _stack.add(
@@ -41,6 +44,7 @@ class ComposerFocusCoordinator {
         insertTypedText: insertTypedText,
         claimsKeyEvent: claimsKeyEvent,
         handleArrowUpEmpty: handleArrowUpEmpty,
+        insertUserMention: insertUserMention,
       ),
     );
   }
@@ -74,6 +78,11 @@ class ComposerFocusCoordinator {
       _active?.handleArrowUpEmpty?.call() ?? false;
 
   bool typeIntoComposer(String text) => _active?.insertTypedText(text) ?? false;
+
+  bool get canInsertUserMention => _active?.insertUserMention != null;
+
+  bool insertUserMention(String userId) =>
+      _active?.insertUserMention?.call(userId) ?? false;
 }
 
 final composerFocusCoordinatorProvider = Provider<ComposerFocusCoordinator>(

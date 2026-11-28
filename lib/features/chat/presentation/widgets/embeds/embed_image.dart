@@ -54,7 +54,11 @@ class EmbedImage extends ConsumerWidget {
             media: media,
             hdrDisplayMode: hdrDisplayMode,
             dimensions: mediaDimensionsWithinWidth(
-              mediaDimensionsForSize(dimensionSize),
+              embedMediaDimensionsForSize(
+                dimensionSize,
+                width: media.width,
+                height: media.height,
+              ),
               constraints.maxWidth,
             ),
           ),

@@ -5,6 +5,7 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/forward_message_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_network_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/embed_animated_image.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/hover_actions/media_hover_actions.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/media_alt_text.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/media_load_error_placeholder.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/media_thumb_hash_placeholder.dart';
@@ -94,91 +95,106 @@ class AttachmentImage extends ConsumerWidget {
           height: displaySize.height,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(8),
-            child: Stack(
-              children: [
-                Semantics(
-                  button: gallery.isNotEmpty,
-                  image: true,
-                  label: _semanticLabel(context),
-                  child: MessageDoubleTapExempt(
-                    child: FluxerGestureDetector(
-                      onTap: gallery.isEmpty
-                          ? null
-                          : () => showAttachmentMediaViewer(
-                              context,
-                              items: gallery
-                                  .map(AttachmentMediaViewerItem.fromAttachment)
-                                  .toList(),
-                              initialIndex: imageGalleryIndex.clamp(
-                                0,
-                                gallery.length - 1,
-                              ),
-                              channelId: channelId,
-                              onForward:
-                                  (channelId != null && messageId != null)
-                                  ? (int index) => showForwardMediaSheet(
-                                      context,
-                                      sourceChannelId: channelId!,
-                                      sourceMessageId: messageId!,
-                                      attachmentIds: <String>[
-                                        gallery[index].id,
-                                      ],
+            child: MediaHoverActions(
+              size: displaySize,
+              filename: attachment.filename,
+              actionScope: mediaActionScope,
+              attachment: attachment,
+              downloadUrl: attachmentEffectiveDownloadUrl(
+                url: attachment.url,
+                isExpired: attachment.expired ?? false,
+                proxyUrl: attachment.proxyUrl,
+              ),
+              contentHash: attachment.contentHash,
+              isMatureMedia: attachment.isMatureMedia,
+              child: Stack(
+                children: [
+                  Semantics(
+                    button: gallery.isNotEmpty,
+                    image: true,
+                    label: _semanticLabel(context),
+                    child: MessageDoubleTapExempt(
+                      child: FluxerGestureDetector(
+                        onTap: gallery.isEmpty
+                            ? null
+                            : () => showAttachmentMediaViewer(
+                                context,
+                                items: gallery
+                                    .map(
+                                      AttachmentMediaViewerItem.fromAttachment,
                                     )
-                                  : null,
-                              actionScope: mediaActionScope,
-                            ),
-                      child: SizedBox.expand(
-                        child: animate
-                            ? EmbedAnimatedImage(
-                                animatedUrl: animatedEmbedImageUrl(
-                                  effectiveUrl,
+                                    .toList(),
+                                initialIndex: imageGalleryIndex.clamp(
+                                  0,
+                                  gallery.length - 1,
                                 ),
-                                staticUrl: staticEmbedImageUrl(effectiveUrl),
-                                placeholder: _buildImagePlaceholder(context),
-                                errorPlaceholder:
-                                    const MediaLoadErrorPlaceholder(),
-                              )
-                            : _AttachmentStaticImage(
-                                imageUrl: buildHdrAwareImageUrl(
-                                  url: effectiveUrl,
-                                  mode: hdrDisplayMode,
-                                  contentType: attachment.contentType,
-                                ),
-                                filename: attachment.filename,
-                                contentType: attachment.contentType,
-                                displaySize: displaySize,
-                                placeholder: _buildImagePlaceholder(context),
+                                channelId: channelId,
+                                onForward:
+                                    (channelId != null && messageId != null)
+                                    ? (int index) => showForwardMediaSheet(
+                                        context,
+                                        sourceChannelId: channelId!,
+                                        sourceMessageId: messageId!,
+                                        attachmentIds: <String>[
+                                          gallery[index].id,
+                                        ],
+                                      )
+                                    : null,
+                                actionScope: mediaActionScope,
                               ),
+                        child: SizedBox.expand(
+                          child: animate
+                              ? EmbedAnimatedImage(
+                                  animatedUrl: animatedEmbedImageUrl(
+                                    effectiveUrl,
+                                  ),
+                                  staticUrl: staticEmbedImageUrl(effectiveUrl),
+                                  placeholder: _buildImagePlaceholder(context),
+                                  errorPlaceholder:
+                                      const MediaLoadErrorPlaceholder(),
+                                )
+                              : _AttachmentStaticImage(
+                                  imageUrl: buildHdrAwareImageUrl(
+                                    url: effectiveUrl,
+                                    mode: hdrDisplayMode,
+                                    contentType: attachment.contentType,
+                                  ),
+                                  filename: attachment.filename,
+                                  contentType: attachment.contentType,
+                                  displaySize: displaySize,
+                                  placeholder: _buildImagePlaceholder(context),
+                                ),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                if (showGifIndicator && animate)
-                  PositionedDirectional(
-                    start: 8,
-                    bottom: 8,
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        color: Colors.black.withValues(alpha: 0.72),
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 6,
-                          vertical: 2,
+                  if (showGifIndicator && animate)
+                    PositionedDirectional(
+                      start: 8,
+                      bottom: 8,
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          color: Colors.black.withValues(alpha: 0.72),
+                          borderRadius: BorderRadius.circular(4),
                         ),
-                        child: Text(
-                          'GIF',
-                          style: context.textStyles.smallText.copyWith(
-                            color: Colors.white,
-                            fontSize: 11,
-                            fontWeight: FontWeight.w700,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 6,
+                            vertical: 2,
+                          ),
+                          child: Text(
+                            'GIF',
+                            style: context.textStyles.smallText.copyWith(
+                              color: Colors.white,
+                              fontSize: 11,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

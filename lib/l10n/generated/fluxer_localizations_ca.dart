@@ -18434,4 +18434,66 @@ class FluxerLocalizationsCa extends FluxerLocalizations {
   String mediaPermissionBlockedScreenBody(String productName) {
     return '$productName needs screen recording access. Allow screen recording in your operating system privacy settings and restart the app.';
   }
+
+  @override
+  String get messageAuthorMenuMention => 'Mention';
+
+  @override
+  String get messageAuthorMenuCopyWebhookId => 'Copy webhook ID';
+
+  @override
+  String reactionTooltipReactedBy(String emojiName, String reactors) {
+    return '$emojiName reacted by $reactors';
+  }
+
+  @override
+  String reactionTooltipOthers(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count others',
+      one: '1 other',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String reactionTooltipListPair(String first, String second) {
+    return '$first and $second';
+  }
+
+  @override
+  String reactionTooltipListMany(String items, String last) {
+    return '$items, and $last';
+  }
+
+  @override
+  String get reactionTooltipViewAll => 'Click to view all reactions';
+
+  @override
+  String get emojiMenuFavorite => 'Favorite emoji';
+
+  @override
+  String get emojiMenuUnfavorite => 'Unfavorite emoji';
+
+  @override
+  String get emojiMenuCopyUrl => 'Copy emoji URL';
+
+  @override
+  String get emojiMenuOpenInBrowser => 'Open emoji in browser';
+
+  @override
+  String get emojiMenuCopyId => 'Copy emoji ID';
+
+  @override
+  String get mediaViewerDownload => 'Download media';
+
+  @override
+  String get mediaViewerRotateClockwise => 'Rotate clockwise';
+
+  @override
+  String get mediaViewerRotateCounterclockwise => 'Rotate counterclockwise';
+
+  @override
+  String get mediaViewerResetPosition => 'Reset media position';
 }

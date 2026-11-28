@@ -32,6 +32,9 @@ import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/qu
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/reply_preview.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/swipe_to_open_channel_details.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/swipe_to_reply.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/author/message_author_context_menu.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/author/message_author_name.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/author/message_author_tap_target.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/crosspost_publish_nudge.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'widgets/messages/forward_indicator.dart';
@@ -44,6 +47,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_r
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_row_layout.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_sticker_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_translation_indicator.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/timestamp/message_timestamp_tooltip.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_details_drawer_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
@@ -111,13 +115,23 @@ const double _kMessageActionBarOffset = 48;
 const _kJumpHighlightBarWidth = 2.0;
 const _kJumpHighlightFadeCurve = Cubic(0.32, 0.72, 0, 1);
 
-const _kReplyRowHeight = 20.0;
+const _kReplyRowHeight = 18.0;
 
 const _kReplyBottomGap = 4.0;
 
-const _kReplyLineEndGap = 6.0;
+const _kCompactReplyBottomGap = 1.0;
+
+const double _kReplySpineAvatarCenter = 21;
+
+const double _kReplySpineMixWeight = 0.82;
 
 const double _kMessageSendingOpacity = 0.5;
+
+const double _kHeaderTimestampGap = 2.4;
+
+const double _kHeaderTimestampOpacity = 0.6;
+
+const double _kReplySpineTerminalGap = 3;
 
 @immutable
 class MessageRenderSettings {
@@ -268,6 +282,9 @@ class _MessageItemState extends ConsumerState<MessageItem> {
   final _moreMenuOpen = ValueNotifier<bool>(false);
   final _shiftHeld = ValueNotifier<bool>(false);
   final _contextMenuOpen = ValueNotifier<bool>(false);
+  final _keyboardFocused = ValueNotifier<bool>(false);
+  bool _pendingKeyboardFocused = false;
+  Offset? _altClickOrigin;
   final LayerLink _actionBarLink = LayerLink();
   final OverlayPortalController _actionBarPortal = OverlayPortalController();
   bool _listeningForShift = false;
@@ -291,6 +308,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     _actionBarHovered,
     _moreMenuOpen,
     _contextMenuOpen,
+    _keyboardFocused,
   ]);
 
   late final Listenable _actionBarContentState = Listenable.merge([
@@ -302,9 +320,68 @@ class _MessageItemState extends ConsumerState<MessageItem> {
   bool get _pointerEngaged =>
       _hovered.value || _actionBarHovered.value || _moreMenuOpen.value;
 
-  bool get _actionBarActive => _pointerEngaged || _reactionPickerOpen.value;
+  bool get _actionBarActive =>
+      _pointerEngaged || _reactionPickerOpen.value || _keyboardFocused.value;
 
-  bool get _rowHoverActive => _pointerEngaged || _contextMenuOpen.value;
+  bool get _rowHoverActive =>
+      _pointerEngaged || _contextMenuOpen.value || _keyboardFocused.value;
+
+  void _syncKeyboardFocused(bool focused) {
+    if (_pendingKeyboardFocused == focused) {
+      return;
+    }
+    _pendingKeyboardFocused = focused;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        _keyboardFocused.value = _pendingKeyboardFocused;
+      }
+    });
+  }
+
+  void _handleAltPointerDown(PointerDownEvent event) {
+    _altClickOrigin =
+        event.kind == PointerDeviceKind.mouse &&
+            event.buttons == kPrimaryMouseButton &&
+            HardwareKeyboard.instance.isAltPressed
+        ? event.position
+        : null;
+  }
+
+  void _handleAltPointerUp(PointerUpEvent event) {
+    final Offset? origin = _altClickOrigin;
+    _altClickOrigin = null;
+    if (origin == null ||
+        (event.position - origin).distance > kTouchSlop ||
+        !HardwareKeyboard.instance.isAltPressed) {
+      return;
+    }
+    widget.onMarkAsUnread?.call();
+  }
+
+  void _setAuthorMenuOpen(bool open) {
+    if (!mounted) {
+      return;
+    }
+    _contextMenuOpen.value = open;
+    if (!open) {
+      _hovered.value = false;
+    }
+  }
+
+  MessageAuthorMenuTarget? _authorMenuTarget(Message msg) {
+    if (widget.inboxPreviewMode ||
+        msg.isSystemMessage ||
+        msg.isCrosspostCopy ||
+        msg.authorId.isEmpty) {
+      return null;
+    }
+    return MessageAuthorMenuTarget(
+      userId: msg.authorId,
+      channelId: msg.channelId,
+      guildId: _guildIdForMessageActions(),
+      webhookId: msg.isWebhookMessage ? msg.webhookId : null,
+    );
+  }
 
   @override
   void initState() {
@@ -365,6 +442,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     _moreMenuOpen.dispose();
     _shiftHeld.dispose();
     _contextMenuOpen.dispose();
+    _keyboardFocused.dispose();
     super.dispose();
   }
 
@@ -794,6 +872,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
             (FocusedMessageState state) => state.messageId == msg.id,
           ),
         );
+    _syncKeyboardFocused(isKeyboardFocused && showDesktopActionBar);
     final bool showMentionHighlight =
         shouldHighlightMention && !showJumpHighlight;
     final bool hasLeftAccentBar = showJumpHighlight || showMentionHighlight;
@@ -880,147 +959,156 @@ class _MessageItemState extends ConsumerState<MessageItem> {
       onSecondaryTapUp: desktop && !widget.inboxPreviewMode
           ? (details) => _showContextMenu(context, details.globalPosition)
           : null,
-      child: MouseRegion(
-        onEnter: (_) => _hovered.value = true,
-        onExit: (_) {
-          if (!_reactionPickerOpen.value &&
-              !_moreMenuOpen.value &&
-              !_contextMenuOpen.value) {
-            _hovered.value = false;
-          }
-        },
-        child: _messageRowChrome(
-          decoration: BoxDecoration(
-            color: rowBackgroundColor,
-            border: rowBorder,
-          ),
-          hoverTintColor: hoverTintColor,
-          padding: contentOnly
-              ? EdgeInsets.zero
-              : widget.inboxPreviewMode
-              ? EdgeInsetsDirectional.only(
-                  start: hasLeftAccentBar ? 7 : 8,
-                  end: 8,
-                  top: isGrouped ? 2 : 8,
-                  bottom: isGrouped ? 2 : 8,
-                )
-              : EdgeInsetsDirectional.only(
-                  start: hasLeftAccentBar ? 14 : kMessageRowPaddingHorizontal,
-                  end: showDesktopActionBar
-                      ? kMessageRowPaddingHorizontal + _kMessageActionBarOffset
-                      : kMessageRowPaddingHorizontal,
-                  top: 2,
-                  bottom: 2,
-                ),
-          child: Stack(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (!contentOnly &&
-                      (!isGrouped || messageDisplayCompact) &&
-                      msg.isReply)
-                    _wrapMessageSendingDim(
-                      dim: dimMessagePartsExceptAttachments,
-                      child: _buildReplyRow(
-                        msg,
-                        guildId: guildId,
-                        messageDisplayCompact: messageDisplayCompact,
-                        showCompactTimestampColumn: messageDisplayCompact,
-                      ),
-                    ),
-                  if (!contentOnly &&
-                      (!isGrouped || messageDisplayCompact) &&
-                      msg.isForwarded &&
-                      !msg.hasForwardSnapshots &&
-                      msg.forwardedFrom != null)
-                    _wrapMessageSendingDim(
-                      dim: dimMessagePartsExceptAttachments,
-                      child: Padding(
-                        padding: EdgeInsetsDirectional.only(
-                          start: messageDisplayCompact
-                              ? compactMessageBodyStart(
-                                  timestampColumnWidth:
-                                      _compactTimestampColumnWidth(context),
-                                )
-                              : kMessageAvatarColumnWidth,
+      child: Listener(
+        onPointerDown: desktop && !widget.inboxPreviewMode
+            ? _handleAltPointerDown
+            : null,
+        onPointerUp: desktop && !widget.inboxPreviewMode
+            ? _handleAltPointerUp
+            : null,
+        child: MouseRegion(
+          onEnter: (_) => _hovered.value = true,
+          onExit: (_) {
+            if (!_reactionPickerOpen.value &&
+                !_moreMenuOpen.value &&
+                !_contextMenuOpen.value) {
+              _hovered.value = false;
+            }
+          },
+          child: _messageRowChrome(
+            decoration: BoxDecoration(
+              color: rowBackgroundColor,
+              border: rowBorder,
+            ),
+            hoverTintColor: hoverTintColor,
+            padding: contentOnly
+                ? EdgeInsets.zero
+                : widget.inboxPreviewMode
+                ? EdgeInsetsDirectional.only(
+                    start: hasLeftAccentBar ? 7 : 8,
+                    end: 8,
+                    top: isGrouped ? 2 : 8,
+                    bottom: isGrouped ? 2 : 8,
+                  )
+                : EdgeInsetsDirectional.only(
+                    start: hasLeftAccentBar ? 14 : kMessageRowPaddingHorizontal,
+                    end: showDesktopActionBar
+                        ? kMessageRowPaddingHorizontal +
+                              _kMessageActionBarOffset
+                        : kMessageRowPaddingHorizontal,
+                    top: 2,
+                    bottom: 2,
+                  ),
+            child: Stack(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (!contentOnly &&
+                        (!isGrouped || messageDisplayCompact) &&
+                        msg.isReply)
+                      _wrapMessageSendingDim(
+                        dim: dimMessagePartsExceptAttachments,
+                        child: _buildReplyRow(
+                          msg,
+                          guildId: guildId,
+                          messageDisplayCompact: messageDisplayCompact,
+                          showCompactTimestampColumn: messageDisplayCompact,
                         ),
-                        child: ForwardIndicator(source: msg.forwardedFrom!),
                       ),
-                    ),
-                  if (messageDisplayCompact && !contentOnly)
-                    _MessageAuthorScope(
-                      message: msg,
-                      guildId: guildId,
-                      currentUserId: widget.currentUserId,
-                      prefersPersistedAuthor: prefersPersistedAuthor,
-                      builder:
-                          (
-                            GuildUserDisplay authorDisplay,
-                            Color? authorRoleColor,
-                            MemberRole? iconRole,
-                          ) => _buildCompactMessageRow(
-                            context,
-                            msg,
-                            isMobile,
-                            isGrouped: isGrouped,
-                            authorDisplay: authorDisplay,
-                            authorRoleColor: authorRoleColor,
-                            iconRole: iconRole,
-                            showUserAvatarsInCompactMode:
-                                showUserAvatarsInCompactMode,
-                            dimMessagePartsExceptAttachments:
-                                dimMessagePartsExceptAttachments,
-                            renderEmbeds: renderEmbeds,
-                            renderReactions: renderReactions,
-                            inlineAttachmentMedia: inlineAttachmentMedia,
-                            revealSpoilers: revealSpoilers,
-                            chatPreferences: chatPreferences,
+                    if (!contentOnly &&
+                        (!isGrouped || messageDisplayCompact) &&
+                        msg.isForwarded &&
+                        !msg.hasForwardSnapshots &&
+                        msg.forwardedFrom != null)
+                      _wrapMessageSendingDim(
+                        dim: dimMessagePartsExceptAttachments,
+                        child: Padding(
+                          padding: EdgeInsetsDirectional.only(
+                            start: messageDisplayCompact
+                                ? compactMessageBodyStart(
+                                    timestampColumnWidth:
+                                        _compactTimestampColumnWidth(context),
+                                  )
+                                : kMessageAvatarColumnWidth,
                           ),
-                    )
-                  else if (isGrouped)
-                    _buildGroupedRow(
-                      context,
-                      msg,
-                      isMobile,
-                      dimMessagePartsExceptAttachments:
-                          dimMessagePartsExceptAttachments,
-                      renderEmbeds: renderEmbeds,
-                      renderReactions: renderReactions,
-                      inlineAttachmentMedia: inlineAttachmentMedia,
-                      revealSpoilers: revealSpoilers,
-                      chatPreferences: chatPreferences,
-                    )
-                  else
-                    _MessageAuthorScope(
-                      message: msg,
-                      guildId: guildId,
-                      currentUserId: widget.currentUserId,
-                      prefersPersistedAuthor: prefersPersistedAuthor,
-                      builder:
-                          (
-                            GuildUserDisplay authorDisplay,
-                            Color? authorRoleColor,
-                            MemberRole? iconRole,
-                          ) => _buildMainRow(
-                            context,
-                            msg,
-                            authorDisplay,
-                            authorRoleColor,
-                            iconRole,
-                            isMobile,
-                            dimMessagePartsExceptAttachments:
-                                dimMessagePartsExceptAttachments,
-                            renderEmbeds: renderEmbeds,
-                            renderReactions: renderReactions,
-                            inlineAttachmentMedia: inlineAttachmentMedia,
-                            revealSpoilers: revealSpoilers,
-                            chatPreferences: chatPreferences,
-                          ),
-                    ),
-                ],
-              ),
-            ],
+                          child: ForwardIndicator(source: msg.forwardedFrom!),
+                        ),
+                      ),
+                    if (messageDisplayCompact && !contentOnly)
+                      _MessageAuthorScope(
+                        message: msg,
+                        guildId: guildId,
+                        currentUserId: widget.currentUserId,
+                        prefersPersistedAuthor: prefersPersistedAuthor,
+                        builder:
+                            (
+                              GuildUserDisplay authorDisplay,
+                              Color? authorRoleColor,
+                              MemberRole? iconRole,
+                            ) => _buildCompactMessageRow(
+                              context,
+                              msg,
+                              isMobile,
+                              isGrouped: isGrouped,
+                              authorDisplay: authorDisplay,
+                              authorRoleColor: authorRoleColor,
+                              iconRole: iconRole,
+                              showUserAvatarsInCompactMode:
+                                  showUserAvatarsInCompactMode,
+                              dimMessagePartsExceptAttachments:
+                                  dimMessagePartsExceptAttachments,
+                              renderEmbeds: renderEmbeds,
+                              renderReactions: renderReactions,
+                              inlineAttachmentMedia: inlineAttachmentMedia,
+                              revealSpoilers: revealSpoilers,
+                              chatPreferences: chatPreferences,
+                            ),
+                      )
+                    else if (isGrouped)
+                      _buildGroupedRow(
+                        context,
+                        msg,
+                        isMobile,
+                        dimMessagePartsExceptAttachments:
+                            dimMessagePartsExceptAttachments,
+                        renderEmbeds: renderEmbeds,
+                        renderReactions: renderReactions,
+                        inlineAttachmentMedia: inlineAttachmentMedia,
+                        revealSpoilers: revealSpoilers,
+                        chatPreferences: chatPreferences,
+                      )
+                    else
+                      _MessageAuthorScope(
+                        message: msg,
+                        guildId: guildId,
+                        currentUserId: widget.currentUserId,
+                        prefersPersistedAuthor: prefersPersistedAuthor,
+                        builder:
+                            (
+                              GuildUserDisplay authorDisplay,
+                              Color? authorRoleColor,
+                              MemberRole? iconRole,
+                            ) => _buildMainRow(
+                              context,
+                              msg,
+                              authorDisplay,
+                              authorRoleColor,
+                              iconRole,
+                              isMobile,
+                              dimMessagePartsExceptAttachments:
+                                  dimMessagePartsExceptAttachments,
+                              renderEmbeds: renderEmbeds,
+                              renderReactions: renderReactions,
+                              inlineAttachmentMedia: inlineAttachmentMedia,
+                              revealSpoilers: revealSpoilers,
+                              chatPreferences: chatPreferences,
+                            ),
+                      ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -1264,28 +1352,33 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     final double replyRowHeight = MediaQuery.textScalerOf(
       context,
     ).scale(_kReplyRowHeight);
-    final double replyAreaHeight = replyRowHeight + _kReplyBottomGap;
+    final Color spineColor = fluxerCssColorMix(
+      context.colors.textChatMuted,
+      Colors.black,
+      _kReplySpineMixWeight,
+    );
     if (messageDisplayCompact) {
+      final double compactAreaHeight = replyRowHeight + _kCompactReplyBottomGap;
       final double contentStart = showCompactTimestampColumn
           ? compactMessageBodyStart(
               timestampColumnWidth: _compactTimestampColumnWidth(context),
             )
           : 0;
       return SizedBox(
-        height: replyAreaHeight,
+        height: compactAreaHeight,
         child: CustomPaint(
           painter: CompactReplyConnectorPainter(
             spineCenterX: kCompactReplySpineInlineOffset,
             lineTop: replyRowHeight / 2,
-            lineBottom: replyAreaHeight - 5,
-            horizontalEnd: contentStart - _kReplyLineEndGap,
-            color: context.colors.interactiveMuted,
+            lineBottom: compactAreaHeight + _kReplySpineTerminalGap,
+            horizontalEnd: contentStart - _kReplySpineTerminalGap,
+            color: spineColor,
             textDirection: Directionality.of(context),
           ),
           child: Padding(
             padding: EdgeInsetsDirectional.only(
               start: contentStart,
-              bottom: _kReplyBottomGap,
+              bottom: _kCompactReplyBottomGap,
             ),
             child: SizedBox(
               height: replyRowHeight,
@@ -1303,21 +1396,21 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         ),
       );
     }
-    const avatarCenterX = 20.0;
+    final double replyAreaHeight = replyRowHeight + _kReplyBottomGap;
     final double lineTop = replyRowHeight / 2;
-    final double lineBottom = replyAreaHeight - 5;
-    const horizontalEnd = kMessageAvatarColumnWidth - 5;
-    const replyContentLeft = horizontalEnd + _kReplyLineEndGap;
+    final double lineBottom = replyAreaHeight + _kReplySpineTerminalGap;
+    const horizontalEnd = kMessageAvatarColumnWidth - _kReplySpineTerminalGap;
+    const replyContentLeft = kMessageAvatarColumnWidth;
 
     return SizedBox(
       height: replyAreaHeight,
       child: CustomPaint(
         painter: ReplyConnectorPainter(
-          avatarCenterX: avatarCenterX,
+          avatarCenterX: _kReplySpineAvatarCenter,
           lineTop: lineTop,
           lineBottom: lineBottom,
           horizontalEnd: horizontalEnd,
-          color: context.colors.interactiveMuted,
+          color: spineColor,
           textDirection: Directionality.of(context),
         ),
         child: Padding(
@@ -1468,6 +1561,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
               onPointerDown: (PointerDownEvent event) =>
                   _doubleTapExemption.pointer = event.pointer,
               child: MessageReactionsBar(
+                message: widget.inboxPreviewMode ? null : msg,
                 reactions: msg.reactions,
                 channelId: msg.channelId,
                 onReactionTap: (emoji, {emojiId, animated = false}) => widget
@@ -1621,43 +1715,27 @@ class _MessageItemState extends ConsumerState<MessageItem> {
 
   Widget _buildEditedLabel(BuildContext context, Message msg) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    const Widget label = Padding(
-      padding: EdgeInsets.only(bottom: 2),
-      child: Text(' '),
-    );
-    final Widget editedText = Text(l10n.chatMessageEdited);
-    final TextStyle editedTextStyle = context.textStyles.smallText.copyWith(
-      color: context.colors.textTertiaryMuted,
-      fontSize: 10,
+    final Widget label = DefaultTextStyle(
+      style: context.textStyles.smallText.copyWith(
+        color: context.colors.textChatMuted,
+        fontSize: 10,
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Padding(padding: EdgeInsets.only(bottom: 2), child: Text(' ')),
+          Text(l10n.chatMessageEdited),
+        ],
+      ),
     );
     final DateTime? editedTimestamp = msg.editedTimestamp;
     if (editedTimestamp == null) {
-      return DefaultTextStyle(
-        style: editedTextStyle,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [label, editedText],
-        ),
-      );
+      return label;
     }
-    final DateTime localEditedTimestamp = editedTimestamp.toLocal();
-    final MaterialLocalizations materialLocalizations =
-        MaterialLocalizations.of(context);
-    final TimeOfDay localEditedTime = TimeOfDay.fromDateTime(
-      localEditedTimestamp,
-    );
-    final String editedTooltip =
-        '${materialLocalizations.formatFullDate(localEditedTimestamp)} '
-        '${materialLocalizations.formatTimeOfDay(localEditedTime)}';
-    return Tooltip(
-      message: editedTooltip,
-      child: DefaultTextStyle(
-        style: editedTextStyle,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [label, editedText],
-        ),
-      ),
+    return MessageTimestampTooltip(
+      timestamp: editedTimestamp,
+      showDelay: null,
+      child: label,
     );
   }
 
@@ -1685,11 +1763,9 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     required String formattedTime,
     required TextStyle style,
   }) {
-    final Widget timestamp = Text(
-      formattedTime,
-      style: style,
-      softWrap: false,
-      maxLines: 1,
+    final Widget timestamp = MessageTimestampTooltip(
+      timestamp: widget.message.timestamp,
+      child: Text(formattedTime, style: style, softWrap: false, maxLines: 1),
     );
     if (!isGrouped) {
       return timestamp;
@@ -1711,7 +1787,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     MemberRole? iconRole,
   }) {
     final TextStyle nameStyle = context.textStyles.username.copyWith(
-      color: roleColor ?? context.colors.textChat,
+      color: roleColor ?? context.colors.textPrimary,
       fontWeight: FontWeight.w500,
     );
     return Wrap(
@@ -1721,11 +1797,13 @@ class _MessageItemState extends ConsumerState<MessageItem> {
       children: [
         ..._authorTags(context, msg),
         if (showAvatar)
-          _AuthorProfileTapTarget(
+          MessageAuthorTapTarget(
+            target: _authorMenuTarget(msg),
             onPointerDown: (int pointer) =>
                 _doubleTapExemption.pointer = pointer,
-            onTap: _canOpenAuthorProfile(msg)
-                ? () => _openAuthorProfile(context, msg)
+            onMenuOpenChanged: _setAuthorMenuOpen,
+            onOpenProfile: _canOpenAuthorProfile(msg)
+                ? (BuildContext anchor) => _openAuthorProfile(anchor, msg)
                 : null,
             child: Padding(
               padding: const EdgeInsetsDirectional.only(
@@ -1742,16 +1820,17 @@ class _MessageItemState extends ConsumerState<MessageItem> {
               ),
             ),
           ),
-        _AuthorProfileTapTarget(
+        MessageAuthorTapTarget(
+          target: _authorMenuTarget(msg),
           onPointerDown: (int pointer) => _doubleTapExemption.pointer = pointer,
-          onTap: _canOpenAuthorProfile(msg)
-              ? () => _openAuthorProfile(context, msg)
+          onMenuOpenChanged: _setAuthorMenuOpen,
+          onOpenProfile: _canOpenAuthorProfile(msg)
+              ? (BuildContext anchor) => _openAuthorProfile(anchor, msg)
               : null,
-          child: Text(
-            authorDisplay.displayName,
+          child: MessageAuthorName(
+            name: authorDisplay.displayName,
+            underlineOnHover: _canOpenAuthorProfile(msg),
             style: nameStyle,
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
           ),
         ),
         if (iconRole != null && iconRole.hasIcon)
@@ -1913,24 +1992,15 @@ class _MessageItemState extends ConsumerState<MessageItem> {
       if (!widget.previewContentOnly)
         _wrapMessageSendingDim(
           dim: dimMessagePartsExceptAttachments,
-          child: _AuthorProfileTapTarget(
-            onPointerDown: (int pointer) =>
-                _doubleTapExemption.pointer = pointer,
-            onTap: _canOpenAuthorProfile(msg)
-                ? () => _openAuthorProfile(context, msg)
-                : null,
-            child: SizedBox(
-              width: kMessageAvatarColumnWidth,
-              child: Align(
-                alignment: AlignmentDirectional.centerStart,
-                child: ListenableBuilder(
-                  listenable: _hoverState,
-                  builder: (context, child) => Opacity(
-                    opacity: _rowHoverActive ? 1.0 : 0.0,
-                    child: child,
-                  ),
-                  child: _buildGroupedHoverTimestamp(context, msg),
-                ),
+          child: SizedBox(
+            width: kMessageAvatarColumnWidth,
+            child: Align(
+              alignment: AlignmentDirectional.centerStart,
+              child: ListenableBuilder(
+                listenable: _hoverState,
+                builder: (context, child) =>
+                    Opacity(opacity: _rowHoverActive ? 1.0 : 0.0, child: child),
+                child: _buildGroupedHoverTimestamp(context, msg),
               ),
             ),
           ),
@@ -1964,19 +2034,22 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         child: OverflowBox(
           alignment: AlignmentDirectional.centerEnd,
           maxWidth: double.infinity,
-          child: Text(
-            formatUserTime(
-              msg.timestamp.toLocal(),
-              Localizations.localeOf(context).toString(),
-              use12Hour: ref.watch(use12HourTimeFormatProvider),
-            ),
-            softWrap: false,
-            maxLines: 1,
-            style: context.textStyles.timestamp.copyWith(
-              color: context.colors.textPrimaryMuted,
-              fontSize: kCompactTimestampFontSize,
-              fontWeight: FontWeight.w500,
-              height: kCompactMessageLineHeight / kCompactTimestampFontSize,
+          child: MessageTimestampTooltip(
+            timestamp: msg.timestamp,
+            child: Text(
+              formatUserTime(
+                msg.timestamp.toLocal(),
+                Localizations.localeOf(context).toString(),
+                use12Hour: ref.watch(use12HourTimeFormatProvider),
+              ),
+              softWrap: false,
+              maxLines: 1,
+              style: context.textStyles.timestamp.copyWith(
+                color: context.colors.textPrimaryMuted,
+                fontSize: kCompactTimestampFontSize,
+                fontWeight: FontWeight.w500,
+                height: kCompactMessageLineHeight / kCompactTimestampFontSize,
+              ),
             ),
           ),
         ),
@@ -2032,11 +2105,13 @@ class _MessageItemState extends ConsumerState<MessageItem> {
               ? FluxerLocalizations.of(context).voiceParticipantMenuViewProfile
               : null,
           image: true,
-          child: _AuthorProfileTapTarget(
+          child: MessageAuthorTapTarget(
+            target: _authorMenuTarget(msg),
             onPointerDown: (int pointer) =>
                 _doubleTapExemption.pointer = pointer,
-            onTap: _canOpenAuthorProfile(msg)
-                ? () => _openAuthorProfile(context, msg)
+            onMenuOpenChanged: _setAuthorMenuOpen,
+            onOpenProfile: _canOpenAuthorProfile(msg)
+                ? (BuildContext anchor) => _openAuthorProfile(anchor, msg)
                 : null,
             child: Padding(
               padding: const EdgeInsets.only(top: kMessageAvatarTopPadding),
@@ -2068,20 +2143,22 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Flexible(
-                          child: _AuthorProfileTapTarget(
+                          child: MessageAuthorTapTarget(
+                            target: _authorMenuTarget(msg),
                             onPointerDown: (int pointer) =>
                                 _doubleTapExemption.pointer = pointer,
-                            onTap: _canOpenAuthorProfile(msg)
-                                ? () => _openAuthorProfile(context, msg)
+                            onMenuOpenChanged: _setAuthorMenuOpen,
+                            onOpenProfile: _canOpenAuthorProfile(msg)
+                                ? (BuildContext anchor) =>
+                                      _openAuthorProfile(anchor, msg)
                                 : null,
-                            child: Text(
-                              authorDisplay.displayName,
+                            child: MessageAuthorName(
+                              name: authorDisplay.displayName,
+                              underlineOnHover: _canOpenAuthorProfile(msg),
                               style: context.textStyles.username.copyWith(
-                                color: roleColor ?? context.colors.textChat,
-                                fontWeight: FontWeight.w600,
+                                color: roleColor ?? context.colors.textPrimary,
+                                fontWeight: FontWeight.w500,
                               ),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
                             ),
                           ),
                         ),
@@ -2097,16 +2174,25 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                       ],
                     ),
                   ),
-                  const SizedBox(width: 6),
-                  Text(
-                    formatMessageTimestamp(
-                      msg.timestamp.toLocal(),
-                      FluxerLocalizations.of(context),
-                      Localizations.localeOf(context).toString(),
-                      use12Hour: ref.watch(use12HourTimeFormatProvider),
-                      now: ref.watch(localDayProvider),
+                  const SizedBox(width: _kHeaderTimestampGap),
+                  MessageTimestampTooltip(
+                    timestamp: msg.timestamp,
+                    child: Text(
+                      formatMessageTimestamp(
+                        msg.timestamp.toLocal(),
+                        FluxerLocalizations.of(context),
+                        Localizations.localeOf(context).toString(),
+                        use12Hour: ref.watch(use12HourTimeFormatProvider),
+                        now: ref.watch(localDayProvider),
+                      ),
+                      style: context.textStyles.timestamp.copyWith(
+                        color: context.colors.textPrimaryMuted.withValues(
+                          alpha:
+                              context.colors.textPrimaryMuted.a *
+                              _kHeaderTimestampOpacity,
+                        ),
+                      ),
                     ),
-                    style: context.textStyles.timestamp,
                   ),
                   if ((msg.flags & messageFlagSuppressNotifications) != 0) ...[
                     const SizedBox(width: 6),
@@ -2345,26 +2431,6 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     );
   }
 
-  Rect? _actionBarClipRect(BuildContext overlayContext) {
-    final RenderObject? viewport = context
-        .findAncestorStateOfType<ScrollableState>()
-        ?.context
-        .findRenderObject();
-    final RenderObject? overlay = Overlay.maybeOf(
-      overlayContext,
-    )?.context.findRenderObject();
-    if (viewport is! RenderBox ||
-        overlay is! RenderBox ||
-        !viewport.hasSize ||
-        !viewport.attached) {
-      return null;
-    }
-    return MatrixUtils.transformRect(
-      viewport.getTransformTo(overlay),
-      Offset.zero & viewport.size,
-    );
-  }
-
   Widget _buildActionBarOverlay(
     BuildContext overlayContext, {
     required bool isFailed,
@@ -2397,11 +2463,11 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         ),
       ),
     );
-    final Rect? clip = _actionBarClipRect(overlayContext);
-    if (clip == null) {
-      return follower;
-    }
-    return ClipRect(clipper: _FixedRectClipper(clip), child: follower);
+    return clipMessageActionBarToViewport(
+      rowContext: context,
+      overlayContext: overlayContext,
+      child: follower,
+    );
   }
 
   Widget _buildActions(BuildContext context) {
@@ -2637,45 +2703,6 @@ class _MessageItemState extends ConsumerState<MessageItem> {
           child: const PhosphorIcon(PhosphorIconsFill.trash),
         ),
       ],
-    );
-  }
-}
-
-class _FixedRectClipper extends CustomClipper<Rect> {
-  const _FixedRectClipper(this.rect);
-
-  final Rect rect;
-
-  @override
-  Rect getClip(Size size) => rect;
-
-  @override
-  bool shouldReclip(_FixedRectClipper oldClipper) => rect != oldClipper.rect;
-}
-
-class _AuthorProfileTapTarget extends StatelessWidget {
-  const _AuthorProfileTapTarget({
-    required this.onPointerDown,
-    required this.onTap,
-    required this.child,
-  });
-
-  final ValueChanged<int> onPointerDown;
-  final VoidCallback? onTap;
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    final VoidCallback? onTap = this.onTap;
-    return Listener(
-      onPointerDown: onTap == null
-          ? null
-          : (PointerDownEvent event) => onPointerDown(event.pointer),
-      child: FluxerGestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: onTap,
-        child: child,
-      ),
     );
   }
 }

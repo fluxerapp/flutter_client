@@ -56,6 +56,13 @@ typedef FluxerLinkWidgetBuilder =
     Widget? Function(BuildContext context, String href, TextStyle style);
 typedef FluxerLinkTapHandler =
     Future<void> Function(BuildContext context, String href);
+typedef FluxerMaskedLinkHoverHandler =
+    void Function(
+      BuildContext context,
+      String href,
+      PointerEvent event, {
+      required bool entered,
+    });
 typedef FluxerAlertBuilder =
     Widget Function(
       BuildContext context,
@@ -144,6 +151,7 @@ class FluxerMarkdownConfig {
     this.guildNavigationMentionBuilder,
     this.linkWidgetBuilder,
     this.onTapLink,
+    this.onMaskedLinkHover,
     this.alertBuilder,
     this.spoilersInitiallyRevealed = false,
     this.spoilerSyncController,
@@ -183,6 +191,7 @@ class FluxerMarkdownConfig {
   final FluxerGuildNavigationMentionBuilder? guildNavigationMentionBuilder;
   final FluxerLinkWidgetBuilder? linkWidgetBuilder;
   final FluxerLinkTapHandler? onTapLink;
+  final FluxerMaskedLinkHoverHandler? onMaskedLinkHover;
   final FluxerAlertBuilder? alertBuilder;
   final bool spoilersInitiallyRevealed;
   final FluxerSpoilerSyncController? spoilerSyncController;

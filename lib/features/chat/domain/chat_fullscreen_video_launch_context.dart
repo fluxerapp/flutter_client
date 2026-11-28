@@ -3,6 +3,7 @@ import 'package:fluxer_app/features/chat/domain/chat_video_source.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/utils/embeds/embed_youtube_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media/media_dimension_utils.dart';
+import 'package:fluxer_app/features/chat/utils/messages/message_action_permissions.dart';
 
 class MessageActionCallbacks {
   const MessageActionCallbacks({
@@ -74,6 +75,14 @@ class MessageMediaActionScope {
   final MessageActionPermissions permissions;
   final MessageActionCallbacks callbacks;
   final String? previewRoleGuildId;
+
+  bool get canDeleteAttachments =>
+      callbacks.onDeleteAttachment != null &&
+      canDeleteAttachmentOnMessage(
+        message: message,
+        isOwnMessage: permissions.isOwnMessage,
+        isSendDisabled: permissions.isSendDisabled,
+      );
 }
 
 class ChatFullscreenVideoLaunchContext {

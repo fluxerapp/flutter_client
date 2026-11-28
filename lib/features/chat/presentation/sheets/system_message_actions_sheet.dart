@@ -16,6 +16,7 @@ import 'package:fluxer_app/features/chat/utils/messages/system_message_text.dart
 import 'package:fluxer_app/features/settings/providers/view_models/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/emoji_picker/fluxer_emoji_picker_sheet.dart';
 import 'package:fluxer_app/features/ui/emoji_picker/fluxer_selected_emoji.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_key_modifiers.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
@@ -49,9 +50,38 @@ Future<void> showSystemMessageActionsSheet(
     developerMode: developerMode,
     quickReactionChannelId: message.channelId,
     quickReactionGuildId: guildId,
-    onQuickReaction: (item) => _toggleQuickReaction(ref, message, item),
+    onQuickReaction: (item) =>
+        toggleSystemMessageQuickReaction(ref, message, item),
   );
+  if (action == null || (action != MessageAction.delete && !context.mounted)) {
+    return;
+  }
+  handleSystemMessageAction(
+    context,
+    ref,
+    action: action,
+    message: message,
+    guildId: guildId,
+    currentUserId: currentUserId,
+  );
+}
+
+void handleSystemMessageAction(
+  BuildContext context,
+  WidgetRef ref, {
+  required MessageAction action,
+  required Message message,
+  required String? guildId,
+  required String? currentUserId,
+  FluxerKeyModifiers modifiers = FluxerKeyModifiers.none,
+}) {
   if (action == MessageAction.delete) {
+    if (modifiers.shift) {
+      unawaited(
+        ref.read(chatViewModelProvider.notifier).deleteMessage(message.id),
+      );
+      return;
+    }
     unawaited(
       showDeleteMessageConfirmSheet(
         null,
@@ -62,9 +92,6 @@ Future<void> showSystemMessageActionsSheet(
     );
     return;
   }
-  if (action == null || !context.mounted) {
-    return;
-  }
   switch (action) {
     case MessageAction.addReaction:
       unawaited(
@@ -73,7 +100,7 @@ Future<void> showSystemMessageActionsSheet(
           channelId: message.channelId,
           visibleTabs: const [ExpressionPickerTab.emojis],
           onEmojiSelected: (emoji) =>
-              _toggleReactionFromEmoji(ref, message, emoji),
+              toggleSystemMessageReactionFromEmoji(ref, message, emoji),
         ),
       );
     case MessageAction.viewReactions:
@@ -154,7 +181,7 @@ Future<void> showSystemMessageActionsSheet(
   }
 }
 
-void _toggleQuickReaction(
+void toggleSystemMessageQuickReaction(
   WidgetRef ref,
   Message message,
   QuickReactionItem item,
@@ -175,7 +202,7 @@ void _toggleQuickReaction(
   }
 }
 
-void _toggleReactionFromEmoji(
+void toggleSystemMessageReactionFromEmoji(
   WidgetRef ref,
   Message message,
   FluxerSelectedEmoji emoji,

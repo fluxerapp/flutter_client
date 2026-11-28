@@ -26,6 +26,8 @@ class FluxerTooltip extends StatefulWidget {
     this.maxWidth = FluxerTooltipMaxWidth.standard,
     this.keybindAction,
     this.keybindCombo,
+    this.showDelay,
+    this.onTooltipTap,
     super.key,
   }) : assert(
          message != null || richMessage != null,
@@ -39,6 +41,10 @@ class FluxerTooltip extends StatefulWidget {
   final FluxerTooltipMaxWidth maxWidth;
   final KeybindAction? keybindAction;
   final KeybindCombo? keybindCombo;
+  final Duration? showDelay;
+  final VoidCallback? onTooltipTap;
+
+  bool get _interactive => onTooltipTap != null;
 
   bool get _hasKeybind => keybindAction != null || keybindCombo != null;
 
@@ -61,6 +67,7 @@ class _FluxerTooltipState extends State<FluxerTooltip>
   Timer? _longPressTimer;
   bool _isHovering = false;
   bool _isFocused = false;
+  bool _bubbleHovered = false;
 
   static const Duration _fadeDuration = Duration(milliseconds: 100);
   static const Duration _showDelay = Duration(milliseconds: 500);
@@ -137,7 +144,16 @@ class _FluxerTooltipState extends State<FluxerTooltip>
     _hideTimer?.cancel();
     if (usesDesktopPointerUi(context)) {
       _showTimer?.cancel();
-      _showTooltip();
+      final Duration? delay = widget.showDelay;
+      if (delay == null || _overlayController.isShowing) {
+        _showTooltip();
+        return;
+      }
+      _showTimer = Timer(delay, () {
+        if (_isHovering && mounted) {
+          _showTooltip();
+        }
+      });
       return;
     }
     _showTimer = Timer(_showDelay, () {
@@ -152,6 +168,10 @@ class _FluxerTooltipState extends State<FluxerTooltip>
     _showTimer?.cancel();
     if (usesDesktopPointerUi(context)) {
       _hideTimer?.cancel();
+      if (widget._interactive) {
+        _scheduleInteractiveHide();
+        return;
+      }
       _hideTooltip();
       return;
     }
@@ -160,6 +180,32 @@ class _FluxerTooltipState extends State<FluxerTooltip>
         _hideTooltip();
       }
     });
+  }
+
+  void _scheduleInteractiveHide() {
+    _hideTimer?.cancel();
+    _hideTimer = Timer(_hideDelay, () {
+      if (mounted && !_isHovering && !_bubbleHovered) {
+        _hideTooltip();
+      }
+    });
+  }
+
+  void _handleBubbleEnter(PointerEvent _) {
+    _bubbleHovered = true;
+    _hideTimer?.cancel();
+  }
+
+  void _handleBubbleExit(PointerEvent _) {
+    _bubbleHovered = false;
+    _scheduleInteractiveHide();
+  }
+
+  void _handleBubbleTap() {
+    _hideTimer?.cancel();
+    _bubbleHovered = false;
+    _hideTooltip();
+    widget.onTooltipTap?.call();
   }
 
   void _handleFocusChange(bool focused) {
@@ -308,7 +354,18 @@ class _FluxerTooltipState extends State<FluxerTooltip>
                   FluxerTooltipPosition.left => Alignment.centerRight,
                   FluxerTooltipPosition.right => Alignment.centerLeft,
                 },
-                child: bubble,
+                child: widget._interactive
+                    ? MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        onEnter: _handleBubbleEnter,
+                        onExit: _handleBubbleExit,
+                        child: FluxerGestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onTap: _handleBubbleTap,
+                          child: bubble,
+                        ),
+                      )
+                    : bubble,
               ),
             ),
           ),
@@ -343,6 +400,7 @@ class _FluxerTooltipState extends State<FluxerTooltip>
         child: FluxerGestureDetector(
           onLongPress: _handleLongPress,
           behavior: HitTestBehavior.translucent,
+          cursor: MouseCursor.defer,
           child: widget.child,
         ),
       ),

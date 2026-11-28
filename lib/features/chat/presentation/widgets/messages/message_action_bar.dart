@@ -10,6 +10,43 @@ const double kMessageActionBarHoverScale = 1.035;
 const double kMessageActionBarTopOffset = -24;
 const double kMessageActionBarEndInset = 14;
 
+Widget clipMessageActionBarToViewport({
+  required BuildContext rowContext,
+  required BuildContext overlayContext,
+  required Widget child,
+}) {
+  final RenderObject? viewport = rowContext
+      .findAncestorStateOfType<ScrollableState>()
+      ?.context
+      .findRenderObject();
+  final RenderObject? overlay = Overlay.maybeOf(
+    overlayContext,
+  )?.context.findRenderObject();
+  if (viewport is! RenderBox ||
+      overlay is! RenderBox ||
+      !viewport.hasSize ||
+      !viewport.attached) {
+    return child;
+  }
+  final Rect clip = MatrixUtils.transformRect(
+    viewport.getTransformTo(overlay),
+    Offset.zero & viewport.size,
+  );
+  return ClipRect(clipper: _FixedRectClipper(clip), child: child);
+}
+
+class _FixedRectClipper extends CustomClipper<Rect> {
+  const _FixedRectClipper(this.rect);
+
+  final Rect rect;
+
+  @override
+  Rect getClip(Size size) => rect;
+
+  @override
+  bool shouldReclip(_FixedRectClipper oldClipper) => rect != oldClipper.rect;
+}
+
 class MessageActionBar extends StatelessWidget {
   const MessageActionBar({required this.children, super.key});
 

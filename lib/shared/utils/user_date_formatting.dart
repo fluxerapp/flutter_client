@@ -210,6 +210,21 @@ String formatUserFullDate(DateTime localDateTime, String locale) {
   return DateFormat.yMMMMEEEEd(_formattingLocale(locale)).format(localDateTime);
 }
 
+String formatUserFullDateTimeWithSeconds(
+  DateTime localDateTime,
+  String locale, {
+  required bool use12Hour,
+}) {
+  final String date = formatUserFullDate(localDateTime, locale);
+  final String time = formatUserTime(
+    localDateTime,
+    locale,
+    use12Hour: use12Hour,
+    withSeconds: true,
+  );
+  return '$date $time';
+}
+
 String formatUserMediumDate(DateTime localDateTime, String locale) {
   return DateFormat.yMMMd(_formattingLocale(locale)).format(localDateTime);
 }

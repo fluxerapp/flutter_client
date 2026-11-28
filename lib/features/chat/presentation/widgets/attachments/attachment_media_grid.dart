@@ -9,6 +9,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attach
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_inline_video_player.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_mobile_fullscreen_video.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_network_image.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/hover_actions/media_hover_actions.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/media_alt_text.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/media_load_error_placeholder.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/media_thumb_hash_placeholder.dart';
@@ -302,45 +303,58 @@ class AttachmentMediaGrid extends ConsumerWidget {
     );
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
-      child: SpoilerOverlay(
-        isSpoiler: attachment.isSpoiler,
-        initiallyRevealed: revealSpoilers,
-        spoilerSyncController: spoilerSyncController,
-        syncKeys: spoilerSyncKeysForAttachment(
-          scope: spoilerSyncScope ?? messageId ?? '',
-          attachment: attachment,
+      child: MediaHoverActions(
+        size: Size(cellWidth, cellHeight),
+        filename: attachment.filename,
+        actionScope: mediaActionScope,
+        attachment: attachment,
+        downloadUrl: attachmentEffectiveDownloadUrl(
+          url: attachment.url,
+          isExpired: attachment.expired ?? false,
+          proxyUrl: attachment.proxyUrl,
         ),
-        child: MatureMediaOverlay(
-          channelId: channelId,
-          isMatureMedia: attachment.isMatureMedia,
-          borderRadius: BorderRadius.circular(8),
-          child: MessageDoubleTapExempt(
-            child: FluxerGestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: canOpen ? () => _openMedia(context, attachment) : null,
-              child: MediaAltText(
-                altText: attachment.description,
-                caption: MediaAltTextCaption.never,
-                child: Stack(
-                  fit: StackFit.expand,
-                  children: <Widget>[
-                    if (displayUrl.isEmpty)
-                      const MediaLoadErrorPlaceholder()
-                    else
-                      ChatNetworkImage(
-                        imageUrl: displayUrl,
-                        filename: attachment.filename,
-                        contentType: attachment.contentType,
-                        memCacheWidth: cache.width,
-                        memCacheHeight: cache.height,
-                        fit: BoxFit.cover,
-                        placeholder: MediaThumbHashPlaceholder(
-                          thumbHash: attachment.placeholder,
+        contentHash: attachment.contentHash,
+        isMatureMedia: attachment.isMatureMedia,
+        child: SpoilerOverlay(
+          isSpoiler: attachment.isSpoiler,
+          initiallyRevealed: revealSpoilers,
+          spoilerSyncController: spoilerSyncController,
+          syncKeys: spoilerSyncKeysForAttachment(
+            scope: spoilerSyncScope ?? messageId ?? '',
+            attachment: attachment,
+          ),
+          child: MatureMediaOverlay(
+            channelId: channelId,
+            isMatureMedia: attachment.isMatureMedia,
+            borderRadius: BorderRadius.circular(8),
+            child: MessageDoubleTapExempt(
+              child: FluxerGestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: canOpen ? () => _openMedia(context, attachment) : null,
+                child: MediaAltText(
+                  altText: attachment.description,
+                  caption: MediaAltTextCaption.never,
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: <Widget>[
+                      if (displayUrl.isEmpty)
+                        const MediaLoadErrorPlaceholder()
+                      else
+                        ChatNetworkImage(
+                          imageUrl: displayUrl,
+                          filename: attachment.filename,
+                          contentType: attachment.contentType,
+                          memCacheWidth: cache.width,
+                          memCacheHeight: cache.height,
+                          fit: BoxFit.cover,
+                          placeholder: MediaThumbHashPlaceholder(
+                            thumbHash: attachment.placeholder,
+                          ),
+                          errorPlaceholder: const MediaLoadErrorPlaceholder(),
                         ),
-                        errorPlaceholder: const MediaLoadErrorPlaceholder(),
-                      ),
-                    if (isVideo) const VideoPlayButtonOverlay(),
-                  ],
+                      if (isVideo) const VideoPlayButtonOverlay(),
+                    ],
+                  ),
                 ),
               ),
             ),

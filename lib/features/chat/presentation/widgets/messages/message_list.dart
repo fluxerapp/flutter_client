@@ -65,6 +65,7 @@ import 'package:fluxer_app/features/chat/presentation/'
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_reactions_bar.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'widgets/messages/message_tile_cache.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/system/system_message_desktop_frame.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'widgets/messages/system_message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/unread_dividers.dart';
@@ -3778,21 +3779,6 @@ class _MessageListState extends ConsumerState<MessageList> {
                   currentUserId: currentUserId,
                 )
               : null,
-          onSecondaryTapUp: !useTouchMessageActions
-              ? (_) => unawaited(
-                  showSystemMessageActionsSheet(
-                    this.context,
-                    ref,
-                    message: message,
-                    guildId: guildId,
-                    isDmChannel: isDmChannel,
-                    canDelete: canDelete,
-                    canAddReactions: canAddReactionsForMessage,
-                    canManageMessages: channelCanManageMessages,
-                    currentUserId: currentUserId,
-                  ),
-                )
-              : null,
           canAddReactions: canAddReactionsForMessage,
           onReaction:
               (String emoji, {String? emojiId, bool animated = false}) => ref
@@ -3807,7 +3793,18 @@ class _MessageListState extends ConsumerState<MessageList> {
         return _withMessageSeparators(
           leadingGroupSpacing: leading,
           showUnreadOverlay: showUnreadOverlay,
-          child: systemMessage,
+          child: useTouchMessageActions
+              ? systemMessage
+              : SystemMessageDesktopFrame(
+                  message: message,
+                  guildId: guildId,
+                  currentUserId: currentUserId,
+                  isDmChannel: isDmChannel,
+                  canDelete: canDelete,
+                  canAddReactions: canAddReactionsForMessage,
+                  canManageMessages: channelCanManageMessages,
+                  child: systemMessage,
+                ),
         );
       }
       final bool canDelete = canDeleteMessage(
@@ -4164,18 +4161,32 @@ class _MessageListState extends ConsumerState<MessageList> {
       date.toLocal(),
       Localizations.localeOf(context).toString(),
     );
+    final Color accent = context.colors.backgroundModifierAccent;
+    final Widget line = Container(
+      height: 2,
+      color: accent.withValues(alpha: accent.a * 0.3),
+    );
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
       child: SizedBox(
         height: kDateDividerContentHeight,
         child: Row(
           children: [
-            Expanded(child: Divider(color: context.colors.borderColor)),
+            Expanded(child: line),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Text(formatted, style: context.textStyles.smallText),
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: Text(
+                formatted,
+                maxLines: 1,
+                softWrap: false,
+                style: context.textStyles.smallText.copyWith(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  color: context.colors.textTertiary,
+                ),
+              ),
             ),
-            Expanded(child: Divider(color: context.colors.borderColor)),
+            Expanded(child: line),
           ],
         ),
       ),

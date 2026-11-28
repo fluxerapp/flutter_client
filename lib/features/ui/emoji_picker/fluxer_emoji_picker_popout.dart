@@ -11,7 +11,7 @@ import 'package:fluxer_app/features/ui/overlay/fluxer_layer.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-enum FluxerEmojiPickerPlacement { verticalEnd, leftStart }
+enum FluxerEmojiPickerPlacement { verticalEnd, leftStart, rightStart }
 
 class FluxerEmojiPickerPopout extends StatefulWidget {
   const FluxerEmojiPickerPopout({
@@ -93,8 +93,11 @@ class FluxerEmojiPickerPopoutState extends State<FluxerEmojiPickerPopout>
   bool _openUpward = true;
   double _sideShift = 0;
 
-  bool get _isLeftStart =>
-      widget.placement == FluxerEmojiPickerPlacement.leftStart;
+  bool _openEnd = false;
+
+  bool get _isSideStart =>
+      widget.placement == FluxerEmojiPickerPlacement.leftStart ||
+      widget.placement == FluxerEmojiPickerPlacement.rightStart;
 
   void toggle() {
     if (_overlayController.isShowing) {
@@ -102,7 +105,7 @@ class FluxerEmojiPickerPopoutState extends State<FluxerEmojiPickerPopout>
     } else {
       _computeDirection();
       _overlayController.show();
-      if (!_isLeftStart) {
+      if (!_isSideStart) {
         _animationController.forward();
       } else {
         _animationController.value = 1;
@@ -117,8 +120,21 @@ class FluxerEmojiPickerPopoutState extends State<FluxerEmojiPickerPopout>
       return;
     }
     final screenHeight = MediaQuery.sizeOf(context).height;
-    if (_isLeftStart) {
-      final double anchorTop = renderBox.localToGlobal(Offset.zero).dy;
+    if (_isSideStart) {
+      final Offset origin = renderBox.localToGlobal(Offset.zero);
+      final double screenWidth = MediaQuery.sizeOf(context).width;
+      final bool rtl = Directionality.of(context) == TextDirection.rtl;
+      final double spaceEnd = rtl
+          ? origin.dx
+          : screenWidth - origin.dx - renderBox.size.width;
+      final double spaceStart = rtl
+          ? screenWidth - origin.dx - renderBox.size.width
+          : origin.dx;
+      const double needed = _kWidth + _kSideGap + _kEdgePadding;
+      _openEnd = widget.placement == FluxerEmojiPickerPlacement.rightStart
+          ? spaceEnd >= needed || spaceEnd >= spaceStart
+          : spaceStart < needed && spaceEnd > spaceStart;
+      final double anchorTop = origin.dy;
       final double overflow =
           anchorTop + _kHeight - (screenHeight - _kEdgePadding);
       final double maxShift = anchorTop - _kEdgePadding;
@@ -135,7 +151,7 @@ class FluxerEmojiPickerPopoutState extends State<FluxerEmojiPickerPopout>
   }
 
   void close() {
-    if (_isLeftStart) {
+    if (_isSideStart) {
       _animationController.value = 0;
       if (_overlayController.isShowing) {
         _overlayController.hide();
@@ -163,8 +179,11 @@ class FluxerEmojiPickerPopoutState extends State<FluxerEmojiPickerPopout>
   }
 
   Alignment _targetAnchor(TextDirection direction) {
-    if (_isLeftStart) {
-      return AlignmentDirectional.topStart.resolve(direction);
+    if (_isSideStart) {
+      return (_openEnd
+              ? AlignmentDirectional.topEnd
+              : AlignmentDirectional.topStart)
+          .resolve(direction);
     }
     return _openUpward
         ? AlignmentDirectional.topEnd.resolve(direction)
@@ -172,8 +191,11 @@ class FluxerEmojiPickerPopoutState extends State<FluxerEmojiPickerPopout>
   }
 
   Alignment _followerAnchor(TextDirection direction) {
-    if (_isLeftStart) {
-      return AlignmentDirectional.topEnd.resolve(direction);
+    if (_isSideStart) {
+      return (_openEnd
+              ? AlignmentDirectional.topStart
+              : AlignmentDirectional.topEnd)
+          .resolve(direction);
     }
     return _openUpward
         ? AlignmentDirectional.bottomEnd.resolve(direction)
@@ -200,9 +222,11 @@ class FluxerEmojiPickerPopoutState extends State<FluxerEmojiPickerPopout>
             link: _layerLink,
             targetAnchor: _targetAnchor(direction),
             followerAnchor: _followerAnchor(direction),
-            offset: _isLeftStart
+            offset: _isSideStart
                 ? Offset(
-                    direction == TextDirection.ltr ? -_kSideGap : _kSideGap,
+                    (direction == TextDirection.ltr) == _openEnd
+                        ? _kSideGap
+                        : -_kSideGap,
                     _sideShift,
                   )
                 : Offset(0, _openUpward ? -4 : 4),
