@@ -200,20 +200,46 @@ class GuildUserSettingsRepository {
     GuildUserSettingsPersistenceOptions options =
         const GuildUserSettingsPersistenceOptions(),
   }) {
+    return updateChannelOverrides(
+      guildId: guildId,
+      channelIds: <String>[channelId],
+      muted: muted,
+      durationSeconds: durationSeconds,
+      messageNotifications: messageNotifications,
+      collapsed: collapsed,
+      flags: flags,
+      options: options,
+    );
+  }
+
+  Future<void> updateChannelOverrides({
+    required String guildId,
+    required Iterable<String> channelIds,
+    bool? muted,
+    int? durationSeconds,
+    UserNotificationSettings? messageNotifications,
+    bool? collapsed,
+    int? flags,
+    GuildUserSettingsPersistenceOptions options =
+        const GuildUserSettingsPersistenceOptions(),
+  }) {
+    if (channelIds.isEmpty) {
+      return Future<void>.value();
+    }
     return _runSerialized<void>(guildId, () async {
       try {
         final Map<String, ChannelOverrides> overrides =
             await _loadChannelOverridesFromCache(guildId);
-        final ChannelOverrides? previous = overrides[channelId];
-        final ChannelOverrides override = _mergeChannelOverride(
-          previous: previous,
-          muted: muted,
-          durationSeconds: durationSeconds,
-          messageNotifications: messageNotifications,
-          collapsed: collapsed,
-          flags: flags,
-        );
-        overrides[channelId] = override;
+        for (final String channelId in channelIds) {
+          overrides[channelId] = _mergeChannelOverride(
+            previous: overrides[channelId],
+            muted: muted,
+            durationSeconds: durationSeconds,
+            messageNotifications: messageNotifications,
+            collapsed: collapsed,
+            flags: flags,
+          );
+        }
         await _persistChannelOverridesLocally(
           guildId: guildId,
           channelOverrides: overrides,

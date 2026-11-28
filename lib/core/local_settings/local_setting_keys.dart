@@ -163,6 +163,14 @@ abstract final class LocalSettingKeys {
   static const AccountFlag hideDownloadButton = AccountFlag(
     'synced_extras_hide_download_button',
   );
+  static const AccountFlag showCollapsedUnreadDmsBadge = AccountFlag(
+    'sidebar_show_collapsed_unread_dms_badge',
+    defaultValue: true,
+  );
+  static const AccountFlag showIncomingFriendRequestBadge = AccountFlag(
+    'sidebar_show_incoming_friend_request_badge',
+    defaultValue: true,
+  );
 
   static const AccountSettingKey<double?> shellSidebarWidth =
       AccountSettingKey<double?>(

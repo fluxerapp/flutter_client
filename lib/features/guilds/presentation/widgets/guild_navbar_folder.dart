@@ -72,13 +72,11 @@ class _FolderPalette {
 
 class _GuildFolderWidget extends ConsumerStatefulWidget {
   final GuildNavbarFolder folder;
-  final int unavailableCount;
   final GlobalKey<_GuildListItemState> Function(String guildId)
   resolveGuildItemKey;
 
   const _GuildFolderWidget({
     required this.folder,
-    required this.unavailableCount,
     required this.resolveGuildItemKey,
     super.key,
   });
@@ -602,7 +600,6 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
             isOwner: guild.ownerId == currentUserId,
             iconUrl: guild.iconUrl,
             isUnavailable: guild.unavailable,
-            unavailableCount: widget.unavailableCount,
             isMuted: muteState?.isMuted ?? false,
             muteEndTime: muteState?.muteEndTime,
             hideMutedChannels: muteState?.hideMutedChannels ?? false,
@@ -875,14 +872,23 @@ Future<bool> _resolveGuildCanInvite(WidgetRef ref, String guildId) async {
       null;
 }
 
-Future<void> presentGuildMenuSheet(
-  BuildContext context,
-  WidgetRef ref, {
-  required Guild guild,
-  BuildContext? anchorContext,
-  VoidCallback? onMenuClosed,
-}) async {
-  final Guild sheetGuild =
+typedef _GuildMenuTarget = ({
+  Guild guild,
+  bool hasUnread,
+  bool isMuted,
+  DateTime? muteEndTime,
+  bool hideMutedChannels,
+  bool isOwner,
+  bool developerMode,
+  int permissions,
+  bool canInvite,
+});
+
+Future<_GuildMenuTarget> _resolveGuildMenuTarget(
+  WidgetRef ref,
+  Guild guild,
+) async {
+  final Guild current =
       ref
           .read(guildListViewModelProvider)
           .guilds
@@ -893,34 +899,85 @@ Future<void> presentGuildMenuSheet(
   final muteState = ref.read(guildMuteProvider(guild.id)).value;
   final int permissions = await _resolveGuildMenuPermissions(ref, guild.id);
   final bool canInvite = await _resolveGuildCanInvite(ref, guild.id);
+  return (
+    guild: current,
+    hasUnread: !current.unavailable && (unread?.hasUnread ?? false),
+    isMuted: muteState?.isMuted ?? false,
+    muteEndTime: muteState?.muteEndTime,
+    hideMutedChannels: muteState?.hideMutedChannels ?? false,
+    isOwner: current.ownerId == ref.read(currentUserIdProvider),
+    developerMode: ref.read(userSettingsViewModelProvider).developerMode,
+    permissions: permissions,
+    canInvite: canInvite,
+  );
+}
+
+Future<void> presentGuildMenuSheet(
+  BuildContext context,
+  WidgetRef ref, {
+  required Guild guild,
+  BuildContext? anchorContext,
+  VoidCallback? onMenuClosed,
+  bool compactHeaderList = false,
+}) async {
+  final _GuildMenuTarget target = await _resolveGuildMenuTarget(ref, guild);
   if (!context.mounted) {
     return;
   }
-  final String? currentUserId = ref.read(currentUserIdProvider);
-  final bool developerMode = ref.read(
-    userSettingsViewModelProvider.select((s) => s.developerMode),
-  );
   final GuildAction? action = await showGuildBottomSheet(
     context,
-    guild: sheetGuild,
-    hasUnread: !sheetGuild.unavailable && (unread?.hasUnread ?? false),
-    isMuted: muteState?.isMuted ?? false,
-    isOwner: sheetGuild.ownerId == currentUserId,
-    permissions: permissions,
-    canInvite: canInvite,
-    muteEndTime: muteState?.muteEndTime,
-    hideMutedChannels: muteState?.hideMutedChannels ?? false,
-    developerMode: developerMode,
+    guild: target.guild,
+    hasUnread: target.hasUnread,
+    isMuted: target.isMuted,
+    isOwner: target.isOwner,
+    permissions: target.permissions,
+    canInvite: target.canInvite,
+    muteEndTime: target.muteEndTime,
+    hideMutedChannels: target.hideMutedChannels,
+    developerMode: target.developerMode,
     anchorContext: anchorContext,
+    compactHeaderList: compactHeaderList,
   );
   onMenuClosed?.call();
   if (action == null || !context.mounted) {
     return;
   }
-  await _runGuildMenuAction(context, ref, guild: guild, action: action);
+  await runGuildMenuAction(context, ref, guild: guild, action: action);
 }
 
-Future<void> _runGuildMenuAction(
+Future<void> presentGuildContextMenuAt(
+  BuildContext context,
+  WidgetRef ref, {
+  required Guild guild,
+  required Offset position,
+}) async {
+  ref
+      .read(guildSyncProvider(readAccountUserId(ref)).notifier)
+      .syncIfNeeded(guild.id);
+  final _GuildMenuTarget target = await _resolveGuildMenuTarget(ref, guild);
+  if (!context.mounted) {
+    return;
+  }
+  final GuildAction? action = await showGuildContextMenu(
+    context,
+    position: position,
+    guild: target.guild,
+    hasUnread: target.hasUnread,
+    isMuted: target.isMuted,
+    isOwner: target.isOwner,
+    permissions: target.permissions,
+    canInvite: target.canInvite,
+    muteEndTime: target.muteEndTime,
+    hideMutedChannels: target.hideMutedChannels,
+    developerMode: target.developerMode,
+  );
+  if (action == null || !context.mounted) {
+    return;
+  }
+  await runGuildMenuAction(context, ref, guild: guild, action: action);
+}
+
+Future<void> runGuildMenuAction(
   BuildContext context,
   WidgetRef ref, {
   required Guild guild,

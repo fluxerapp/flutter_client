@@ -17,24 +17,34 @@ class SyncedExtrasState {
     this.convertEmoticons = false,
     this.hideHelpButton = false,
     this.hideDownloadButton = false,
+    this.showCollapsedUnreadDmsBadge = true,
+    this.showIncomingFriendRequestBadge = true,
   });
 
   final bool spellcheckEnabled;
   final bool convertEmoticons;
   final bool hideHelpButton;
   final bool hideDownloadButton;
+  final bool showCollapsedUnreadDmsBadge;
+  final bool showIncomingFriendRequestBadge;
 
   SyncedExtrasState copyWith({
     bool? spellcheckEnabled,
     bool? convertEmoticons,
     bool? hideHelpButton,
     bool? hideDownloadButton,
+    bool? showCollapsedUnreadDmsBadge,
+    bool? showIncomingFriendRequestBadge,
   }) {
     return SyncedExtrasState(
       spellcheckEnabled: spellcheckEnabled ?? this.spellcheckEnabled,
       convertEmoticons: convertEmoticons ?? this.convertEmoticons,
       hideHelpButton: hideHelpButton ?? this.hideHelpButton,
       hideDownloadButton: hideDownloadButton ?? this.hideDownloadButton,
+      showCollapsedUnreadDmsBadge:
+          showCollapsedUnreadDmsBadge ?? this.showCollapsedUnreadDmsBadge,
+      showIncomingFriendRequestBadge:
+          showIncomingFriendRequestBadge ?? this.showIncomingFriendRequestBadge,
     );
   }
 
@@ -44,7 +54,9 @@ class SyncedExtrasState {
       other.spellcheckEnabled == spellcheckEnabled &&
       other.convertEmoticons == convertEmoticons &&
       other.hideHelpButton == hideHelpButton &&
-      other.hideDownloadButton == hideDownloadButton;
+      other.hideDownloadButton == hideDownloadButton &&
+      other.showCollapsedUnreadDmsBadge == showCollapsedUnreadDmsBadge &&
+      other.showIncomingFriendRequestBadge == showIncomingFriendRequestBadge;
 
   @override
   int get hashCode => Object.hash(
@@ -52,6 +64,8 @@ class SyncedExtrasState {
     convertEmoticons,
     hideHelpButton,
     hideDownloadButton,
+    showCollapsedUnreadDmsBadge,
+    showIncomingFriendRequestBadge,
   );
 }
 
@@ -79,6 +93,14 @@ class SyncedExtrasPreferences extends _$SyncedExtrasPreferences {
       ),
       hideDownloadButton: store.readAccount(
         LocalSettingKeys.hideDownloadButton,
+        userId: userId,
+      ),
+      showCollapsedUnreadDmsBadge: store.readAccount(
+        LocalSettingKeys.showCollapsedUnreadDmsBadge,
+        userId: userId,
+      ),
+      showIncomingFriendRequestBadge: store.readAccount(
+        LocalSettingKeys.showIncomingFriendRequestBadge,
         userId: userId,
       ),
     );
@@ -111,6 +133,40 @@ class SyncedExtrasPreferences extends _$SyncedExtrasPreferences {
     state = state.copyWith(hideHelpButton: help, hideDownloadButton: download);
     _write(LocalSettingKeys.hideHelpButton, value: help);
     _write(LocalSettingKeys.hideDownloadButton, value: download);
+  }
+
+  Future<void> applySidebarBadges({
+    required bool collapsedUnreadDms,
+    required bool incomingFriendRequests,
+  }) async {
+    state = state.copyWith(
+      showCollapsedUnreadDmsBadge: collapsedUnreadDms,
+      showIncomingFriendRequestBadge: incomingFriendRequests,
+    );
+    _write(
+      LocalSettingKeys.showCollapsedUnreadDmsBadge,
+      value: collapsedUnreadDms,
+    );
+    _write(
+      LocalSettingKeys.showIncomingFriendRequestBadge,
+      value: incomingFriendRequests,
+    );
+  }
+
+  Future<void> setShowCollapsedUnreadDmsBadge({required bool value}) async {
+    await applySidebarBadges(
+      collapsedUnreadDms: value,
+      incomingFriendRequests: state.showIncomingFriendRequestBadge,
+    );
+    ref.markSyncedDirty(SyncedPreferenceField.sidebar);
+  }
+
+  Future<void> setShowIncomingFriendRequestBadge({required bool value}) async {
+    await applySidebarBadges(
+      collapsedUnreadDms: state.showCollapsedUnreadDmsBadge,
+      incomingFriendRequests: value,
+    );
+    ref.markSyncedDirty(SyncedPreferenceField.sidebar);
   }
 
   Future<void> setSpellcheckEnabled({required bool value}) async {

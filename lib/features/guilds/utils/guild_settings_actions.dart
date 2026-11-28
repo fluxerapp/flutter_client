@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math' as math;
 
 import 'package:drift/drift.dart' show Value;
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide Channel;
@@ -13,47 +14,27 @@ import 'package:fluxer_dart/export.dart';
 
 export 'package:fluxer_app/features/guilds/utils/guild_notification_resolution.dart';
 
+const int _kBulkAckBatchSize = 100;
+
 Future<void> markGuildAsRead(
   String guildId,
   FluxerDatabase db,
   FluxerClient client,
-) async {
-  var channels = await db.channelDao.getChannels(guildId, includeThreads: true);
-  final channelIds = channels.map((c) => c.id).toList();
-  final readStates = await db.readStateDao
-      .watchReadStatesForChannels(channelIds)
-      .first;
-  final readStateMap = {for (final rs in readStates) rs.channelId: rs};
-  final Set<String> joinedThreadIds = await db.threadDao.getJoinedThreadIds();
-  channels = channels
-      .where(
-        (c) =>
-            !isThreadChannelType(c.type) ||
-            joinedThreadIds.contains(c.id) ||
-            (readStateMap[c.id]?.mentionCount ?? 0) > 0,
-      )
-      .toList();
+) => markGuildsAsRead(<String>[guildId], db, client);
 
-  final ackEntries = <ReadStateAckBulkRequestReadStates>[];
-  for (final channel in channels) {
-    final lastMsgId = channel.lastMessageId;
-    if (lastMsgId == null) {
-      continue;
-    }
-    final ackId = readStateMap[channel.id]?.lastMessageId;
-    final mentionCount = readStateMap[channel.id]?.mentionCount ?? 0;
-    final isManual = readStateMap[channel.id]?.manual ?? false;
-    if (ackId == lastMsgId && mentionCount == 0 && !isManual) {
-      continue;
-    }
-    ackEntries.add(
-      ReadStateAckBulkRequestReadStates(
-        channelId: channel.id,
-        messageId: lastMsgId,
-      ),
+Future<void> markGuildsAsRead(
+  Iterable<String> guildIds,
+  FluxerDatabase db,
+  FluxerClient client,
+) async {
+  final Set<String> joinedThreadIds = await db.threadDao.getJoinedThreadIds();
+  final List<ReadStateAckBulkRequestReadStates> ackEntries =
+      <ReadStateAckBulkRequestReadStates>[];
+  for (final String guildId in guildIds) {
+    ackEntries.addAll(
+      await _guildAckEntries(guildId, db, joinedThreadIds: joinedThreadIds),
     );
   }
-
   if (ackEntries.isEmpty) {
     return;
   }
@@ -68,11 +49,58 @@ Future<void> markGuildAsRead(
       ),
   ]);
 
-  unawaited(
-    client.readStates.ackBulkMessages(
-      body: ReadStateAckBulkRequest(readStates: ackEntries),
-    ),
+  for (var i = 0; i < ackEntries.length; i += _kBulkAckBatchSize) {
+    unawaited(
+      client.readStates.ackBulkMessages(
+        body: ReadStateAckBulkRequest(
+          readStates: ackEntries.sublist(
+            i,
+            math.min(i + _kBulkAckBatchSize, ackEntries.length),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+Future<List<ReadStateAckBulkRequestReadStates>> _guildAckEntries(
+  String guildId,
+  FluxerDatabase db, {
+  required Set<String> joinedThreadIds,
+}) async {
+  final channels = await db.channelDao.getChannels(
+    guildId,
+    includeThreads: true,
   );
+  final readStates = await db.readStateDao
+      .watchReadStatesForChannels(channels.map((c) => c.id).toList())
+      .first;
+  final readStateMap = {for (final rs in readStates) rs.channelId: rs};
+  final ackEntries = <ReadStateAckBulkRequestReadStates>[];
+  for (final channel in channels) {
+    final ReadState? readState = readStateMap[channel.id];
+    if (isThreadChannelType(channel.type) &&
+        !joinedThreadIds.contains(channel.id) &&
+        (readState?.mentionCount ?? 0) == 0) {
+      continue;
+    }
+    final lastMsgId = channel.lastMessageId;
+    if (lastMsgId == null) {
+      continue;
+    }
+    if (readState?.lastMessageId == lastMsgId &&
+        (readState?.mentionCount ?? 0) == 0 &&
+        !(readState?.manual ?? false)) {
+      continue;
+    }
+    ackEntries.add(
+      ReadStateAckBulkRequestReadStates(
+        channelId: channel.id,
+        messageId: lastMsgId,
+      ),
+    );
+  }
+  return ackEntries;
 }
 
 Future<({bool isDmsAllowed, bool isBotDmsAllowed})> getGuildPrivacyState({

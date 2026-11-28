@@ -184,26 +184,43 @@ class _UnavailableGuildsIndicator extends ConsumerWidget {
   }
 }
 
-class _GuildOutageIndicatorBadge extends StatelessWidget {
+class _GuildOutageIndicatorBadge extends StatefulWidget {
+  @override
+  State<_GuildOutageIndicatorBadge> createState() =>
+      _GuildOutageIndicatorBadgeState();
+}
+
+class _GuildOutageIndicatorBadgeState
+    extends State<_GuildOutageIndicatorBadge> {
+  bool _hovered = false;
+
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 48,
-      height: 48,
-      child: Center(
-        child: Container(
-          width: 44,
-          height: 44,
-          decoration: BoxDecoration(
-            color: Colors.transparent,
-            border: Border.all(color: context.colors.statusDanger, width: 2),
-            borderRadius: BorderRadius.circular(22),
-          ),
-          child: Center(
-            child: PhosphorIcon(
-              PhosphorIconsRegular.exclamationMark,
-              color: context.colors.textPrimary,
-              size: 32,
+    final colors = context.colors;
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      onEnter: (_) => setState(() => _hovered = true),
+      onExit: (_) => setState(() => _hovered = false),
+      child: SizedBox(
+        width: 48,
+        height: 48,
+        child: Center(
+          child: AnimatedContainer(
+            duration: context.motion.normal,
+            curve: Curves.easeOut,
+            width: 44,
+            height: 44,
+            decoration: BoxDecoration(
+              color: _hovered ? colors.statusDanger : Colors.transparent,
+              border: Border.all(color: colors.statusDanger, width: 2),
+              borderRadius: BorderRadius.circular(22),
+            ),
+            child: Center(
+              child: PhosphorIcon(
+                PhosphorIconsRegular.exclamationMark,
+                color: _hovered ? Colors.white : colors.textPrimary,
+                size: 32,
+              ),
             ),
           ),
         ),
@@ -289,14 +306,12 @@ final Map<KeybindAction, List<String>> _guildNavigationKeybindChips =
 
 class _GuildTooltipContent extends ConsumerStatefulWidget {
   final Guild guild;
-  final int unavailableCount;
   final int permissions;
   final bool isMuted;
   final DateTime? muteEndTime;
 
   const _GuildTooltipContent({
     required this.guild,
-    this.unavailableCount = 0,
     this.permissions = 0,
     this.isMuted = false,
     this.muteEndTime,
@@ -345,118 +360,119 @@ class _GuildTooltipContentState extends ConsumerState<_GuildTooltipContent> {
         const <VoiceParticipantRow>[];
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 2),
-      child: guild.unavailable
-          ? Text(
-              l10n.guildUnavailableOutageTooltip(widget.unavailableCount),
-              textAlign: TextAlign.center,
-              style: context.textStyles.label,
-            )
-          : ConstrainedBox(
-              constraints: const BoxConstraints(minWidth: 220),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      if (guild.isPartnered ||
-                          guild.isVerified ||
-                          guild.features.contains('DISCOVERABLE') ||
-                          guild.badgeIds.isNotEmpty) ...[
-                        FluxerGuildBadge(
-                          features: guild.features,
-                          badgeIds: guild.badgeIds,
-                          customBadgeLimit: 2,
-                          onLightSurface: true,
-                        ),
-                        const SizedBox(width: 6),
-                      ],
-                      Flexible(
-                        child: Text(
-                          guild.name,
-                          style: context.textStyles.channelName,
-                        ),
-                      ),
-                    ],
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(minWidth: 220),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (guild.isPartnered ||
+                    guild.isVerified ||
+                    guild.features.contains('DISCOVERABLE') ||
+                    guild.badgeIds.isNotEmpty) ...[
+                  FluxerGuildBadge(
+                    features: guild.features,
+                    badgeIds: guild.badgeIds,
+                    customBadgeLimit: 2,
+                    onLightSurface: true,
                   ),
-                  if (guild.features.contains(
-                    'UNAVAILABLE_FOR_EVERYONE_BUT_STAFF',
-                  )) ...[
-                    const SizedBox(height: 6),
-                    Text(
-                      l10n.guildNavbarStaffOnlyAccessible(
-                        ref.watch(
-                          instanceRuntimeConfigProvider.select(
-                            (config) => config.productName,
-                          ),
-                        ),
-                      ),
-                      style: context.textStyles.bodySmall.copyWith(
-                        color: context.colors.statusDanger,
-                      ),
+                  const SizedBox(width: 6),
+                ],
+                Flexible(
+                  child: Text(
+                    guild.name,
+                    style: context.textStyles.channelName,
+                  ),
+                ),
+              ],
+            ),
+            if (guild.unavailable) ...[
+              const SizedBox(height: 6),
+              Text(
+                l10n.guildUnavailableDescription,
+                style: context.textStyles.bodySmall.copyWith(
+                  color: mutedColor,
+                  fontSize: 14,
+                ),
+              ),
+            ],
+            if (guild.features.contains(
+              'UNAVAILABLE_FOR_EVERYONE_BUT_STAFF',
+            )) ...[
+              const SizedBox(height: 6),
+              Text(
+                l10n.guildNavbarStaffOnlyAccessible(
+                  ref.watch(
+                    instanceRuntimeConfigProvider.select(
+                      (config) => config.productName,
                     ),
-                  ],
-                  if (hasPermission(
-                        widget.permissions,
-                        Permission.manageGuild,
-                      ) &&
-                      guild.features.contains('INVITES_DISABLED')) ...[
-                    const SizedBox(height: 6),
-                    Text(
-                      guild.features.contains('RAID_DETECTED')
-                          ? l10n.guildNavbarInvitesPausedRaid
-                          : l10n.guildNavbarInvitesPaused,
-                      style: context.textStyles.bodySmall.copyWith(
-                        color: mutedColor,
-                        fontSize: 14,
-                      ),
+                  ),
+                ),
+                style: context.textStyles.bodySmall.copyWith(
+                  color: context.colors.statusDanger,
+                ),
+              ),
+            ],
+            if (hasPermission(widget.permissions, Permission.manageGuild) &&
+                guild.features.contains('INVITES_DISABLED')) ...[
+              const SizedBox(height: 6),
+              Text(
+                guild.features.contains('RAID_DETECTED')
+                    ? l10n.guildNavbarInvitesPausedRaid
+                    : l10n.guildNavbarInvitesPaused,
+                style: context.textStyles.bodySmall.copyWith(
+                  color: mutedColor,
+                  fontSize: 14,
+                ),
+              ),
+            ],
+            if (widget.isMuted) ...[
+              const SizedBox(height: 6),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  PhosphorIcon(
+                    PhosphorIconsFill.bellSlash,
+                    color: mutedColor,
+                    size: 14,
+                  ),
+                  const SizedBox(width: 6),
+                  Text(
+                    _mutedText(l10n, use12Hour: use12Hour),
+                    style: context.textStyles.bodySmall.copyWith(
+                      color: mutedColor,
+                      fontSize: 13,
                     ),
-                  ],
-                  if (widget.isMuted) ...[
-                    const SizedBox(height: 6),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        PhosphorIcon(
-                          PhosphorIconsFill.bellSlash,
-                          color: mutedColor,
-                          size: 14,
-                        ),
-                        const SizedBox(width: 6),
-                        Text(
-                          _mutedText(l10n, use12Hour: use12Hour),
-                          style: context.textStyles.bodySmall.copyWith(
-                            color: mutedColor,
-                            fontSize: 13,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                  const SizedBox(height: 8),
-                  _GuildTooltipStats(guild: guild),
-                  for (final row in voiceRows) ...[
-                    const SizedBox(height: 6),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        PhosphorIcon(
-                          row.isScreenshare
-                              ? PhosphorIconsFill.monitorPlay
-                              : PhosphorIconsRegular.speakerHigh,
-                          color: mutedColor,
-                          size: 28,
-                        ),
-                        const SizedBox(width: 6),
-                        _AvatarStack(avatarUrls: row.avatarUrls),
-                      ],
-                    ),
-                  ],
-                  _GuildTooltipKeybindHint(guildId: guild.id),
+                  ),
                 ],
               ),
-            ),
+            ],
+            const SizedBox(height: 8),
+            _GuildTooltipStats(guild: guild),
+            for (final row in voiceRows) ...[
+              const SizedBox(height: 6),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  PhosphorIcon(
+                    row.isScreenshare
+                        ? PhosphorIconsFill.monitorPlay
+                        : PhosphorIconsRegular.speakerHigh,
+                    color: mutedColor,
+                    size: 28,
+                  ),
+                  const SizedBox(width: 6),
+                  _AvatarStack(avatarUrls: row.avatarUrls),
+                ],
+              ),
+            ],
+            _GuildTooltipKeybindHint(guildId: guild.id),
+          ],
+        ),
+      ),
     );
   }
 }

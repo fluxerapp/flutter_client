@@ -10,6 +10,7 @@ import 'package:fluxer_app/features/guilds/presentation/widgets/guild_icon_peek_
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_icon_peek_menu.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_long_press_menu_host.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_drag_provider.dart';
+import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/guilds/providers/organized_guild_list_provider.dart';
 import 'package:fluxer_app/features/guilds/utils/guild_folder_icon.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_guild_acronym.dart';
@@ -276,9 +277,19 @@ class _GuildDragWrapperState extends ConsumerState<GuildDragWrapper>
           _handleDrop(sourceId: details.data.itemId);
         },
         builder: (context, candidateData, rejectedData) {
+          final String? combineSourceId =
+              !widget.isFolder && dropPosition == DropPosition.combine
+              ? ref.read(guildDragProvider).dragItemId
+              : null;
           return _DragTargetContent(
             dropPosition: dropPosition,
             color: brandPrimary,
+            combinePreview: combineSourceId == null
+                ? null
+                : _GuildCombinePreview(
+                    targetGuildId: widget.itemId,
+                    sourceGuildId: combineSourceId,
+                  ),
             useTouchInsertionGaps: useTouchDrag,
             suppressInsertionGapBefore: widget.isFolder,
             suppressInsertionGapAfter: widget.suppressInsertionGapAfter,
@@ -800,10 +811,12 @@ class _DragTargetContent extends StatelessWidget {
     required this.touchInsertionSingleSlot,
     required this.child,
     this.suppressInsertionGapAfter = false,
+    this.combinePreview,
   });
 
   final DropPosition? dropPosition;
   final Color color;
+  final Widget? combinePreview;
   final bool useTouchInsertionGaps;
   final bool suppressInsertionGapBefore;
   final bool touchInsertionSingleSlot;
@@ -816,6 +829,7 @@ class _DragTargetContent extends StatelessWidget {
       return _DesktopDragTargetContent(
         dropPosition: dropPosition,
         color: color,
+        combinePreview: combinePreview,
         child: child,
       );
     }
@@ -899,10 +913,12 @@ class _DesktopDragTargetContent extends StatelessWidget {
     required this.dropPosition,
     required this.color,
     required this.child,
+    this.combinePreview,
   });
 
   final DropPosition? dropPosition;
   final Color color;
+  final Widget? combinePreview;
   final Widget child;
 
   @override
@@ -913,7 +929,17 @@ class _DesktopDragTargetContent extends StatelessWidget {
       children: [
         if (dropPosition == DropPosition.before)
           _DropIndicatorLine(color: color),
-        if (isCombine)
+        if (isCombine && combinePreview != null)
+          Stack(
+            alignment: Alignment.center,
+            children: <Widget>[
+              Opacity(opacity: 0, child: child),
+              Positioned.fill(
+                child: IgnorePointer(child: Center(child: combinePreview)),
+              ),
+            ],
+          )
+        else if (isCombine)
           DecoratedBox(
             decoration: _combineTargetDecoration(color),
             child: child,
@@ -1008,6 +1034,102 @@ class _FolderMiniGrid extends StatelessWidget {
             ],
           );
         },
+      ),
+    );
+  }
+}
+
+class _GuildCombinePreview extends ConsumerWidget {
+  const _GuildCombinePreview({
+    required this.targetGuildId,
+    required this.sourceGuildId,
+  });
+
+  final String targetGuildId;
+  final String sourceGuildId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final List<Guild> guilds = ref.watch(
+      guildListViewModelProvider.select((state) => state.guilds),
+    );
+    Guild? find(String id) {
+      for (final Guild guild in guilds) {
+        if (guild.id == id) {
+          return guild;
+        }
+      }
+      return null;
+    }
+
+    final List<Guild?> cells = <Guild?>[
+      find(targetGuildId),
+      find(sourceGuildId),
+      null,
+      null,
+    ];
+    final colors = context.colors;
+    const double size = _kGuildIconInnerSize;
+    const double padding = 4;
+    const double gap = 2;
+    const double cell = (size - padding * 2 - gap) / 2;
+    return Container(
+      width: size + 6,
+      height: size + 6,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular((size + 6) * 0.3),
+        border: Border.all(color: colors.brandPrimaryLight, width: 2),
+      ),
+      child: Container(
+        width: size,
+        height: size,
+        padding: const EdgeInsets.all(padding),
+        decoration: BoxDecoration(
+          color: Color.lerp(
+            colors.backgroundSecondary,
+            colors.brandPrimaryLight,
+            0.08,
+          ),
+          borderRadius: BorderRadius.circular(size * 0.3),
+        ),
+        child: Wrap(
+          spacing: gap,
+          runSpacing: gap,
+          children: <Widget>[
+            for (final Guild? guild in cells)
+              SizedBox.square(
+                dimension: cell,
+                child: guild == null
+                    ? null
+                    : ClipRRect(
+                        borderRadius: BorderRadius.circular(cell * 0.3),
+                        child: guild.iconUrl != null
+                            ? CachedNetworkImage(
+                                imageUrl: guild.iconUrl!,
+                                fit: BoxFit.cover,
+                                memCacheWidth: _guildDragIconMemCache(
+                                  context,
+                                  cell,
+                                ),
+                                memCacheHeight: _guildDragIconMemCache(
+                                  context,
+                                  cell,
+                                ),
+                              )
+                            : ColoredBox(
+                                color: colors.backgroundSecondary,
+                                child: FittedBox(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(2),
+                                    child: FluxerGuildAcronym(name: guild.name),
+                                  ),
+                                ),
+                              ),
+                      ),
+              ),
+          ],
+        ),
       ),
     );
   }

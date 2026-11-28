@@ -15,6 +15,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/channel/header/cha
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/header/channel_header_search_field.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/header/channel_notification_settings_button.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/header/channel_pins_overlay_button.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/channel/header/member_list_availability.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/header/oxygen_update_header_button.dart';
 import 'package:fluxer_app/features/chat/utils/channel_header_utils.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
@@ -25,6 +26,7 @@ import 'package:fluxer_app/features/dm/presentation/create_dm_flow.dart';
 import 'package:fluxer_app/features/dm/providers/create_dm_view_model.dart';
 import 'package:fluxer_app/features/favorites/domain/favorite_guild_id.dart';
 import 'package:fluxer_app/features/favorites/providers/favorite_channels_provider.dart';
+import 'package:fluxer_app/features/guilds/presentation/widgets/rail_menus/favorites.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_permissions_provider.dart';
 import 'package:fluxer_app/features/input/domain/keybind_action.dart';
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
@@ -89,6 +91,7 @@ class ChannelHeaderToolbar extends ConsumerWidget {
       channel: channel,
       dm: dm,
     );
+    final bool memberListAvailable = ChannelMemberListAvailability.of(context);
 
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -150,8 +153,13 @@ class ChannelHeaderToolbar extends ConsumerWidget {
         if (showMembers)
           ChannelHeaderIconButton(
             icon: PhosphorIconsFill.users,
-            label: l10n.channelHeaderMemberList,
-            isActive: isMemberListVisible,
+            label: !memberListAvailable
+                ? l10n.channelHeaderMembersUnavailable
+                : isMemberListVisible
+                ? l10n.channelHeaderHideMembers
+                : l10n.channelHeaderShowMembers,
+            enabled: memberListAvailable,
+            isActive: isMemberListVisible && memberListAvailable,
             keybindAction: KeybindAction.chatToggleMemberList,
             onPressed: () => ref
                 .read(channelListViewModelProvider.notifier)
@@ -268,6 +276,10 @@ class _FavoriteStarButton extends ConsumerWidget {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     return FluxerGestureDetector(
       onLongPress: () => _showHideFavorites(context, ref),
+      onSecondaryTapUp: usesDesktopPointerUi(context)
+          ? (TapUpDetails details) =>
+                unawaited(_showFavoriteMenu(context, ref, details))
+          : null,
       child: ChannelHeaderIconButton(
         icon: isFavorite ? PhosphorIconsFill.star : PhosphorIconsBold.star,
         label: isFavorite
@@ -328,6 +340,30 @@ class _FavoriteStarButton extends ConsumerWidget {
             variant: FluxerToastVariant.success,
           ),
         );
+  }
+
+  Future<void> _showFavoriteMenu(
+    BuildContext context,
+    WidgetRef ref,
+    TapUpDetails details,
+  ) {
+    return FluxerActionMenu.show(
+      context,
+      position: details.globalPosition,
+      builder: (BuildContext menuContext, VoidCallback close) => <Widget>[
+        FluxerMenuItem(
+          label: FluxerLocalizations.of(menuContext).favoritesHideConfirmTitle,
+          icon: PhosphorIconsFill.eyeSlash,
+          isDanger: true,
+          onPressed: () {
+            close();
+            if (context.mounted) {
+              unawaited(confirmHideFavorites(context, ref));
+            }
+          },
+        ),
+      ],
+    );
   }
 
   void _showHideFavorites(BuildContext context, WidgetRef ref) {

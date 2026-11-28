@@ -434,8 +434,8 @@ void main() {
         'Edit community profile',
         'Mute community',
         'Hide muted channels',
+        'Delete my messages',
       ]);
-      expect(find.text('Delete my messages'), findsNothing);
       expect(find.text('Leave community'), findsNothing);
       await releaseTestWidgetTree(tester);
     });
@@ -704,11 +704,8 @@ void main() {
       await releaseTestWidgetTree(tester);
     });
 
-    testWidgets('category create channel preselects the category as parent', (
-      tester,
-    ) async {
+    testWidgets('category menu has no create channel item', (tester) async {
       _setMobileSurface(tester);
-      final _RecordingAdapter adapter = _RecordingAdapter();
       await tester.pumpWidget(
         _buildTestApp(
           overrides: <Override>[
@@ -716,7 +713,6 @@ void main() {
               channelListState: _state(),
               unread: const {'c1': UnreadState(), 'c2': UnreadState()},
             ),
-            ..._apiOverrides(adapter),
             effectiveGuildChannelPermissionBitsProvider(
               'cat1',
             ).overrideWith((ref) => Permission.manageChannels.value),
@@ -727,26 +723,8 @@ void main() {
 
       await tester.longPress(find.text('My Category'));
       await _pumpSidebar(tester);
-      double dy(String label) => tester.getTopLeft(find.text(label)).dy;
-      expect(dy('Create channel'), lessThan(dy('Edit category')));
-      await tester.tap(find.text('Create channel'));
-      await _pumpSidebar(tester);
-      for (int i = 0; i < 4; i += 1) {
-        await tester.pump(const Duration(milliseconds: 100));
-      }
-
-      await tester.enterText(find.byType(EditableText).first, 'backstage');
-      await _pumpSidebar(tester);
-      await tester.tap(find.text(testL10n.create));
-      await _pumpSidebar(tester);
-
-      expect(adapter.requests, hasLength(1));
-      final RequestOptions request = adapter.requests.single;
-      expect(request.method, 'POST');
-      expect(request.path, endsWith('/guilds/$_guildId/channels'));
-      final Map<String, Object?> body = request.data as Map<String, Object?>;
-      expect(body['name'], 'backstage');
-      expect(body['parent_id'], 'cat1');
+      expect(find.text('Edit category'), findsOneWidget);
+      expect(find.text('Create channel'), findsNothing);
       await releaseTestWidgetTree(tester);
     });
 

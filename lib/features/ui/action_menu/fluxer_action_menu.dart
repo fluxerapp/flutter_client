@@ -103,6 +103,53 @@ class FluxerActionMenu {
   }
 }
 
+List<Widget> fluxerMenuGroups(List<List<Widget>> groups) {
+  final List<Widget> items = <Widget>[];
+  for (final List<Widget> group in groups) {
+    if (group.isEmpty) {
+      continue;
+    }
+    if (items.isNotEmpty) {
+      items.add(const FluxerMenuDivider());
+    }
+    items.addAll(group);
+  }
+  return items;
+}
+
+Widget fluxerAdaptiveSubmenuItem({
+  required BuildContext hostContext,
+  required String label,
+  required VoidCallback close,
+  required FluxerActionMenuBuilder builder,
+  bool enabled = true,
+}) {
+  if (usesDesktopPointerUi(hostContext)) {
+    return FluxerMenuSubmenuItem(
+      label: label,
+      enabled: enabled,
+      submenuBuilder: (BuildContext submenuContext) =>
+          builder(submenuContext, close),
+    );
+  }
+  return FluxerMenuSubmenuItem(
+    label: label,
+    enabled: enabled,
+    onPressed: () {
+      close();
+      if (hostContext.mounted) {
+        unawaited(
+          FluxerActionMenu.show(
+            hostContext,
+            position: Offset.zero,
+            builder: builder,
+          ),
+        );
+      }
+    },
+  );
+}
+
 class _FluxerMenuSectionData {
   final String? title;
   final List<Widget> items;

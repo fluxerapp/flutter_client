@@ -84,7 +84,12 @@ void main() {
         GuildNavbarPill.hoverHeight,
         GuildNavbarPill.selectedHeight,
       ]) {
-        await tester.pumpWidget(_host(colors, GuildNavbarPill(height: height)));
+        await tester.pumpWidget(
+          _host(
+            colors,
+            GuildNavbarPill(key: ValueKey<double>(height), height: height),
+          ),
+        );
 
         expect(
           tester.getSize(find.byType(GuildNavbarPill)),

@@ -27,6 +27,7 @@ enum GuildSidebarEntryKind {
   channel,
   voiceParticipants,
   thread,
+  collapsedVoiceParticipants,
 }
 
 @immutable
@@ -38,6 +39,7 @@ class GuildSidebarEntry {
     this.channel,
     this.guildId,
     this.isLastThread = false,
+    this.voiceChannelIds = const <String>[],
   });
 
   final GuildSidebarEntryKind kind;
@@ -46,6 +48,7 @@ class GuildSidebarEntry {
   final Channel? channel;
   final String? guildId;
   final bool isLastThread;
+  final List<String> voiceChannelIds;
 
   @override
   bool operator ==(Object other) {
@@ -55,7 +58,8 @@ class GuildSidebarEntry {
         category == other.category &&
         channel == other.channel &&
         guildId == other.guildId &&
-        isLastThread == other.isLastThread;
+        isLastThread == other.isLastThread &&
+        listEquals(voiceChannelIds, other.voiceChannelIds);
   }
 
   @override
@@ -66,6 +70,7 @@ class GuildSidebarEntry {
     channel,
     guildId,
     isLastThread,
+    Object.hashAll(voiceChannelIds),
   );
 }
 
@@ -196,6 +201,25 @@ List<GuildSidebarEntry> flattenGuildSidebarEntries({
     }
 
     if (!category.isUncategorized && isCollapsed) {
+      final bool connectedInGroup =
+          connectedChannelId != null &&
+          base.any((Channel channel) => channel.id == connectedChannelId);
+      if (!connectedInGroup) {
+        final List<String> voiceChannelIds = <String>[
+          for (final Channel channel in base)
+            if (channel.type == ChannelType.guildVoice) channel.id,
+        ];
+        if (voiceChannelIds.isNotEmpty) {
+          entries.add(
+            GuildSidebarEntry(
+              kind: GuildSidebarEntryKind.collapsedVoiceParticipants,
+              category: category,
+              guildId: guildId,
+              voiceChannelIds: voiceChannelIds,
+            ),
+          );
+        }
+      }
       for (final Channel channel in base) {
         final bool hasSelectedThread =
             threadsByParent[channel.id]?.any(
@@ -219,6 +243,17 @@ List<GuildSidebarEntry> flattenGuildSidebarEntries({
               channel: channel,
             ),
           );
+          if (channel.id == connectedChannelId &&
+              channel.type == ChannelType.guildVoice) {
+            entries.add(
+              GuildSidebarEntry(
+                kind: GuildSidebarEntryKind.collapsedVoiceParticipants,
+                channel: channel,
+                guildId: guildId,
+                voiceChannelIds: <String>[channel.id],
+              ),
+            );
+          }
         }
         addThreads(channel, onlySelected: true);
       }

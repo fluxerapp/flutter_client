@@ -9,6 +9,7 @@ import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/header/channel_topic_dialog.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/header/dm_header_avatar.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/channel/header/title_menu.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
 import 'package:fluxer_app/features/chat/utils/channel_details_handheld.dart';
 import 'package:fluxer_app/features/chat/utils/channel_header_utils.dart';
@@ -90,6 +91,9 @@ class _ChannelHeaderLeftSectionState
     final Widget titleContent = Padding(
       padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 6),
       child: Row(
+        mainAxisSize: usesDesktopPointerUi(context)
+            ? MainAxisSize.min
+            : MainAxisSize.max,
         children: [
           _buildLeadingIcon(context),
           const SizedBox(width: 8),
@@ -168,17 +172,41 @@ class _ChannelHeaderLeftSectionState
       ),
     );
 
-    return MouseRegion(
+    final bool hasTitleMenu =
+        usesDesktopPointerUi(context) &&
+        !widget.isPersonalNotes &&
+        (widget.channel != null || widget.dm != null);
+    final Widget titleRegion = MouseRegion(
       onEnter: (_) => setState(() => _hoveringTitle = true),
       onExit: (_) => setState(() => _hoveringTitle = false),
       cursor: titleTappable ? SystemMouseCursors.click : MouseCursor.defer,
-      child: titleTappable
-          ? InkWell(
-              onTap: () => _handleTitleTap(context),
-              borderRadius: BorderRadius.circular(6),
-              child: titleContent,
-            )
-          : titleContent,
+      child: FluxerGestureDetector(
+        onSecondaryTapUp: hasTitleMenu
+            ? (TapUpDetails details) => unawaited(
+                showChannelHeaderTitleMenu(
+                  context,
+                  ref,
+                  position: details.globalPosition,
+                  channel: widget.channel,
+                  dm: widget.dm,
+                ),
+              )
+            : null,
+        child: titleTappable
+            ? InkWell(
+                onTap: () => _handleTitleTap(context),
+                borderRadius: BorderRadius.circular(6),
+                child: titleContent,
+              )
+            : titleContent,
+      ),
+    );
+    if (!usesDesktopPointerUi(context)) {
+      return titleRegion;
+    }
+    return Align(
+      alignment: AlignmentDirectional.centerStart,
+      child: titleRegion,
     );
   }
 

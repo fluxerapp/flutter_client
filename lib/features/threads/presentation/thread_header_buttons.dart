@@ -12,6 +12,7 @@ import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
 bool showsThreadHeaderActions(Channel? channel) =>
     channel != null &&
@@ -57,19 +58,37 @@ class ThreadHeaderToolbarButtons extends ConsumerWidget {
       return const SizedBox.shrink();
     }
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    if (!channel.isThread) {
-      return ChannelHeaderIconButton(
+    final Widget browserButton = Builder(
+      builder: (BuildContext anchorContext) => ChannelHeaderIconButton(
         icon: PhosphorIconsFill.chatsCircle,
         label: l10n.threadBrowserTitle,
-        onPressed: () =>
-            unawaited(showThreadBrowserSheet(context, ref, channel)),
-      );
+        onPressed: () => unawaited(
+          channel.isThread
+              ? showThreadBrowserForChannel(
+                  context,
+                  ref,
+                  channel.parentId ?? '',
+                  anchorContext: anchorContext,
+                )
+              : showThreadBrowserSheet(
+                  context,
+                  ref,
+                  channel,
+                  anchorContext: anchorContext,
+                ),
+        ),
+      ),
+    );
+    if (!channel.isThread) {
+      return browserButton;
     }
     final bool isMember =
         ref.watch(threadMembershipProvider(channel.id)).value != null;
     return Row(
       mainAxisSize: MainAxisSize.min,
+      spacing: usesDesktopPointerUi(context) ? 8 : 0,
       children: <Widget>[
+        if (channel.parentId != null) browserButton,
         if (isMember)
           ChannelHeaderIconButton(
             icon: PhosphorIconsFill.bell,

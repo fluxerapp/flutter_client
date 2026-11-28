@@ -3,6 +3,20 @@ part of 'guild_navbar.dart';
 class _GuildListItemState extends State<_GuildListItem> {
   var _isHovered = false;
   var _isPressed = false;
+  var _isMenuOpen = false;
+
+  Future<void> _trackMenu(Future<void> Function() open) async {
+    if (mounted) {
+      setState(() => _isMenuOpen = true);
+    }
+    try {
+      await open();
+    } finally {
+      if (mounted) {
+        setState(() => _isMenuOpen = false);
+      }
+    }
+  }
 
   void _setPressed(bool value) {
     if (_isPressed != value) {
@@ -44,15 +58,6 @@ class _GuildListItemState extends State<_GuildListItem> {
     required String? iconUrl,
     required String? activeAnimatedIconUrl,
   }) {
-    if (widget.isUnavailable) {
-      return Center(
-        child: PhosphorIcon(
-          PhosphorIconsBold.exclamationMark,
-          color: context.colors.textOnBrandPrimary,
-          size: 32,
-        ),
-      );
-    }
     if (iconUrl != null) {
       final int cacheSize = _guildNavbarIconMemCache(
         context,
@@ -97,12 +102,13 @@ class _GuildListItemState extends State<_GuildListItem> {
   @override
   Widget build(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final isActive = widget.isSelected || _isHovered || _isPressed;
-    final activeAnimatedIconUrl = widget.isSelected || _isHovered
+    final bool showHoverState = _isHovered || _isMenuOpen;
+    final isActive = widget.isSelected || showHoverState || _isPressed;
+    final activeAnimatedIconUrl = widget.isSelected || showHoverState
         ? widget.guild?.animatedIconUrl
         : null;
     final iconUrl = activeAnimatedIconUrl ?? widget.iconUrl;
-    final hasImage = iconUrl != null && !widget.isUnavailable;
+    final hasImage = iconUrl != null;
 
     final String? guildId = widget.guild?.id;
     return ChannelHoverPreload(
@@ -127,7 +133,7 @@ class _GuildListItemState extends State<_GuildListItem> {
                 child: GuildNavbarPill(
                   height: widget.isSelected
                       ? GuildNavbarPill.selectedHeight
-                      : _isHovered
+                      : showHoverState
                       ? GuildNavbarPill.hoverHeight
                       : _displayHasUnread
                       ? GuildNavbarPill.unreadHeight
@@ -136,16 +142,9 @@ class _GuildListItemState extends State<_GuildListItem> {
               ),
             ),
             _RightTooltip(
-              backgroundColor: widget.isUnavailable
-                  ? context.colors.statusDanger
-                  : null,
-              borderColor: widget.isUnavailable
-                  ? context.colors.statusDanger
-                  : null,
               content: widget.guild != null
                   ? _GuildTooltipContent(
                       guild: widget.guild!,
-                      unavailableCount: widget.unavailableCount,
                       permissions: widget.permissions,
                       isMuted: widget.isMuted,
                       muteEndTime: widget.muteEndTime,
@@ -166,7 +165,16 @@ class _GuildListItemState extends State<_GuildListItem> {
                     onTapDown: (_) => _setPressed(true),
                     onTapUp: (_) => _setPressed(false),
                     onTapCancel: () => _setPressed(false),
-                    onSecondaryTapUp: widget.guild != null
+                    onSecondaryTapUp:
+                        widget.guild != null || widget.onContextMenu != null
+                        ? (details) => unawaited(
+                            _showContextMenu(context, details.globalPosition),
+                          )
+                        : null,
+                    onLongPressStart:
+                        widget.guild == null &&
+                            widget.onContextMenu != null &&
+                            !usesDesktopPointerUi(context)
                         ? (details) => unawaited(
                             _showContextMenu(context, details.globalPosition),
                           )
@@ -198,7 +206,6 @@ class _GuildListItemState extends State<_GuildListItem> {
                                     child: GuildNavbarIconShape(
                                       isActive: isActive,
                                       hasImage: hasImage,
-                                      isUnavailable: widget.isUnavailable,
                                       child: _buildIconFace(
                                         context,
                                         iconUrl: iconUrl,
@@ -232,7 +239,6 @@ class _GuildListItemState extends State<_GuildListItem> {
                                       ),
                                     ),
                                   if (!widget.isUnavailable &&
-                                      !widget.isSelected &&
                                       widget.invitesPaused &&
                                       _displayMentionCount == 0 &&
                                       widget.voiceActivity ==
@@ -241,6 +247,12 @@ class _GuildListItemState extends State<_GuildListItem> {
                                       bottom: _ringBadgeOffset(context),
                                       end: _ringBadgeOffset(context),
                                       child: const _PauseBadge(),
+                                    ),
+                                  if (widget.isUnavailable)
+                                    const PositionedDirectional(
+                                      top: 0,
+                                      end: 0,
+                                      child: _GuildUnavailableBadge(),
                                     ),
                                 ],
                               ),
@@ -259,10 +271,22 @@ class _GuildListItemState extends State<_GuildListItem> {
     );
   }
 
-  Future<void> _showContextMenu(BuildContext context, Offset position) async {
+  Future<void> _showContextMenu(BuildContext context, Offset position) {
+    final Future<void> Function(Offset position)? onContextMenu =
+        widget.onContextMenu;
     if (widget.guild == null) {
-      return;
+      if (onContextMenu == null) {
+        return Future<void>.value();
+      }
+      return _trackMenu(() => onContextMenu(position));
     }
+    return _trackMenu(() => _showGuildContextMenu(context, position));
+  }
+
+  Future<void> _showGuildContextMenu(
+    BuildContext context,
+    Offset position,
+  ) async {
     widget.onMenuOpened?.call();
     final int permissions = widget.resolveMenuPermissions != null
         ? await widget.resolveMenuPermissions!()

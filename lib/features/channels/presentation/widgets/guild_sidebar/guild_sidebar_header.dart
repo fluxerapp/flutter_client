@@ -6,12 +6,15 @@ typedef GuildSidebarHeaderTap =
       VoidCallback onMenuClosed,
     );
 
+typedef GuildSidebarHeaderContextMenu = Future<void> Function(Offset position);
+
 class GuildSidebarHeader extends StatelessWidget {
   const GuildSidebarHeader({
     required this.guild,
     required this.outageUnavailable,
     required this.channelSidebarWidth,
     required this.onTap,
+    this.onContextMenu,
     this.scrollOffset = 0,
     super.key,
   });
@@ -20,6 +23,7 @@ class GuildSidebarHeader extends StatelessWidget {
   final bool outageUnavailable;
   final double channelSidebarWidth;
   final GuildSidebarHeaderTap? onTap;
+  final GuildSidebarHeaderContextMenu? onContextMenu;
   final double scrollOffset;
 
   @override
@@ -48,6 +52,7 @@ class GuildSidebarHeader extends StatelessWidget {
           guild: guild,
           outageUnavailable: outageUnavailable,
           onTap: onTap,
+          onContextMenu: onContextMenu,
           collapseRatio: collapse,
           height: fullHeight - shrink,
         );
@@ -64,11 +69,13 @@ class GuildSidebarHeaderDelegate extends SliverPersistentHeaderDelegate {
     required this.bannerWidth,
     required this.viewportHeight,
     this.minimumShrinkOffset = 0,
+    this.onContextMenu,
   });
 
   final Guild guild;
   final bool outageUnavailable;
   final GuildSidebarHeaderTap? onTap;
+  final GuildSidebarHeaderContextMenu? onContextMenu;
   final double bannerWidth;
   final double viewportHeight;
   final double minimumShrinkOffset;
@@ -103,6 +110,7 @@ class GuildSidebarHeaderDelegate extends SliverPersistentHeaderDelegate {
       guild: guild,
       outageUnavailable: outageUnavailable,
       onTap: onTap,
+      onContextMenu: onContextMenu,
       collapseRatio: collapse,
       height: (maxExtent - shrink).clamp(minExtent, maxExtent),
     );
@@ -126,12 +134,14 @@ class GuildSidebarHeaderBody extends StatefulWidget {
     required this.onTap,
     required this.collapseRatio,
     required this.height,
+    this.onContextMenu,
     super.key,
   });
 
   final Guild? guild;
   final bool outageUnavailable;
   final GuildSidebarHeaderTap? onTap;
+  final GuildSidebarHeaderContextMenu? onContextMenu;
   final double collapseRatio;
   final double height;
 
@@ -160,6 +170,19 @@ class _GuildSidebarHeaderBodyState extends State<GuildSidebarHeaderBody> {
         _anchorKey.currentContext ?? context,
         () => _setMenuOpen(false),
       );
+    } finally {
+      _setMenuOpen(false);
+    }
+  }
+
+  Future<void> _handleContextMenu(Offset position) async {
+    final GuildSidebarHeaderContextMenu? onContextMenu = widget.onContextMenu;
+    if (onContextMenu == null || _menuOpen) {
+      return;
+    }
+    _setMenuOpen(true);
+    try {
+      await onContextMenu(position);
     } finally {
       _setMenuOpen(false);
     }
@@ -329,16 +352,22 @@ class _GuildSidebarHeaderBodyState extends State<GuildSidebarHeaderBody> {
       if (onTap == null) {
         return DesktopSidebarHeaderSurface(height: height, child: content);
       }
-      return FluxerTappable(
-        onTap: onTap,
-        builder: (BuildContext context, Set<WidgetState> states) =>
-            DesktopSidebarHeaderSurface(
-              height: height,
-              active:
-                  (_menuOpen || states.contains(WidgetState.hovered)) &&
-                  !showBannerImage,
-              child: content,
-            ),
+      return FluxerGestureDetector(
+        onSecondaryTapUp: widget.onContextMenu == null
+            ? null
+            : (TapUpDetails details) =>
+                  unawaited(_handleContextMenu(details.globalPosition)),
+        child: FluxerTappable(
+          onTap: onTap,
+          builder: (BuildContext context, Set<WidgetState> states) =>
+              DesktopSidebarHeaderSurface(
+                height: height,
+                active:
+                    (_menuOpen || states.contains(WidgetState.hovered)) &&
+                    !showBannerImage,
+                child: content,
+              ),
+        ),
       );
     }
     return FluxerGestureDetector(

@@ -14,6 +14,7 @@ class ChannelHeaderIconButton extends ConsumerWidget {
     this.isActive = false,
     this.showIndicator = false,
     this.keybindAction,
+    this.enabled = true,
     super.key,
   });
 
@@ -23,6 +24,7 @@ class ChannelHeaderIconButton extends ConsumerWidget {
   final bool isActive;
   final bool showIndicator;
   final KeybindAction? keybindAction;
+  final bool enabled;
 
   static const double _visualSize = 32;
   static const double _iconSize = 24;
@@ -37,6 +39,7 @@ class ChannelHeaderIconButton extends ConsumerWidget {
         isActive: isActive,
         showIndicator: showIndicator,
         keybindAction: keybindAction,
+        enabled: enabled,
       );
     }
     final bool touchPrimary = isTouchPrimaryInput(ref);
@@ -55,7 +58,7 @@ class ChannelHeaderIconButton extends ConsumerWidget {
         child: Material(
           color: Colors.transparent,
           child: InkWell(
-            onTap: onPressed,
+            onTap: enabled ? onPressed : null,
             borderRadius: BorderRadius.circular(hitSize / 2),
             child: SizedBox(
               width: hitSize,
@@ -96,6 +99,7 @@ class _DesktopChannelHeaderIconButton extends StatelessWidget {
     required this.isActive,
     required this.showIndicator,
     this.keybindAction,
+    this.enabled = true,
   });
 
   final IconData icon;
@@ -104,10 +108,39 @@ class _DesktopChannelHeaderIconButton extends StatelessWidget {
   final bool isActive;
   final bool showIndicator;
   final KeybindAction? keybindAction;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    if (!enabled) {
+      return FluxerTooltip(
+        message: label,
+        position: FluxerTooltipPosition.below,
+        child: MouseRegion(
+          cursor: SystemMouseCursors.forbidden,
+          child: Semantics(
+            button: true,
+            enabled: false,
+            label: label,
+            excludeSemantics: true,
+            child: Opacity(
+              opacity: 0.5,
+              child: SizedBox.square(
+                dimension: ChannelHeaderIconButton._visualSize,
+                child: Center(
+                  child: PhosphorIcon(
+                    icon,
+                    size: ChannelHeaderIconButton._iconSize,
+                    color: colors.textPrimaryMuted,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+    }
     return FluxerTooltip(
       message: label,
       position: FluxerTooltipPosition.below,

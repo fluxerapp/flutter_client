@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/desktop/window/desktop_window.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
+import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/providers/app/account_user_id.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -51,6 +53,7 @@ import 'package:fluxer_app/shared/icons/phosphor.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:fluxer_dart/gateway.dart';
+import 'package:window_manager/window_manager.dart' show DragToMoveArea;
 
 class ChannelHeader extends ConsumerWidget {
   const ChannelHeader({
@@ -225,43 +228,56 @@ class ChannelHeader extends ConsumerWidget {
       ref,
       isThread: isThread,
     );
+    final Widget bar = Padding(
+      padding: EdgeInsets.symmetric(horizontal: context.layout.s4),
+      child: Row(
+        children: [
+          if (showBackButton)
+            ChatBackButton(
+              unreadCount: backButtonUnreadCount,
+              badgeCutoutColor: highContrast
+                  ? Colors.transparent
+                  : context.colors.backgroundSecondaryLighter,
+              onPressed: () => invokeShellBack(context, ref),
+            ),
+          Expanded(
+            child: ChannelHeaderLeftSection(
+              channelId: channelId,
+              channel: channel,
+              dm: dm,
+              isPersonalNotes: isPersonalNotes,
+              highContrast: highContrast,
+            ),
+          ),
+          if (usesDesktopPointerUi(context)) const SizedBox(width: 16),
+          ChannelHeaderToolbar(
+            channelId: channelId,
+            channel: channel,
+            dm: dm,
+            isPersonalNotes: isPersonalNotes,
+            isMemberListVisible: isMemberListVisible,
+            showMessageActions: showMessageActions,
+            highContrast: highContrast,
+          ),
+        ],
+      ),
+    );
+    final bool allowWindowDrag =
+        isFluxerDesktopOs && !desktopUsesNativeTitleBar;
     return FluxerConstrainedUiTextScale(
       child: ConstrainedBox(
         constraints: BoxConstraints(minHeight: context.layout.headerHeight),
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: context.layout.s4),
-          child: Row(
-            children: [
-              if (showBackButton)
-                ChatBackButton(
-                  unreadCount: backButtonUnreadCount,
-                  badgeCutoutColor: highContrast
-                      ? Colors.transparent
-                      : context.colors.backgroundSecondaryLighter,
-                  onPressed: () => invokeShellBack(context, ref),
-                ),
-              Expanded(
-                child: ChannelHeaderLeftSection(
-                  channelId: channelId,
-                  channel: channel,
-                  dm: dm,
-                  isPersonalNotes: isPersonalNotes,
-                  highContrast: highContrast,
-                ),
-              ),
-              if (usesDesktopPointerUi(context)) const SizedBox(width: 16),
-              ChannelHeaderToolbar(
-                channelId: channelId,
-                channel: channel,
-                dm: dm,
-                isPersonalNotes: isPersonalNotes,
-                isMemberListVisible: isMemberListVisible,
-                showMessageActions: showMessageActions,
-                highContrast: highContrast,
-              ),
-            ],
-          ),
-        ),
+        child: allowWindowDrag
+            ? Stack(
+                fit: StackFit.passthrough,
+                children: <Widget>[
+                  const Positioned.fill(
+                    child: DragToMoveArea(child: SizedBox.expand()),
+                  ),
+                  bar,
+                ],
+              )
+            : bar,
       ),
     );
   }

@@ -69,8 +69,15 @@ import 'package:fluxer_app/features/guilds/presentation/'
     'widgets/guild_rail_drag_auto_scroll.dart';
 import 'package:fluxer_app/features/guilds/presentation/'
     'widgets/guild_scroll_indicator.dart';
+import 'package:fluxer_app/features/guilds/presentation/'
+    'widgets/rail_menus/add_community.dart';
+import 'package:fluxer_app/features/guilds/presentation/'
+    'widgets/rail_menus/favorites.dart';
+import 'package:fluxer_app/features/guilds/presentation/'
+    'widgets/rail_menus/help.dart';
+import 'package:fluxer_app/features/guilds/presentation/'
+    'widgets/rail_menus/home.dart';
 import 'package:fluxer_app/features/guilds/providers/add_guild_enabled_provider.dart';
-import 'package:fluxer_app/features/guilds/providers/guild_availability_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_drag_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_mute_provider.dart';
@@ -433,9 +440,6 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
   Widget build(BuildContext context) {
     _scrollStore = ref.read(guildNavbarScrollStoreProvider);
     final organizedItems = ref.watch(organizedGuildListProvider);
-    final unavailableCount = ref.watch(
-      guildAvailabilityProvider.select((Set<String> ids) => ids.length),
-    );
     final pendingUnavailableCount = ref.watch(
       visibleUnavailableGuildCountProvider,
     );
@@ -541,7 +545,6 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
           context,
           entry: navbarEntries[index],
           collapseDMs: collapseDMs,
-          unavailableCount: unavailableCount,
         );
       },
     );
@@ -578,7 +581,6 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
     BuildContext context, {
     required _NavbarListEntry entry,
     required bool collapseDMs,
-    required int unavailableCount,
   }) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     switch (entry.kind) {
@@ -674,12 +676,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
                       );
                     },
               ),
-              child: _buildGuildItem(
-                context,
-                guild: guild,
-                unavailableCount: unavailableCount,
-                itemKey: itemKey,
-              ),
+              child: _buildGuildItem(context, guild: guild, itemKey: itemKey),
             );
           },
         );
@@ -691,7 +688,6 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
           child: _GuildFolderWidget(
             key: ValueKey<String>('folder-${folderItem.id}'),
             folder: folderItem,
-            unavailableCount: unavailableCount,
             resolveGuildItemKey: (String guildId) =>
                 _itemKeys.putIfAbsent(
                       guildId,
@@ -722,6 +718,8 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
           label: l10n.guildNavbarAddCommunity,
           icon: PhosphorIconsBold.plus,
           onTap: () => unawaited(showAddGuildModal(context, ref)),
+          onContextMenu: (Offset position) =>
+              showAddGuildButtonMenu(context, ref, position: position),
           keybindAction: KeybindAction.navAddGuild,
         );
       case _NavbarListEntryKind.help:
@@ -731,6 +729,8 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
           keybindAction: KeybindAction.miscHelp,
           onTap: () =>
               handleExternalLinkTap(context, InstanceConstants.helpCenterUrl),
+          onContextMenu: (Offset position) =>
+              showHelpButtonMenu(context, ref, position: position),
         );
     }
   }
@@ -879,7 +879,6 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
   Widget _buildGuildItem(
     BuildContext context, {
     required Guild guild,
-    required int unavailableCount,
     required GlobalKey<_GuildListItemState> itemKey,
   }) {
     return Consumer(
@@ -915,7 +914,6 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
           isOwner: guild.ownerId == currentUserId,
           iconUrl: guild.iconUrl,
           isUnavailable: guild.unavailable,
-          unavailableCount: unavailableCount,
           isMuted: muteState?.isMuted ?? false,
           muteEndTime: muteState?.muteEndTime,
           hideMutedChannels: muteState?.hideMutedChannels ?? false,

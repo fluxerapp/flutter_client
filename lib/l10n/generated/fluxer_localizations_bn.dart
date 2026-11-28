@@ -18600,4 +18600,68 @@ class FluxerLocalizationsBn extends FluxerLocalizations {
   String chatMessagePressShortcutToReact(String shortcut) {
     return 'Press $shortcut to react';
   }
+
+  @override
+  String get railMenuMarkAllDmsRead => 'Mark all DMs as read';
+
+  @override
+  String get railMenuShowInlineDmList => 'Show inline DM list';
+
+  @override
+  String get railMenuCollapseInlineDmList => 'Collapse inline DM list';
+
+  @override
+  String get railMenuShowUnreadDmCountWhenCollapsed =>
+      'Show unread DM count when collapsed';
+
+  @override
+  String get railMenuShowIncomingFriendRequestCount =>
+      'Show incoming friend request count';
+
+  @override
+  String get railMenuMarkAllCommunitiesRead => 'Mark all communities as read';
+
+  @override
+  String get railMenuMuteDms => 'Mute DMs';
+
+  @override
+  String get railMenuUnmuteDms => 'Unmute DMs';
+
+  @override
+  String get railMenuDmNotificationSettings => 'DM notification settings';
+
+  @override
+  String get railMenuDmPrivacySettings => 'DM privacy settings';
+
+  @override
+  String get railMenuIncomingCallsNobody => 'Incoming calls: nobody';
+
+  @override
+  String get railMenuIncomingCallsFriendsOnly => 'Incoming calls: friends only';
+
+  @override
+  String get railMenuIncomingCallsEveryone => 'Incoming calls: everyone';
+
+  @override
+  String get railMenuGroupChatAddsNobody => 'Group chat adds: nobody';
+
+  @override
+  String get railMenuGroupChatAddsFriendsOnly =>
+      'Group chat adds: friends only';
+
+  @override
+  String get railMenuGroupChatAddsEveryone => 'Group chat adds: everyone';
+
+  @override
+  String get railMenuHideHelpButton => 'Hide help center button';
+
+  @override
+  String get channelHeaderShowMembers => 'Show members';
+
+  @override
+  String get channelHeaderHideMembers => 'Hide members';
+
+  @override
+  String get channelHeaderMembersUnavailable =>
+      'Member list unavailable at this screen width';
 }

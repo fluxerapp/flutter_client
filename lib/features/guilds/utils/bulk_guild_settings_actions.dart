@@ -138,10 +138,12 @@ Future<void> markFolderAsRead({
   required FluxerDatabase db,
   required FluxerClient client,
 }) async {
-  for (final guild in guilds) {
-    if (guild.isUnavailable) {
-      continue;
-    }
-    await markGuildAsRead(guild.id, db, client);
-  }
+  await markGuildsAsRead(
+    <String>[
+      for (final guild in guilds)
+        if (!guild.isUnavailable) guild.id,
+    ],
+    db,
+    client,
+  );
 }

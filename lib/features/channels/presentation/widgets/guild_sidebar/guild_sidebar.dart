@@ -25,6 +25,7 @@ import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/data/channel_repository.dart';
 import 'package:fluxer_app/features/channels/data/read_state_repository.dart';
+import 'package:fluxer_app/features/channels/data/unread_settings_resolver.dart';
 import 'package:fluxer_app/features/channels/domain/announcement_follow.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/domain/channel_reorder_drop.dart';
@@ -44,7 +45,9 @@ import 'package:fluxer_app/features/channels/presentation/sheets/mute_duration_s
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_list_typing_indicator.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_unread_indicator.dart';
+import 'package:fluxer_app/features/channels/presentation/widgets/collapsed_voice_participants.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/desktop_sidebar_header_surface.dart';
+import 'package:fluxer_app/features/channels/presentation/widgets/guild_sidebar/empty_space_menu.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/guild_sidebar_skeleton.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/sidebar_drag/sidebar_channel_drop_target.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/sidebar_drag/sidebar_drag_auto_scroll.dart';
@@ -72,6 +75,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/channel/channel_ho
 import 'package:fluxer_app/features/chat/utils/messages/delete_my_messages_in_channel_action.dart';
 import 'package:fluxer_app/features/chat/utils/messages/message_link.dart';
 import 'package:fluxer_app/features/favorites/providers/favorite_channels_provider.dart';
+import 'package:fluxer_app/features/forum/domain/forum_channel.dart';
 import 'package:fluxer_app/features/guilds/data/guild_user_settings_repository.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_navbar.dart';
@@ -95,6 +99,7 @@ import 'package:fluxer_app/features/shell/providers/layout/shell_sidebar_width_p
 import 'package:fluxer_app/features/threads/presentation/thread_sidebar_tile.dart';
 import 'package:fluxer_app/features/ui/action_menu/context_menu_widgets.dart';
 import 'package:fluxer_app/features/ui/scroller/fluxer_smooth_scrollbar.dart';
+import 'package:fluxer_app/features/ui/tooltip/fluxer_truncated_tooltip_text.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/voice/presentation/sheets/voice_channel_chat_sheet.dart';
 import 'package:fluxer_app/features/voice/presentation/sheets/voice_p2p_sheets.dart';
@@ -118,6 +123,7 @@ import 'package:fluxer_dart/export.dart' hide ChannelType;
 import 'package:fluxer_dart/gateway.dart';
 import 'package:go_router/go_router.dart';
 
+part 'channel_menu.dart';
 part 'guild_sidebar_banner_layout.dart';
 part 'guild_sidebar_category_header.dart';
 part 'guild_sidebar_channel_list.dart';
@@ -148,6 +154,7 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
         guild: guild,
         anchorContext: anchorContext,
         onMenuClosed: onMenuClosed,
+        compactHeaderList: true,
       );
       return;
     }
@@ -250,6 +257,14 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
                           anchorContext: anchorContext,
                           onMenuClosed: onMenuClosed,
                         ),
+              onContextMenu: guildOutageUnavailable || guild == null
+                  ? null
+                  : (Offset position) => presentGuildContextMenuAt(
+                      context,
+                      ref,
+                      guild: guild,
+                      position: position,
+                    ),
             ),
           Expanded(
             child: showStaticHeader
@@ -266,6 +281,13 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
                           guild,
                           anchorContext: anchorContext,
                           onMenuClosed: onMenuClosed,
+                        ),
+                    onHeaderContextMenu: (Offset position) =>
+                        presentGuildContextMenuAt(
+                          context,
+                          ref,
+                          guild: guild,
+                          position: position,
                         ),
                   ),
           ),

@@ -8,7 +8,6 @@ class GuildNavbarIconShape extends StatelessWidget {
     required this.isActive,
     required this.child,
     this.hasImage = false,
-    this.isUnavailable = false,
     super.key,
   });
 
@@ -39,7 +38,6 @@ class GuildNavbarIconShape extends StatelessWidget {
 
   final bool isActive;
   final bool hasImage;
-  final bool isUnavailable;
   final Widget child;
 
   @override
@@ -49,17 +47,13 @@ class GuildNavbarIconShape extends StatelessWidget {
     final double idleRadius = size * 0.5;
     final double activeRadius = size * 0.3;
     final double target = isActive ? 1 : 0;
-    final Color idleBackground = isUnavailable
-        ? colors.statusDanger
-        : hasImage
+    final Color idleBackground = hasImage
         ? Colors.transparent
         : colors.serverIconBackground;
-    final Color activeBackground = isUnavailable || hasImage
+    final Color activeBackground = hasImage
         ? idleBackground
         : colors.brandPrimary;
-    final Color idleForeground = isUnavailable
-        ? colors.textOnBrandPrimary
-        : colors.textPrimary;
+    final Color idleForeground = colors.textPrimary;
     return TweenAnimationBuilder<double>(
       duration: context.motion.hover,
       curve: Curves.easeOut,
@@ -86,7 +80,7 @@ class GuildNavbarIconShape extends StatelessWidget {
   }
 }
 
-class GuildNavbarPill extends StatelessWidget {
+class GuildNavbarPill extends StatefulWidget {
   const GuildNavbarPill({required this.height, this.faded = false, super.key});
 
   static const double width = 4;
@@ -97,6 +91,100 @@ class GuildNavbarPill extends StatelessWidget {
   static const double hoverHeight = 20;
   static const double unreadHeight = 8;
   static const double badgeInset = -4;
+  static const Curve curve = Cubic(0.25, 0.1, 0.25, 1);
+
+  final double height;
+  final bool faded;
+
+  @override
+  State<GuildNavbarPill> createState() => _GuildNavbarPillState();
+}
+
+class _GuildNavbarPillState extends State<GuildNavbarPill>
+    with TickerProviderStateMixin {
+  late final AnimationController _heightController = AnimationController(
+    vsync: this,
+    value: 1,
+  );
+  late final AnimationController _opacityController = AnimationController(
+    vsync: this,
+    value: widget.height > 0 ? 1 : 0,
+  );
+  late double _from = widget.height;
+  late double _to = widget.height;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final Duration duration = context.motion.panel;
+    _heightController.duration = duration;
+    _opacityController.duration = duration;
+  }
+
+  @override
+  void didUpdateWidget(GuildNavbarPill oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    final double next = widget.height;
+    if (next == oldWidget.height) {
+      return;
+    }
+    if (next <= 0) {
+      _opacityController.reverse();
+      return;
+    }
+    if (_opacityController.value == 0) {
+      _from = next;
+      _to = next;
+      _heightController.value = 1;
+    } else {
+      _retarget(next);
+    }
+    _opacityController.value = 1;
+  }
+
+  void _retarget(double next) {
+    _from = _currentHeight;
+    _to = next;
+    _heightController.forward(from: 0);
+  }
+
+  double get _currentHeight =>
+      _from +
+      (_to - _from) * GuildNavbarPill.curve.transform(_heightController.value);
+
+  @override
+  void dispose() {
+    _heightController.dispose();
+    _opacityController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: Listenable.merge(<Listenable>[
+        _heightController,
+        _opacityController,
+      ]),
+      builder: (BuildContext context, Widget? _) {
+        final double opacity = _opacityController.value;
+        if (opacity <= 0) {
+          return const SizedBox.shrink();
+        }
+        return Opacity(
+          opacity: opacity,
+          child: _GuildNavbarPillBar(
+            height: _currentHeight,
+            faded: widget.faded,
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _GuildNavbarPillBar extends StatelessWidget {
+  const _GuildNavbarPillBar({required this.height, required this.faded});
 
   final double height;
   final bool faded;
@@ -110,20 +198,23 @@ class GuildNavbarPill extends StatelessWidget {
     final Color fill = faded ? color.withValues(alpha: color.a * 0.5) : color;
     if (usesDesktopPointerUi(context)) {
       const double hidden =
-          -(desktopInset + (desktopTrackWidth - desktopBarWidth) / 2);
+          -(GuildNavbarPill.desktopInset +
+              (GuildNavbarPill.desktopTrackWidth -
+                      GuildNavbarPill.desktopBarWidth) /
+                  2);
       return ClipRect(
         child: SizedBox(
-          width: desktopBarWidth - hidden,
+          width: GuildNavbarPill.desktopBarWidth - hidden,
           height: height,
           child: OverflowBox(
             alignment: AlignmentDirectional.centerEnd,
-            minWidth: desktopBarWidth,
-            maxWidth: desktopBarWidth,
+            minWidth: GuildNavbarPill.desktopBarWidth,
+            maxWidth: GuildNavbarPill.desktopBarWidth,
             child: DecoratedBox(
               decoration: BoxDecoration(
                 color: fill,
                 borderRadius: const BorderRadiusDirectional.horizontal(
-                  end: Radius.circular(desktopBarWidth),
+                  end: Radius.circular(GuildNavbarPill.desktopBarWidth),
                 ),
               ),
             ),
@@ -132,13 +223,13 @@ class GuildNavbarPill extends StatelessWidget {
       );
     }
     return SizedBox(
-      width: width,
+      width: GuildNavbarPill.width,
       height: height,
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: fill,
           borderRadius: const BorderRadiusDirectional.horizontal(
-            end: Radius.circular(width),
+            end: Radius.circular(GuildNavbarPill.width),
           ),
         ),
       ),
@@ -153,7 +244,6 @@ class _GuildListItem extends StatefulWidget {
   final int permissions;
   final bool isOwner;
   final bool isUnavailable;
-  final int unavailableCount;
   final bool isMuted;
   final DateTime? muteEndTime;
   final bool hideMutedChannels;
@@ -224,6 +314,7 @@ class _GuildListItem extends StatefulWidget {
   final VoidCallback? onMounted;
   final bool enableLongPressMenu;
   final bool opaqueHitTarget;
+  final Future<void> Function(Offset position)? onContextMenu;
   final Future<int> Function()? resolveMenuPermissions;
   final Future<bool> Function()? resolveCanInvite;
 
@@ -236,7 +327,6 @@ class _GuildListItem extends StatefulWidget {
     this.permissions = 0,
     this.isOwner = false,
     this.isUnavailable = false,
-    this.unavailableCount = 0,
     this.isMuted = false,
     this.muteEndTime,
     this.hideMutedChannels = false,
@@ -271,6 +361,7 @@ class _GuildListItem extends StatefulWidget {
     this.onMounted,
     this.enableLongPressMenu = true,
     this.opaqueHitTarget = false,
+    this.onContextMenu,
     this.resolveMenuPermissions,
     this.resolveCanInvite,
   });

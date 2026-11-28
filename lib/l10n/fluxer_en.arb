@@ -22318,5 +22318,85 @@
         "type": "String"
       }
     }
+  },
+  "railMenuMarkAllDmsRead": "Mark all DMs as read",
+  "@railMenuMarkAllDmsRead": {
+    "description": "Rail home button menu action that marks every direct message conversation as read."
+  },
+  "railMenuShowInlineDmList": "Show inline DM list",
+  "@railMenuShowInlineDmList": {
+    "description": "Rail home button menu action that shows unread DMs inline in the community rail."
+  },
+  "railMenuCollapseInlineDmList": "Collapse inline DM list",
+  "@railMenuCollapseInlineDmList": {
+    "description": "Rail home button menu action that collapses the inline DM list in the community rail."
+  },
+  "railMenuShowUnreadDmCountWhenCollapsed": "Show unread DM count when collapsed",
+  "@railMenuShowUnreadDmCountWhenCollapsed": {
+    "description": "Rail home button menu checkbox that shows an unread badge while the inline DM list is collapsed."
+  },
+  "railMenuShowIncomingFriendRequestCount": "Show incoming friend request count",
+  "@railMenuShowIncomingFriendRequestCount": {
+    "description": "Rail home button menu checkbox that shows a badge for incoming friend requests."
+  },
+  "railMenuMarkAllCommunitiesRead": "Mark all communities as read",
+  "@railMenuMarkAllCommunitiesRead": {
+    "description": "Rail home button menu action that marks every community as read."
+  },
+  "railMenuMuteDms": "Mute DMs",
+  "@railMenuMuteDms": {
+    "description": "Rail home button submenu that mutes notifications for all direct messages."
+  },
+  "railMenuUnmuteDms": "Unmute DMs",
+  "@railMenuUnmuteDms": {
+    "description": "Rail home button action that re-enables notifications for all direct messages."
+  },
+  "railMenuDmNotificationSettings": "DM notification settings",
+  "@railMenuDmNotificationSettings": {
+    "description": "Rail home button submenu that groups DM notification options."
+  },
+  "railMenuDmPrivacySettings": "DM privacy settings",
+  "@railMenuDmPrivacySettings": {
+    "description": "Rail home button submenu that groups DM privacy options."
+  },
+  "railMenuIncomingCallsNobody": "Incoming calls: nobody",
+  "@railMenuIncomingCallsNobody": {
+    "description": "Option for an incoming call privacy setting that allows nobody."
+  },
+  "railMenuIncomingCallsFriendsOnly": "Incoming calls: friends only",
+  "@railMenuIncomingCallsFriendsOnly": {
+    "description": "Option for an incoming call privacy setting that allows friends only."
+  },
+  "railMenuIncomingCallsEveryone": "Incoming calls: everyone",
+  "@railMenuIncomingCallsEveryone": {
+    "description": "Option for an incoming call privacy setting that allows everyone."
+  },
+  "railMenuGroupChatAddsNobody": "Group chat adds: nobody",
+  "@railMenuGroupChatAddsNobody": {
+    "description": "Option for who can add the current user to group DMs (nobody)."
+  },
+  "railMenuGroupChatAddsFriendsOnly": "Group chat adds: friends only",
+  "@railMenuGroupChatAddsFriendsOnly": {
+    "description": "Option for who can add the current user to group DMs (friends only)."
+  },
+  "railMenuGroupChatAddsEveryone": "Group chat adds: everyone",
+  "@railMenuGroupChatAddsEveryone": {
+    "description": "Option for who can add the current user to group DMs (everyone)."
+  },
+  "railMenuHideHelpButton": "Hide help center button",
+  "@railMenuHideHelpButton": {
+    "description": "Rail help button menu action that hides the help center button."
+  },
+  "channelHeaderShowMembers": "Show members",
+  "@channelHeaderShowMembers": {
+    "description": "Channel header button label that shows the member list."
+  },
+  "channelHeaderHideMembers": "Hide members",
+  "@channelHeaderHideMembers": {
+    "description": "Channel header button label that hides the member list."
+  },
+  "channelHeaderMembersUnavailable": "Member list unavailable at this screen width",
+  "@channelHeaderMembersUnavailable": {
+    "description": "Tooltip on the disabled member list button when the window is too narrow."
   }
 }

@@ -8,6 +8,7 @@ import 'package:fluxer_app/core/instance/instance_endpoints.dart';
 import 'package:fluxer_app/core/providers/instance/well_known_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/guilds/data/discord_template_fetcher.dart';
+import 'package:fluxer_app/features/guilds/domain/add_guild_entry_view.dart';
 import 'package:fluxer_app/features/guilds/presentation/modals/add_guild_create_view.dart';
 import 'package:fluxer_app/features/guilds/presentation/modals/add_guild_import_views.dart';
 import 'package:fluxer_app/features/guilds/presentation/modals/add_guild_landing_view.dart';
@@ -34,7 +35,11 @@ enum _AddGuildModalView { landing, create, join, importUrl, importCreate }
 
 enum _AddGuildPresentation { modal, fullscreen }
 
-Future<void> showAddGuildModal(BuildContext context, WidgetRef ref) {
+Future<void> showAddGuildModal(
+  BuildContext context,
+  WidgetRef ref, {
+  AddGuildEntryView? initialView,
+}) {
   if (!ref.read(addGuildEnabledProvider)) {
     return Future<void>.value();
   }
@@ -44,6 +49,7 @@ Future<void> showAddGuildModal(BuildContext context, WidgetRef ref) {
       builder: (BuildContext routeContext) {
         return _AddGuildFlow(
           presentation: _AddGuildPresentation.fullscreen,
+          initialView: initialView,
           onClose: () => Navigator.of(routeContext).pop(),
         );
       },
@@ -55,6 +61,7 @@ Future<void> showAddGuildModal(BuildContext context, WidgetRef ref) {
     builder: (BuildContext dialogContext) {
       return _AddGuildFlow(
         presentation: _AddGuildPresentation.modal,
+        initialView: initialView,
         onClose: () => Navigator.of(dialogContext).pop(),
       );
     },
@@ -62,18 +69,28 @@ Future<void> showAddGuildModal(BuildContext context, WidgetRef ref) {
 }
 
 class _AddGuildFlow extends ConsumerStatefulWidget {
-  const _AddGuildFlow({required this.presentation, required this.onClose});
+  const _AddGuildFlow({
+    required this.presentation,
+    required this.onClose,
+    this.initialView,
+  });
 
   final _AddGuildPresentation presentation;
   final VoidCallback onClose;
+  final AddGuildEntryView? initialView;
 
   @override
   ConsumerState<_AddGuildFlow> createState() => _AddGuildFlowState();
 }
 
 class _AddGuildFlowState extends ConsumerState<_AddGuildFlow> {
-  List<_AddGuildModalView> _stack = const <_AddGuildModalView>[
+  late List<_AddGuildModalView> _stack = <_AddGuildModalView>[
     _AddGuildModalView.landing,
+    ?switch (widget.initialView) {
+      AddGuildEntryView.create => _AddGuildModalView.create,
+      AddGuildEntryView.join => _AddGuildModalView.join,
+      null => null,
+    },
   ];
   final TextEditingController _inviteController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();

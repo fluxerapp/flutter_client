@@ -30647,6 +30647,126 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Press {shortcut} to react'**
   String chatMessagePressShortcutToReact(String shortcut);
+
+  /// Rail home button menu action that marks every direct message conversation as read.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark all DMs as read'**
+  String get railMenuMarkAllDmsRead;
+
+  /// Rail home button menu action that shows unread DMs inline in the community rail.
+  ///
+  /// In en, this message translates to:
+  /// **'Show inline DM list'**
+  String get railMenuShowInlineDmList;
+
+  /// Rail home button menu action that collapses the inline DM list in the community rail.
+  ///
+  /// In en, this message translates to:
+  /// **'Collapse inline DM list'**
+  String get railMenuCollapseInlineDmList;
+
+  /// Rail home button menu checkbox that shows an unread badge while the inline DM list is collapsed.
+  ///
+  /// In en, this message translates to:
+  /// **'Show unread DM count when collapsed'**
+  String get railMenuShowUnreadDmCountWhenCollapsed;
+
+  /// Rail home button menu checkbox that shows a badge for incoming friend requests.
+  ///
+  /// In en, this message translates to:
+  /// **'Show incoming friend request count'**
+  String get railMenuShowIncomingFriendRequestCount;
+
+  /// Rail home button menu action that marks every community as read.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark all communities as read'**
+  String get railMenuMarkAllCommunitiesRead;
+
+  /// Rail home button submenu that mutes notifications for all direct messages.
+  ///
+  /// In en, this message translates to:
+  /// **'Mute DMs'**
+  String get railMenuMuteDms;
+
+  /// Rail home button action that re-enables notifications for all direct messages.
+  ///
+  /// In en, this message translates to:
+  /// **'Unmute DMs'**
+  String get railMenuUnmuteDms;
+
+  /// Rail home button submenu that groups DM notification options.
+  ///
+  /// In en, this message translates to:
+  /// **'DM notification settings'**
+  String get railMenuDmNotificationSettings;
+
+  /// Rail home button submenu that groups DM privacy options.
+  ///
+  /// In en, this message translates to:
+  /// **'DM privacy settings'**
+  String get railMenuDmPrivacySettings;
+
+  /// Option for an incoming call privacy setting that allows nobody.
+  ///
+  /// In en, this message translates to:
+  /// **'Incoming calls: nobody'**
+  String get railMenuIncomingCallsNobody;
+
+  /// Option for an incoming call privacy setting that allows friends only.
+  ///
+  /// In en, this message translates to:
+  /// **'Incoming calls: friends only'**
+  String get railMenuIncomingCallsFriendsOnly;
+
+  /// Option for an incoming call privacy setting that allows everyone.
+  ///
+  /// In en, this message translates to:
+  /// **'Incoming calls: everyone'**
+  String get railMenuIncomingCallsEveryone;
+
+  /// Option for who can add the current user to group DMs (nobody).
+  ///
+  /// In en, this message translates to:
+  /// **'Group chat adds: nobody'**
+  String get railMenuGroupChatAddsNobody;
+
+  /// Option for who can add the current user to group DMs (friends only).
+  ///
+  /// In en, this message translates to:
+  /// **'Group chat adds: friends only'**
+  String get railMenuGroupChatAddsFriendsOnly;
+
+  /// Option for who can add the current user to group DMs (everyone).
+  ///
+  /// In en, this message translates to:
+  /// **'Group chat adds: everyone'**
+  String get railMenuGroupChatAddsEveryone;
+
+  /// Rail help button menu action that hides the help center button.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide help center button'**
+  String get railMenuHideHelpButton;
+
+  /// Channel header button label that shows the member list.
+  ///
+  /// In en, this message translates to:
+  /// **'Show members'**
+  String get channelHeaderShowMembers;
+
+  /// Channel header button label that hides the member list.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide members'**
+  String get channelHeaderHideMembers;
+
+  /// Tooltip on the disabled member list button when the window is too narrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Member list unavailable at this screen width'**
+  String get channelHeaderMembersUnavailable;
 }
 
 class _FluxerLocalizationsDelegate

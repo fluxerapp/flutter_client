@@ -90,12 +90,6 @@ List<CategoryMenuGroup> buildCategoryMenuGroups({
   final List<CategoryMenuEntry> manageItems = <CategoryMenuEntry>[
     if (state.canManageChannels)
       CategoryMenuEntry(
-        label: l10n.guildNavbarCreateChannel,
-        icon: PhosphorIconsFill.plusCircle,
-        action: CategoryMenuAction.createChannel,
-      ),
-    if (state.canManageChannels)
-      CategoryMenuEntry(
         label: l10n.channelSettingsEditCategory,
         icon: PhosphorIconsFill.pencilSimple,
         action: CategoryMenuAction.editCategory,
@@ -109,17 +103,17 @@ List<CategoryMenuGroup> buildCategoryMenuGroups({
       ),
   ];
   final List<CategoryMenuEntry> utilityItems = <CategoryMenuEntry>[
-    if (state.developerMode)
-      CategoryMenuEntry(
-        label: l10n.dmDebugCategory,
-        icon: PhosphorIconsFill.bugBeetle,
-        action: CategoryMenuAction.debugCategory,
-      ),
     if (state.developerMode && state.hasAgreedToMatureContent)
       CategoryMenuEntry(
         label: l10n.channelMenuResetMatureContentAgreeState,
         icon: PhosphorIconsFill.bugBeetle,
         action: CategoryMenuAction.resetMatureContentAgree,
+      ),
+    if (state.developerMode)
+      CategoryMenuEntry(
+        label: l10n.dmDebugCategory,
+        icon: PhosphorIconsFill.bugBeetle,
+        action: CategoryMenuAction.debugCategory,
       ),
     CategoryMenuEntry(
       label: l10n.categoryCopyCategoryId,

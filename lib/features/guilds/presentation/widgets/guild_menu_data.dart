@@ -131,7 +131,27 @@ List<GuildMenuGroup> buildGuildMenuGroups({
   bool canEditCommunityProfile = true,
   bool? canInvite,
   Guild? guild,
+  bool directMessagesDisabled = false,
+  bool muteInLastGroup = false,
 }) {
+  final GuildMenuEntry muteEntry = isMuted
+      ? GuildMenuAction(
+          label: l10n.guildMenuUnmuteCommunity,
+          icon: PhosphorIconsFill.bellSlash,
+          action: GuildAction.unmute,
+          hint: _formatMuteHint(
+            l10n,
+            muteEndTime,
+            locale: locale,
+            use12Hour: use12Hour,
+          ),
+        )
+      : GuildMenuSubmenu(
+          key: 'mute',
+          label: l10n.guildMenuMuteCommunity,
+          triggerAction: GuildAction.muteForever,
+          children: buildMuteSubmenuItems(l10n),
+        );
   final p = permissions;
   final canInviteMembers =
       canInvite ?? hasPermission(p, Permission.createInstantInvite);
@@ -183,11 +203,12 @@ List<GuildMenuGroup> buildGuildMenuGroups({
         icon: PhosphorIconsFill.bell,
         action: GuildAction.notificationSettings,
       ),
-      GuildMenuAction(
-        label: l10n.privacySettings,
-        icon: PhosphorIconsFill.shield,
-        action: GuildAction.privacySettings,
-      ),
+      if (!directMessagesDisabled)
+        GuildMenuAction(
+          label: l10n.privacySettings,
+          icon: PhosphorIconsFill.shield,
+          action: GuildAction.privacySettings,
+        ),
       if (canEditCommunityProfile)
         GuildMenuAction(
           label: l10n.guildMenuEditCommunityProfile,
@@ -196,53 +217,35 @@ List<GuildMenuGroup> buildGuildMenuGroups({
         ),
     ],
     [
-      if (isMuted)
-        GuildMenuAction(
-          label: l10n.guildMenuUnmuteCommunity,
-          icon: PhosphorIconsFill.bellSlash,
-          action: GuildAction.unmute,
-          hint: _formatMuteHint(
-            l10n,
-            muteEndTime,
-            locale: locale,
-            use12Hour: use12Hour,
-          ),
-        )
-      else
-        GuildMenuSubmenu(
-          key: 'mute',
-          label: l10n.guildMenuMuteCommunity,
-          triggerAction: GuildAction.muteForever,
-          children: buildMuteSubmenuItems(l10n),
-        ),
+      if (!muteInLastGroup) muteEntry,
       GuildMenuCheckbox(
         label: l10n.guildMenuHideMutedChannels,
         isChecked: hideMutedChannels,
         action: GuildAction.hideMutedChannels,
       ),
     ],
-    if (!isOwner)
-      [
-        GuildMenuAction(
-          label: l10n.guildNavbarDeleteMyMessagesConfirm,
-          icon: PhosphorIconsFill.trash,
-          action: GuildAction.deleteMyMessages,
-          isDanger: true,
-        ),
+    [
+      GuildMenuAction(
+        label: l10n.guildNavbarDeleteMyMessagesConfirm,
+        icon: PhosphorIconsFill.trash,
+        action: GuildAction.deleteMyMessages,
+        isDanger: true,
+      ),
+      if (!isOwner)
         GuildMenuAction(
           label: l10n.guildMenuReportCommunity,
           icon: PhosphorIconsFill.flag,
           action: GuildAction.reportGuild,
           isDanger: true,
         ),
-        if (!isStockCommunity)
-          GuildMenuAction(
-            label: l10n.guildNavbarLeaveCommunityConfirm,
-            icon: PhosphorIconsFill.signOut,
-            action: GuildAction.leaveGuild,
-            isDanger: true,
-          ),
-      ],
+      if (!isOwner && !isStockCommunity)
+        GuildMenuAction(
+          label: l10n.guildNavbarLeaveCommunityConfirm,
+          icon: PhosphorIconsFill.signOut,
+          action: GuildAction.leaveGuild,
+          isDanger: true,
+        ),
+    ],
     if (developerMode)
       [
         GuildMenuAction(
@@ -257,6 +260,95 @@ List<GuildMenuGroup> buildGuildMenuGroups({
         icon: PhosphorIconsBold.snowflake,
         action: GuildAction.copyGuildId,
       ),
+    ],
+    if (muteInLastGroup) [muteEntry],
+  ];
+}
+
+List<GuildMenuGroup> buildGuildHeaderMenuGroups({
+  required FluxerLocalizations l10n,
+  required bool isOwner,
+  required int permissions,
+  bool hideMutedChannels = false,
+  bool isTouchPrimary = false,
+  bool isStockCommunity = false,
+  bool canEditCommunityProfile = true,
+  bool? canInvite,
+  Guild? guild,
+  bool directMessagesDisabled = false,
+}) {
+  final int p = permissions;
+  final bool canInviteMembers =
+      canInvite ?? hasPermission(p, Permission.createInstantInvite);
+  final bool canManageChannels = hasPermission(p, Permission.manageChannels);
+  final bool canAccessSettings = canOpenGuildSettings(
+    permissions: p,
+    guild: guild,
+    isTouchPrimary: isTouchPrimary,
+  );
+  return <GuildMenuGroup>[
+    [
+      if (canInviteMembers)
+        GuildMenuAction(
+          label: l10n.guildMenuInviteMembers,
+          icon: PhosphorIconsFill.userPlus,
+          action: GuildAction.inviteMembers,
+        ),
+      if (canAccessSettings)
+        GuildMenuAction(
+          label: l10n.guildMenuCommunitySettings,
+          icon: PhosphorIconsFill.gear,
+          action: GuildAction.settingsOverview,
+        ),
+      if (canManageChannels) ...[
+        GuildMenuAction(
+          label: l10n.guildNavbarCreateChannel,
+          icon: PhosphorIconsFill.plusCircle,
+          action: GuildAction.createChannel,
+        ),
+        GuildMenuAction(
+          label: l10n.guildNavbarCreateCategory,
+          icon: PhosphorIconsFill.folderPlus,
+          action: GuildAction.createCategory,
+        ),
+      ],
+      GuildMenuAction(
+        label: l10n.notificationSettings,
+        icon: PhosphorIconsFill.bell,
+        action: GuildAction.notificationSettings,
+      ),
+      if (!directMessagesDisabled)
+        GuildMenuAction(
+          label: l10n.privacySettings,
+          icon: PhosphorIconsFill.shield,
+          action: GuildAction.privacySettings,
+        ),
+      if (canEditCommunityProfile)
+        GuildMenuAction(
+          label: l10n.guildMenuEditCommunityProfile,
+          icon: PhosphorIconsFill.userCircle,
+          action: GuildAction.editCommunityProfile,
+        ),
+      GuildMenuCheckbox(
+        label: l10n.guildMenuHideMutedChannels,
+        isChecked: hideMutedChannels,
+        action: GuildAction.hideMutedChannels,
+      ),
+      if (!isOwner) ...[
+        GuildMenuAction(
+          label: l10n.guildNavbarDeleteMyMessagesConfirm,
+          icon: PhosphorIconsFill.trash,
+          action: GuildAction.deleteMyMessages,
+          isDanger: true,
+        ),
+        if (!isStockCommunity)
+          GuildMenuAction(
+            label: l10n.guildNavbarLeaveCommunityConfirm,
+            icon: PhosphorIconsFill.signOut,
+            action: GuildAction.leaveGuild,
+            isDanger: true,
+          ),
+      ],
     ],
   ];
 }

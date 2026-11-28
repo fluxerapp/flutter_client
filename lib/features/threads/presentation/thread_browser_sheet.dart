@@ -24,8 +24,9 @@ import 'package:fluxer_app/shared/icons/phosphor.dart';
 Future<void> showThreadBrowserSheet(
   BuildContext context,
   WidgetRef hostRef,
-  Channel parent,
-) async {
+  Channel parent, {
+  BuildContext? anchorContext,
+}) async {
   final bool gateUp = await hostRef
       .read(shouldShowMatureContentGateProvider(parent.id).future)
       .catchError((Object _) => true);
@@ -35,10 +36,13 @@ Future<void> showThreadBrowserSheet(
   return await FluxerBottomSheet.showScrollable<void>(
     context,
     title: FluxerLocalizations.of(context).threadBrowserTitle,
-    desktop: const FluxerDesktopPresentation(
+    desktop: FluxerDesktopPresentation(
       surface: FluxerDesktopSurface.popout,
       width: 480,
       placement: FluxerDesktopPlacement.belowEnd,
+      anchorContext: anchorContext != null && anchorContext.mounted
+          ? anchorContext
+          : null,
     ),
     subtitle: Text(
       '#${parent.name}',
@@ -66,8 +70,9 @@ Future<void> showThreadBrowserSheet(
 Future<void> showThreadBrowserForChannel(
   BuildContext context,
   WidgetRef ref,
-  String channelId,
-) async {
+  String channelId, {
+  BuildContext? anchorContext,
+}) async {
   final row = await ref
       .read(fluxerDatabaseProvider)
       .channelDao
@@ -75,7 +80,12 @@ Future<void> showThreadBrowserForChannel(
   if (row == null || !context.mounted) {
     return;
   }
-  await showThreadBrowserSheet(context, ref, Channel.fromRow(row));
+  await showThreadBrowserSheet(
+    context,
+    ref,
+    Channel.fromRow(row),
+    anchorContext: anchorContext,
+  );
 }
 
 ThreadActorContext threadContextFor(

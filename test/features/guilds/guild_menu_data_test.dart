@@ -176,4 +176,88 @@ void main() {
       );
     });
   });
+
+  group('guild menu parity rules', () {
+    List<GuildAction> actionsOf(List<GuildMenuGroup> groups) => <GuildAction>[
+      for (final GuildMenuGroup group in groups)
+        for (final GuildMenuEntry entry in group)
+          switch (entry) {
+            GuildMenuAction(:final action) => action,
+            GuildMenuCheckbox(:final action) => action,
+            GuildMenuSubmenu(:final triggerAction) =>
+              triggerAction ?? GuildAction.copyGuildId,
+          },
+    ];
+
+    test('owners keep delete my messages but not leave or report', () {
+      final List<GuildAction> actions = actionsOf(
+        buildGuildMenuGroups(
+          l10n: l10n,
+          hasUnread: false,
+          isMuted: false,
+          isOwner: true,
+          permissions: 0,
+          locale: 'en_US',
+          use12Hour: true,
+        ),
+      );
+      expect(actions, contains(GuildAction.deleteMyMessages));
+      expect(actions, isNot(contains(GuildAction.leaveGuild)));
+      expect(actions, isNot(contains(GuildAction.reportGuild)));
+    });
+
+    test('mute sits alone in the last group for the context menu', () {
+      final List<GuildMenuGroup> groups = buildGuildMenuGroups(
+        l10n: l10n,
+        hasUnread: false,
+        isMuted: false,
+        isOwner: false,
+        permissions: 0,
+        locale: 'en_US',
+        use12Hour: true,
+        muteInLastGroup: true,
+      );
+      expect(groups.last, hasLength(1));
+      expect(groups.last.single, isA<GuildMenuSubmenu>());
+      expect((groups.last.single as GuildMenuSubmenu).key, 'mute');
+    });
+
+    test('privacy settings hide when direct messages are disabled', () {
+      final List<GuildAction> actions = actionsOf(
+        buildGuildMenuGroups(
+          l10n: l10n,
+          hasUnread: false,
+          isMuted: false,
+          isOwner: false,
+          permissions: 0,
+          locale: 'en_US',
+          use12Hour: true,
+          directMessagesDisabled: true,
+        ),
+      );
+      expect(actions, isNot(contains(GuildAction.privacySettings)));
+    });
+
+    test('header list is the short web list', () {
+      final List<GuildAction> actions = actionsOf(
+        buildGuildHeaderMenuGroups(
+          l10n: l10n,
+          isOwner: false,
+          permissions: Permission.manageChannels.value,
+          canInvite: true,
+        ),
+      );
+      expect(actions, <GuildAction>[
+        GuildAction.inviteMembers,
+        GuildAction.createChannel,
+        GuildAction.createCategory,
+        GuildAction.notificationSettings,
+        GuildAction.privacySettings,
+        GuildAction.editCommunityProfile,
+        GuildAction.hideMutedChannels,
+        GuildAction.deleteMyMessages,
+        GuildAction.leaveGuild,
+      ]);
+    });
+  });
 }

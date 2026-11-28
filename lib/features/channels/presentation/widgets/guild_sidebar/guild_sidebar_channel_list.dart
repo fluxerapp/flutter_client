@@ -7,11 +7,13 @@ class _GuildSidebarChannelListHost extends StatefulWidget {
     required this.activeGuildId,
     required this.guild,
     required this.onHeaderTap,
+    this.onHeaderContextMenu,
   });
 
   final String activeGuildId;
   final Guild guild;
   final GuildSidebarHeaderTap? onHeaderTap;
+  final GuildSidebarHeaderContextMenu? onHeaderContextMenu;
 
   @override
   State<_GuildSidebarChannelListHost> createState() =>
@@ -46,6 +48,7 @@ class _GuildSidebarChannelListHostState
           guild: guild,
           isActive: isActive,
           onHeaderTap: widget.onHeaderTap,
+          onHeaderContextMenu: widget.onHeaderContextMenu,
         ),
       ),
     );
@@ -78,12 +81,14 @@ class _GuildSidebarChannelList extends ConsumerStatefulWidget {
     required this.guild,
     required this.isActive,
     required this.onHeaderTap,
+    this.onHeaderContextMenu,
   });
 
   final String guildId;
   final Guild guild;
   final bool isActive;
   final GuildSidebarHeaderTap? onHeaderTap;
+  final GuildSidebarHeaderContextMenu? onHeaderContextMenu;
 
   @override
   ConsumerState<_GuildSidebarChannelList> createState() =>
@@ -479,7 +484,7 @@ class _GuildSidebarChannelListState
     final Size viewport = MediaQuery.sizeOf(context);
     final Widget channelListView = LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        return CustomScrollView(
+        final Widget scrollView = CustomScrollView(
           controller: _scrollController,
           physics: _GuildSidebarScrollPhysics(
             pending: _pendingScroll,
@@ -493,6 +498,7 @@ class _GuildSidebarChannelListState
                 guild: widget.guild,
                 outageUnavailable: false,
                 onTap: widget.onHeaderTap,
+                onContextMenu: widget.onHeaderContextMenu,
                 bannerWidth: constraints.maxWidth,
                 viewportHeight: viewport.height,
                 minimumShrinkOffset: _pendingScroll.value ?? 0,
@@ -606,6 +612,15 @@ class _GuildSidebarChannelListState
                         guildId: entry.guildId!,
                         channelId: entry.channel!.id,
                       );
+                    case GuildSidebarEntryKind.collapsedVoiceParticipants:
+                      return CollapsedVoiceParticipants(
+                        key: ValueKey<String>(
+                          'cvp:${entry.category?.id ?? entry.channel?.id}',
+                        ),
+                        guildId: entry.guildId!,
+                        channelIds: entry.voiceChannelIds,
+                        isChannelStack: entry.channel != null,
+                      );
                   }
                 }, childCount: membersOffset + sidebarEntries.length),
               ),
@@ -618,6 +633,20 @@ class _GuildSidebarChannelListState
                 ),
               ),
           ],
+        );
+        if (!desktopPointer) {
+          return scrollView;
+        }
+        return FluxerGestureDetector(
+          onSecondaryTapUp: (TapUpDetails details) => unawaited(
+            showChannelListContextMenu(
+              context,
+              ref,
+              guild: widget.guild,
+              position: details.globalPosition,
+            ),
+          ),
+          child: scrollView,
         );
       },
     );

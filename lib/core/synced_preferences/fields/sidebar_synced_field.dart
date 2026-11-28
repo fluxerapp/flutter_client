@@ -5,21 +5,34 @@ import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_fiel
 import 'package:fluxer_app/core/synced_preferences/generated/fluxer/user/preferences/v1/preferences.pb.dart'
     as pb;
 import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/preferences/synced_extras_preferences_provider.dart';
 
 @immutable
 class SidebarLocalState {
-  const SidebarLocalState({required this.inlineDmsCollapsed});
+  const SidebarLocalState({
+    required this.inlineDmsCollapsed,
+    this.showCollapsedUnreadDmsBadge = true,
+    this.showIncomingFriendRequestBadge = true,
+  });
 
   final bool inlineDmsCollapsed;
+  final bool showCollapsedUnreadDmsBadge;
+  final bool showIncomingFriendRequestBadge;
 
   @override
   bool operator ==(Object other) {
     return other is SidebarLocalState &&
-        other.inlineDmsCollapsed == inlineDmsCollapsed;
+        other.inlineDmsCollapsed == inlineDmsCollapsed &&
+        other.showCollapsedUnreadDmsBadge == showCollapsedUnreadDmsBadge &&
+        other.showIncomingFriendRequestBadge == showIncomingFriendRequestBadge;
   }
 
   @override
-  int get hashCode => inlineDmsCollapsed.hashCode;
+  int get hashCode => Object.hash(
+    inlineDmsCollapsed,
+    showCollapsedUnreadDmsBadge,
+    showIncomingFriendRequestBadge,
+  );
 }
 
 class SidebarSyncedField
@@ -34,7 +47,12 @@ class SidebarSyncedField
   @override
   SidebarLocalState readLocal() {
     final appearance = _ref.read(appearancePreferencesProvider);
-    return SidebarLocalState(inlineDmsCollapsed: appearance.collapseDMs);
+    final SyncedExtrasState extras = _ref.read(syncedExtrasPreferencesProvider);
+    return SidebarLocalState(
+      inlineDmsCollapsed: appearance.collapseDMs,
+      showCollapsedUnreadDmsBadge: extras.showCollapsedUnreadDmsBadge,
+      showIncomingFriendRequestBadge: extras.showIncomingFriendRequestBadge,
+    );
   }
 
   @override
@@ -42,6 +60,12 @@ class SidebarSyncedField
     await _ref
         .read(appearancePreferencesProvider.notifier)
         .applySyncedSidebar(value);
+    await _ref
+        .read(syncedExtrasPreferencesProvider.notifier)
+        .applySidebarBadges(
+          collapsedUnreadDms: value.showCollapsedUnreadDmsBadge,
+          incomingFriendRequests: value.showIncomingFriendRequestBadge,
+        );
   }
 
   @override
@@ -54,12 +78,23 @@ class SidebarSyncedField
 
   @override
   SidebarLocalState fromProto(pb.SidebarPreferences proto) {
-    return SidebarLocalState(inlineDmsCollapsed: proto.inlineDmsCollapsed);
+    return SidebarLocalState(
+      inlineDmsCollapsed: proto.inlineDmsCollapsed,
+      showCollapsedUnreadDmsBadge:
+          !proto.hasShowCollapsedUnreadDmsBadge() ||
+          proto.showCollapsedUnreadDmsBadge,
+      showIncomingFriendRequestBadge:
+          !proto.hasShowIncomingFriendRequestBadge() ||
+          proto.showIncomingFriendRequestBadge,
+    );
   }
 
   @override
   void writeProto(pb.SidebarPreferences proto, SidebarLocalState local) {
-    proto.inlineDmsCollapsed = local.inlineDmsCollapsed;
+    proto
+      ..inlineDmsCollapsed = local.inlineDmsCollapsed
+      ..showCollapsedUnreadDmsBadge = local.showCollapsedUnreadDmsBadge
+      ..showIncomingFriendRequestBadge = local.showIncomingFriendRequestBadge;
   }
 
   @override

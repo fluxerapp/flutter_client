@@ -1,0 +1,1 @@
+enum AddGuildEntryView { create, join }

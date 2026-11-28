@@ -10,6 +10,7 @@ import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/channel_chat_content.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/channel_details_drawer_overlay.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/channel_header.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/channel/header/member_list_availability.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/search/channel_search_results_panel.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/wallpaper/chat_wallpaper_text_theme.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_details_providers.dart';
@@ -295,7 +296,13 @@ class _ChannelLayoutState extends ConsumerState<ChannelLayout> {
                               guild != null &&
                               guild.mfaLevel == guildMfaLevelElevated)
                             GuildMfaRequirementNagbar(guild: guild),
-                          if (!forceVoiceCallStyle) header,
+                          if (!forceVoiceCallStyle)
+                            ChannelMemberListAvailability(
+                              available:
+                                  constraints.maxWidth >=
+                                  ChannelLayout._minWidthForMemberList,
+                              child: header,
+                            ),
                           Expanded(
                             child: Stack(
                               children: [

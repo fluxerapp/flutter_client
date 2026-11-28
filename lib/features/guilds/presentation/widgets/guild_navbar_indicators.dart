@@ -117,6 +117,37 @@ class _PauseBadge extends StatelessWidget {
   }
 }
 
+class _GuildUnavailableBadge extends StatelessWidget {
+  const _GuildUnavailableBadge();
+
+  @override
+  Widget build(BuildContext context) {
+    return IgnorePointer(
+      child: Container(
+        width: 16,
+        height: 16,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          shape: BoxShape.circle,
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+              color: context.colors.serverSidebarBackground,
+              spreadRadius: 3,
+            ),
+          ],
+        ),
+        child: Center(
+          child: PhosphorIcon(
+            PhosphorIconsRegular.exclamationMark,
+            size: 16,
+            color: context.colors.statusDanger,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 const double _kArrowWidth = 5;
 const double _kArrowHeight = 10;
 const double _kBorderRadius = 8;

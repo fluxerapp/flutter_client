@@ -8,6 +8,7 @@ import 'package:fluxer_app/features/mature_content/domain/mature_content_types.d
 import 'package:fluxer_app/features/mature_content/utils/content_warning_utils.dart';
 import 'package:fluxer_app/features/ui/action_menu/fluxer_action_menu.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_key_modifiers.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
@@ -32,6 +33,7 @@ enum ChannelMenuAction {
   deleteChannel,
   deleteMyMessages,
   follow,
+  toggleForumNewPostsUnread,
 }
 
 class ChannelMenuEntry {
@@ -42,6 +44,7 @@ class ChannelMenuEntry {
     this.isDanger = false,
     this.hint,
     this.enabled = true,
+    this.checked,
   });
 
   final String label;
@@ -50,6 +53,7 @@ class ChannelMenuEntry {
   final bool isDanger;
   final String? hint;
   final bool enabled;
+  final bool? checked;
 }
 
 typedef ChannelMenuGroup = List<ChannelMenuEntry>;
@@ -82,6 +86,7 @@ class ChannelMenuState {
     required this.showFollow,
     this.mutedHint,
     this.vanityUrlCode,
+    this.forumNewPostsUnread,
   });
 
   final bool isTextChannel;
@@ -110,6 +115,7 @@ class ChannelMenuState {
   final bool showFollow;
   final String? mutedHint;
   final String? vanityUrlCode;
+  final bool? forumNewPostsUnread;
 }
 
 ChannelMenuState resolveChannelMenuState({
@@ -129,6 +135,7 @@ ChannelMenuState resolveChannelMenuState({
   String? mutedHint,
   bool canFollow = false,
   bool canOfferP2pCall = false,
+  bool? forumNewPostsUnread,
 }) {
   final bool isTextChannel = isAnnouncementConvertibleChannel(channel.type);
   final bool isVoiceChannel = channel.type == ChannelType.guildVoice;
@@ -192,6 +199,7 @@ ChannelMenuState resolveChannelMenuState({
     showDeleteChannel: canManageChannels,
     showDeleteMyMessages: isTextChannel || isVoiceChannel,
     showFollow: canFollow && isGuildAnnouncementChannelType(channel.type),
+    forumNewPostsUnread: isThreadOnlyChannel ? forumNewPostsUnread : null,
   );
 }
 
@@ -321,6 +329,15 @@ List<ChannelMenuGroup> buildChannelMenuGroups({
     );
   }
   groups.add(notificationItems);
+  if (state.forumNewPostsUnread case final bool newPostsUnread) {
+    groups.add(<ChannelMenuEntry>[
+      ChannelMenuEntry(
+        label: l10n.forumNewPostsUnread,
+        action: ChannelMenuAction.toggleForumNewPostsUnread,
+        checked: newPostsUnread,
+      ),
+    ]);
+  }
   if (state.showEditChannel ||
       state.showMoveToCategory ||
       state.showDuplicateChannel) {
@@ -442,7 +459,7 @@ Widget channelMenuGroupsToBottomSheetContent({
   );
 }
 
-FluxerBottomSheetMenuItem _channelMenuBottomSheetItem({
+Widget _channelMenuBottomSheetItem({
   required BuildContext context,
   required ChannelMenuEntry entry,
   required ChannelMenuState menuState,
@@ -452,6 +469,13 @@ FluxerBottomSheetMenuItem _channelMenuBottomSheetItem({
       entry.action == ChannelMenuAction.toggleFavorite && menuState.isFavorite
       ? context.colors.statusIdle
       : null;
+  if (entry.checked case final bool checked) {
+    return FluxerBottomSheetCheckboxItem(
+      label: entry.label,
+      isChecked: checked,
+      onTap: () => onAction(entry.action),
+    );
+  }
   return FluxerBottomSheetMenuItem(
     label: entry.label,
     hint: entry.hint,
@@ -469,6 +493,7 @@ List<Widget> channelMenuGroupsToWidgets({
   required ChannelMenuState menuState,
   required void Function(ChannelMenuAction action) onAction,
   ValueChanged<int?>? onMuteFor,
+  ValueChanged<FluxerKeyModifiers>? onDuplicateSelect,
 }) {
   final List<Widget> widgets = <Widget>[];
   for (int groupIndex = 0; groupIndex < groups.length; groupIndex++) {
@@ -490,6 +515,17 @@ List<Widget> channelMenuGroupsToWidgets({
         );
         continue;
       }
+      if (entry.checked case final bool checked) {
+        widgets.add(
+          FluxerMenuCheckboxItem(
+            label: entry.label,
+            isChecked: checked,
+            enabled: entry.enabled,
+            onPressed: () => onAction(entry.action),
+          ),
+        );
+        continue;
+      }
       final Color? iconColor =
           entry.action == ChannelMenuAction.toggleFavorite &&
               menuState.isFavorite
@@ -504,6 +540,11 @@ List<Widget> channelMenuGroupsToWidgets({
           enabled: entry.enabled,
           isDanger: entry.isDanger,
           onPressed: () => onAction(entry.action),
+          onSelect:
+              entry.action == ChannelMenuAction.duplicateChannel &&
+                  onDuplicateSelect != null
+              ? onDuplicateSelect
+              : null,
         ),
       );
     }

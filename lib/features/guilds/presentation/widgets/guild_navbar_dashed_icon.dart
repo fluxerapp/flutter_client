@@ -20,6 +20,7 @@ class _DashedGuildIcon extends StatefulWidget {
   final VoidCallback onTap;
   final bool isSelected;
   final KeybindAction? keybindAction;
+  final Future<void> Function(Offset position)? onContextMenu;
 
   const _DashedGuildIcon({
     required this.label,
@@ -27,6 +28,7 @@ class _DashedGuildIcon extends StatefulWidget {
     required this.onTap,
     this.isSelected = false,
     this.keybindAction,
+    this.onContextMenu,
   });
 
   @override
@@ -36,6 +38,23 @@ class _DashedGuildIcon extends StatefulWidget {
 class _DashedGuildIconState extends State<_DashedGuildIcon> {
   bool _isHovered = false;
   bool _isPressed = false;
+  bool _isMenuOpen = false;
+
+  Future<void> _openMenu(Offset position) async {
+    final Future<void> Function(Offset position)? onContextMenu =
+        widget.onContextMenu;
+    if (onContextMenu == null) {
+      return;
+    }
+    setState(() => _isMenuOpen = true);
+    try {
+      await onContextMenu(position);
+    } finally {
+      if (mounted) {
+        setState(() => _isMenuOpen = false);
+      }
+    }
+  }
 
   void _setPressed(bool value) {
     if (_isPressed != value) {
@@ -46,7 +65,7 @@ class _DashedGuildIconState extends State<_DashedGuildIcon> {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
-    final bool isEngaged = _isHovered || _isPressed;
+    final bool isEngaged = _isHovered || _isPressed || _isMenuOpen;
     final _DashedGuildIconVisual target = (
       fill: widget.isSelected ? 1 : 0,
       shape: widget.isSelected || isEngaged ? 1 : 0,
@@ -78,7 +97,7 @@ class _DashedGuildIconState extends State<_DashedGuildIcon> {
                 child: FluxerActivatable(
                   onActivate: widget.onTap,
                   focusRingRadius: BorderRadius.circular(
-                    widget.isSelected || _isHovered
+                    widget.isSelected || isEngaged
                         ? GuildNavbarIconShape.activeRadiusOf(context)
                         : GuildNavbarIconShape.idleRadiusOf(context),
                   ),
@@ -88,6 +107,16 @@ class _DashedGuildIconState extends State<_DashedGuildIcon> {
                     onTapDown: (_) => _setPressed(true),
                     onTapUp: (_) => _setPressed(false),
                     onTapCancel: () => _setPressed(false),
+                    onSecondaryTapUp: widget.onContextMenu == null
+                        ? null
+                        : (TapUpDetails details) =>
+                              unawaited(_openMenu(details.globalPosition)),
+                    onLongPressStart:
+                        widget.onContextMenu == null ||
+                            usesDesktopPointerUi(context)
+                        ? null
+                        : (LongPressStartDetails details) =>
+                              unawaited(_openMenu(details.globalPosition)),
                     child: TweenAnimationBuilder<_DashedGuildIconVisual>(
                       duration: context.motion.hover,
                       curve: Curves.easeOut,
