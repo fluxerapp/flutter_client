@@ -8,7 +8,7 @@ import 'package:fluxer_app/material_ui.dart';
 
 const String _text = 'Hello there selectable message text';
 
-Widget _app({required GestureTapUpCallback onSecondary}) {
+Widget _app({required MessageSecondaryTapCallback onSecondary}) {
   return MaterialApp(
     home: Scaffold(
       body: ChatListKeyboardDismiss(
@@ -19,7 +19,7 @@ Widget _app({required GestureTapUpCallback onSecondary}) {
                     AdaptiveTextSelectionToolbar.selectableRegion(
                       selectableRegionState: state,
                     ),
-            onSecondaryTapUpWithoutSelection: onSecondary,
+            onSecondaryTapUp: onSecondary,
             child: const Text(_text),
           ),
         ),
@@ -33,7 +33,7 @@ void main() {
     WidgetTester tester,
   ) async {
     int calls = 0;
-    await tester.pumpWidget(_app(onSecondary: (_) => calls++));
+    await tester.pumpWidget(_app(onSecondary: (_, _) => calls++));
 
     await tester.tapAt(
       tester.getCenter(find.text(_text)),
@@ -45,11 +45,19 @@ void main() {
     expect(calls, 1);
   });
 
-  testWidgets('mouse drag selects text and right click keeps the selection', (
+  testWidgets('right click on a selection opens the menu with the selection', (
     WidgetTester tester,
   ) async {
     int calls = 0;
-    await tester.pumpWidget(_app(onSecondary: (_) => calls++));
+    String? selected;
+    await tester.pumpWidget(
+      _app(
+        onSecondary: (_, String text) {
+          calls++;
+          selected = text;
+        },
+      ),
+    );
 
     final Finder text = find.text(_text);
     final Offset start = tester.getTopLeft(text) + const Offset(2, 6);
@@ -71,7 +79,9 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(calls, 0);
+    expect(calls, 1);
+    expect(selected, isNotEmpty);
+    expect(_text.startsWith(selected!), isTrue);
   });
 
   testWidgets('mouse selection in the chat list copies with the shortcut', (
@@ -93,7 +103,7 @@ void main() {
         null,
       ),
     );
-    await tester.pumpWidget(_app(onSecondary: (_) {}));
+    await tester.pumpWidget(_app(onSecondary: (_, _) {}));
 
     final Finder text = find.text(_text);
     final TestGesture drag = await tester.startGesture(
@@ -117,7 +127,7 @@ void main() {
   testWidgets('hovering selectable text shows the text cursor', (
     WidgetTester tester,
   ) async {
-    await tester.pumpWidget(_app(onSecondary: (_) {}));
+    await tester.pumpWidget(_app(onSecondary: (_, _) {}));
     final TestGesture mouse = await tester.createGesture(
       kind: PointerDeviceKind.mouse,
     );
@@ -129,5 +139,30 @@ void main() {
       RendererBinding.instance.mouseTracker.debugDeviceActiveCursor(1),
       SystemMouseCursors.text,
     );
+  });
+
+  testWidgets('touch long press still shows the selection toolbar', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: Center(
+            child: MessageSelectionArea(
+              contextMenuBuilder:
+                  (BuildContext context, SelectableRegionState state) =>
+                      const Text('toolbar'),
+              onSecondaryTapUp: (_, _) {},
+              child: const Text(_text),
+            ),
+          ),
+        ),
+      ),
+    );
+
+    await tester.longPress(find.text(_text));
+    await tester.pumpAndSettle();
+
+    expect(find.text('toolbar'), findsOneWidget);
   });
 }

@@ -22217,5 +22217,94 @@
   "mediaViewerResetPosition": "Reset media position",
   "@mediaViewerResetPosition": {
     "description": "Tooltip on the media viewer button that resets zoom and pan."
+  },
+  "keybindActionReplyAdjacent": "Reply to messages above or below",
+  "@keybindActionReplyAdjacent": {
+    "description": "Keybind action label for replying to the previous or next message from the composer."
+  },
+  "keybindActionEditAdjacent": "Edit your messages above or below",
+  "@keybindActionEditAdjacent": {
+    "description": "Keybind action label for editing your previous or next message from the composer."
+  },
+  "keybindActionToggleEmbeds": "Toggle embed suppression",
+  "@keybindActionToggleEmbeds": {
+    "description": "Keybind action label that hides or shows link previews on the focused message."
+  },
+  "chatMediaUrlCopied": "URL copied to clipboard",
+  "@chatMediaUrlCopied": {
+    "description": "Toast shown when media is copied to the clipboard as its URL."
+  },
+  "chatMediaMoreActions": "More media actions",
+  "@chatMediaMoreActions": {
+    "description": "Message context menu submenu label with additional media actions."
+  },
+  "chatMediaReverseImageSearch": "Reverse image search",
+  "@chatMediaReverseImageSearch": {
+    "description": "Media context menu action that searches the web for the image."
+  },
+  "chatMediaCopyAttachmentId": "Copy attachment ID",
+  "@chatMediaCopyAttachmentId": {
+    "description": "Media context menu action that copies the attachment ID to the clipboard."
+  },
+  "chatMessageRemoveReactions": "Remove reactions",
+  "@chatMessageRemoveReactions": {
+    "description": "Message context menu submenu that removes every reaction of one emoji from a message."
+  },
+  "searchProviderDefaultHint": "Default",
+  "@searchProviderDefaultHint": {
+    "description": "Hint next to the default search provider in a provider submenu."
+  },
+  "chatMessageCopySelection": "Copy",
+  "@chatMessageCopySelection": {
+    "description": "Message context menu action that copies the selected text."
+  },
+  "chatMessageSearchWeb": "Search the web",
+  "@chatMessageSearchWeb": {
+    "description": "Message context menu action that searches the web for the selected text."
+  },
+  "chatMediaCopy": "{kind, select, image{Copy image} gif{Copy GIF} gifv{Copy GIF} video{Copy video} audio{Copy audio} file{Copy link} other{Copy media}}",
+  "@chatMediaCopy": {
+    "description": "Media context menu action that copies the media. {kind} is the media type.",
+    "placeholders": {
+      "kind": {
+        "type": "String"
+      }
+    }
+  },
+  "chatMediaCopyLink": "{kind, select, image{Copy image link} gif{Copy GIF link} gifv{Copy GIF link} video{Copy video link} audio{Copy audio link} file{Copy file link} other{Copy link}}",
+  "@chatMediaCopyLink": {
+    "description": "Media context menu action that copies the media URL. {kind} is the media type.",
+    "placeholders": {
+      "kind": {
+        "type": "String"
+      }
+    }
+  },
+  "chatMediaOpenLink": "{kind, select, image{Open image link} gif{Open GIF link} gifv{Open GIF link} video{Open video link} audio{Open audio link} file{Open file link} other{Open link}}",
+  "@chatMediaOpenLink": {
+    "description": "Media context menu action that opens the media URL in a browser. {kind} is the media type.",
+    "placeholders": {
+      "kind": {
+        "type": "String"
+      }
+    }
+  },
+  "chatMediaDownload": "{kind, select, image{Download image} gif{Download GIF} gifv{Download GIF} video{Download video} audio{Download audio} file{Download file} other{Download media}}",
+  "@chatMediaDownload": {
+    "description": "Media context menu action that downloads the media. {kind} is the media type.",
+    "placeholders": {
+      "kind": {
+        "type": "String"
+      }
+    }
+  },
+  "chatMessagePressShortcutToReact": "Press {shortcut} to react",
+  "@chatMessagePressShortcutToReact": {
+    "description": "Tooltip hint on a quick reaction in the message context menu. {shortcut} is a key such as 1.",
+    "placeholders": {
+      "shortcut": {
+        "type": "String"
+      }
+    }
   }
 }

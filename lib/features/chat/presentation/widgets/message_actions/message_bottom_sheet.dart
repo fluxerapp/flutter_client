@@ -5,16 +5,18 @@ import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/features/bookmarks/utils/saved_message_actions.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/domain/message_media_menu_target.dart';
 import 'package:fluxer_app/features/chat/domain/message_translation.dart';
 import 'package:fluxer_app/features/chat/presentation/modals/pin_message_confirm_modal.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/message_debug_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/message_reactions_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/publish_message_sheets.dart';
+import 'package:fluxer_app/features/chat/presentation/sheets/remove_reactions_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/unpin_message_confirm_sheet.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/context_menu/message_media_menu_entries.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/double_tap_reaction_hint.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/quick_reaction_loader.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/quick_reaction_row.dart';
-import 'package:fluxer_app/features/chat/providers/core/chat_providers.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_translation_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/saved_message_provider.dart';
@@ -22,10 +24,12 @@ import 'package:fluxer_app/features/chat/utils/media/favorite_media_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media/media_favorite_state.dart';
 import 'package:fluxer_app/features/chat/utils/media/save_message_media_favorite.dart';
 import 'package:fluxer_app/features/chat/utils/messages/message_action_permissions.dart';
+import 'package:fluxer_app/features/chat/utils/messages/message_embed_suppression.dart';
 import 'package:fluxer_app/features/chat/utils/messages/message_link.dart';
 import 'package:fluxer_app/features/chat/utils/messages/message_translate_offer.dart';
 import 'package:fluxer_app/features/chat/utils/messages/message_web_translation.dart';
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
+import 'package:fluxer_app/features/settings/domain/search_provider_engine.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/threads/presentation/create_thread_sheet.dart';
@@ -45,6 +49,7 @@ import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 enum MessageAction {
   addReaction,
   viewReactions,
+  removeReactions,
   removeAllReactions,
   retry,
   edit,
@@ -87,7 +92,10 @@ Future<MessageAction?> showMessageBottomSheet(
   ValueChanged<QuickReactionItem>? onQuickReaction,
   MessageActionCallbacks? attachmentCallbacks,
   bool isSendDisabled = false,
+  bool isPreviewing = false,
   String? linkUrl,
+  MessageMediaMenuTarget? mediaTarget,
+  WidgetRef? hostRef,
 }) {
   final MessageActionPermissions permissions = MessageActionPermissions(
     isOwnMessage: isOwnMessage,
@@ -101,6 +109,7 @@ Future<MessageAction?> showMessageBottomSheet(
     developerMode: developerMode,
     isSendDisabled: isSendDisabled,
     canPublish: canPublish,
+    isPreviewing: isPreviewing,
   );
   return FluxerBottomSheet.showScrollable<MessageAction>(
     context,
@@ -116,7 +125,9 @@ Future<MessageAction?> showMessageBottomSheet(
       attachmentCallbacks: attachmentCallbacks,
       scrollController: scrollController,
       hostContext: context,
+      hostRef: hostRef,
       linkUrl: linkUrl,
+      mediaTarget: mediaTarget,
     ),
   );
 }
@@ -214,23 +225,17 @@ Future<void> dispatchMessageAction({
     case MessageAction.markAsUnread:
       callbacks.onMarkAsUnread?.call();
     case MessageAction.suppressEmbeds:
-      final repo = ref.read(messageRepositoryProvider);
-      final String channelId = message.channelId;
-      final String messageId = message.id;
-      final int nextFlags = message.suppressEmbeds
-          ? message.flags & ~messageFlagSuppressEmbeds
-          : message.flags | messageFlagSuppressEmbeds;
-      unawaited(
-        repo.setMessageFlags(
-          channelId: channelId,
-          messageId: messageId,
-          flags: nextFlags,
-        ),
-      );
+      unawaited(toggleMessageEmbedSuppression(ref: ref, message: message));
     case MessageAction.viewReactions:
       _runAfterModalSettles(
         context,
         () => unawaited(showMessageReactionsSheet(context, message: message)),
+      );
+    case MessageAction.removeReactions:
+      _runAfterModalSettles(
+        context,
+        () =>
+            unawaited(showRemoveReactionsSheet(context, ref, message: message)),
       );
     case MessageAction.removeAllReactions:
       callbacks.onRemoveAllReactions?.call();
@@ -413,6 +418,8 @@ List<Widget> buildMessageActionMenuGroups({
   MessageActionCallbacks? attachmentCallbacks,
   String? attachmentIdFilter,
   bool includeAttachmentFavoriteActions = true,
+  bool includeAttachmentItems = true,
+  bool includeCopyText = true,
   VoidCallback? onCloseMenu,
 }) {
   final FluxerLocalizations l10n = FluxerLocalizations.of(context);
@@ -469,7 +476,7 @@ List<Widget> buildMessageActionMenuGroups({
       isUserMessage &&
       message.messageSnapshots.isEmpty;
   final bool canShowPin = isUserMessage && permissions.canPinMessage;
-  final bool canShowPublish = permissions.canPublish;
+  final bool canShowPublish = permissions.canPublish && !message.isCrossposted;
   final bool canShowBookmark = isUserMessage && supportsInteractiveActions;
   final bool canShowSuppressEmbeds = canSuppressEmbedsOnMessage(
     message: message,
@@ -499,7 +506,7 @@ List<Widget> buildMessageActionMenuGroups({
         label: l10n.chatMessageForward,
         onTap: () => onAction(MessageAction.forward),
       ),
-    if (hasReactions)
+    if (hasReactions && !permissions.isPreviewing)
       FluxerBottomSheetMenuItem(
         icon: PhosphorIconsFill.users,
         label: l10n.chatMessageViewReactions,
@@ -514,17 +521,18 @@ List<Widget> buildMessageActionMenuGroups({
   ];
 
   final List<Widget> primaryItems = <Widget>[
-    if (message.content.isNotEmpty)
+    if (includeCopyText && message.content.isNotEmpty)
       FluxerBottomSheetMenuItem(
         icon: PhosphorIconsFill.copy,
         label: l10n.chatMessageCopyText,
         onTap: () => onAction(MessageAction.copyText),
       ),
-    FluxerBottomSheetMenuItem(
-      icon: PhosphorIconsFill.envelopeOpen,
-      label: l10n.chatMessageMarkAsUnread,
-      onTap: () => onAction(MessageAction.markAsUnread),
-    ),
+    if (!permissions.isPreviewing)
+      FluxerBottomSheetMenuItem(
+        icon: PhosphorIconsFill.envelopeOpen,
+        label: l10n.chatMessageMarkAsUnread,
+        onTap: () => onAction(MessageAction.markAsUnread),
+      ),
     if (supportsInteractiveActions &&
         watchCanCreateThreadFromMessage(ref, message))
       FluxerBottomSheetMenuItem(
@@ -568,7 +576,8 @@ List<Widget> buildMessageActionMenuGroups({
 
   final List<Widget> attachmentItems = <Widget>[
     for (final Attachment attachment in message.attachments)
-      if (attachmentIdFilter == null || attachment.id == attachmentIdFilter)
+      if (includeAttachmentItems &&
+          (attachmentIdFilter == null || attachment.id == attachmentIdFilter))
         ..._buildAttachmentMenuItems(
           context: context,
           ref: ref,
@@ -593,10 +602,15 @@ List<Widget> buildMessageActionMenuGroups({
     if (canShowPublish)
       FluxerBottomSheetMenuItem(
         icon: PhosphorIconsFill.megaphone,
-        label: message.isCrossposted
-            ? l10n.chatMessagePublished
-            : l10n.chatMessagePublish,
+        label: l10n.chatMessagePublish,
         onTap: () => onAction(MessageAction.publish),
+      ),
+    if (canShowRemoveAllReactions)
+      FluxerBottomSheetSubmenuItem(
+        icon: PhosphorIconsBold.smileyXEyes,
+        label: l10n.chatMessageRemoveReactions,
+        isDanger: true,
+        onTap: () => onAction(MessageAction.removeReactions),
       ),
     if (canShowRemoveAllReactions)
       FluxerBottomSheetMenuItem(
@@ -750,7 +764,9 @@ class _MessageBottomSheetBody extends ConsumerWidget {
     this.quickReactionGuildId,
     this.onQuickReaction,
     this.attachmentCallbacks,
+    this.hostRef,
     this.linkUrl,
+    this.mediaTarget,
   });
 
   final Message message;
@@ -762,7 +778,9 @@ class _MessageBottomSheetBody extends ConsumerWidget {
   final MessageActionCallbacks? attachmentCallbacks;
   final ScrollController scrollController;
   final BuildContext hostContext;
+  final WidgetRef? hostRef;
   final String? linkUrl;
+  final MessageMediaMenuTarget? mediaTarget;
 
   void _pop(BuildContext context, MessageAction action) =>
       Navigator.of(context).pop(action);
@@ -801,9 +819,81 @@ class _MessageBottomSheetBody extends ConsumerWidget {
     );
   }
 
+  void _runOnHost(BuildContext context, MessageMenuHostTask task) {
+    Navigator.of(context).pop();
+    final WidgetRef? host = hostRef;
+    if (host != null && hostContext.mounted) {
+      unawaited(task(hostContext, host));
+    }
+  }
+
+  List<Widget> _mediaGroups(
+    BuildContext context,
+    WidgetRef ref,
+    MessageMediaMenuTarget target,
+  ) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final MessageMediaMenuEntries entries = watchMessageMediaMenuEntries(
+      ref: ref,
+      l10n: l10n,
+      target: target,
+      message: message,
+      permissions: permissions,
+      callbacks: attachmentCallbacks ?? const MessageActionCallbacks(),
+    );
+    Widget item(MessageMediaMenuEntry entry) => FluxerBottomSheetMenuItem(
+      icon: entry.icon,
+      label: entry.label,
+      isDanger: entry.isDanger,
+      onTap: () => _runOnHost(context, entry.task),
+    );
+    final String? reverseQuery = entries.reverseImageQuery;
+    final SearchProviderEngine? defaultEngine =
+        entries.reverseImageEngines.effectiveDefaultEngine;
+    final List<SearchProviderEngine> engines = <SearchProviderEngine>[
+      ?defaultEngine,
+      for (final SearchProviderEngine engine
+          in entries.reverseImageEngines.enabledEngines)
+        if (engine.id != defaultEngine?.id) engine,
+    ];
+    final List<Widget> searchItems = <Widget>[
+      if (reverseQuery != null)
+        for (final SearchProviderEngine engine in engines)
+          FluxerBottomSheetMenuItem(
+            icon: PhosphorIconsBold.magnifyingGlass,
+            label: l10n.searchProviderSearchWith(engine.name),
+            onTap: () {
+              final String? searchUrl = entries.reverseImageEngines
+                  .buildSearchUrl(engine.id, reverseQuery);
+              if (searchUrl == null || searchUrl.isEmpty) {
+                return;
+              }
+              _runOnHost(
+                context,
+                (BuildContext host, WidgetRef _) =>
+                    handleExternalLinkTap(host, searchUrl),
+              );
+            },
+          ),
+    ];
+    return <Widget>[
+      for (final List<Widget> items in <List<Widget>>[
+        <Widget>[...entries.primary.map(item), ...entries.links.map(item)],
+        <Widget>[
+          ...entries.favorites.map(item),
+          ...entries.manage.map(item),
+          ...searchItems,
+          ...entries.danger.map(item),
+        ],
+      ])
+        if (items.isNotEmpty) FluxerMenuGroup(children: items),
+    ];
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final String? url = linkUrl;
+    final MessageMediaMenuTarget? media = hostRef == null ? null : mediaTarget;
+    final String? url = media == null ? linkUrl : null;
     final List<Widget> groups = buildMessageActionMenuGroups(
       context: context,
       ref: ref,
@@ -811,6 +901,8 @@ class _MessageBottomSheetBody extends ConsumerWidget {
       permissions: permissions,
       onAction: (MessageAction action) => _pop(context, action),
       attachmentCallbacks: attachmentCallbacks,
+      includeAttachmentItems: media == null,
+      includeCopyText: media == null,
     );
     final bool showQuickReactions =
         !message.hasFailed && !message.isSending && permissions.canAddReactions;
@@ -847,7 +939,11 @@ class _MessageBottomSheetBody extends ConsumerWidget {
             DoubleTapReactionHint(channelId: message.channelId),
           ],
           FluxerBottomSheetGroupColumn(
-            children: [if (url != null) _linkGroup(context, url), ...groups],
+            children: [
+              if (media != null) ..._mediaGroups(context, ref, media),
+              if (url != null) _linkGroup(context, url),
+              ...groups,
+            ],
           ),
         ],
       ),

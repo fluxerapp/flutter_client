@@ -7,6 +7,7 @@ import 'package:fluxer_app/features/chat/presentation/sheets/delete_message_conf
 import 'package:fluxer_app/features/chat/presentation/sheets/message_debug_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/message_reactions_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/remove_all_reactions_confirm_sheet.dart';
+import 'package:fluxer_app/features/chat/presentation/sheets/remove_reactions_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/message_bottom_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/quick_reaction_row.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker.dart';
@@ -105,6 +106,8 @@ void handleSystemMessageAction(
       );
     case MessageAction.viewReactions:
       unawaited(showMessageReactionsSheet(context, message: message));
+    case MessageAction.removeReactions:
+      unawaited(showRemoveReactionsSheet(context, ref, message: message));
     case MessageAction.removeAllReactions:
       unawaited(
         showRemoveAllReactionsConfirmSheet(context, ref, messageId: message.id),

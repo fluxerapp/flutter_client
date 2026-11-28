@@ -24,6 +24,20 @@ String keybindActionLabel(FluxerLocalizations l10n, KeybindAction action) {
       return l10n.keybindActionCopyText;
     case KeybindAction.messageMarkUnread:
       return l10n.keybindActionMarkUnread;
+    case KeybindAction.messageReplyPrev:
+    case KeybindAction.messageReplyNext:
+      return l10n.keybindActionReplyAdjacent;
+    case KeybindAction.messageEditPrev:
+    case KeybindAction.messageEditNext:
+      return l10n.keybindActionEditAdjacent;
+    case KeybindAction.messageBookmark:
+      return l10n.chatMessageBookmark;
+    case KeybindAction.messageToggleEmbeds:
+      return l10n.keybindActionToggleEmbeds;
+    case KeybindAction.messageCopyLink:
+      return l10n.chatMessageCopyMessageLink;
+    case KeybindAction.messageCopyId:
+      return l10n.chatMessageCopyMessageId;
     case KeybindAction.messageFocusTextarea:
       return l10n.keybindActionFocusTextarea;
     case KeybindAction.navGuildPrev:

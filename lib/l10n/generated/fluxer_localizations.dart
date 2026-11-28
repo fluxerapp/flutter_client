@@ -30533,6 +30533,102 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Reset media position'**
   String get mediaViewerResetPosition;
+
+  /// Keybind action label for replying to the previous or next message from the composer.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply to messages above or below'**
+  String get keybindActionReplyAdjacent;
+
+  /// Keybind action label for editing your previous or next message from the composer.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit your messages above or below'**
+  String get keybindActionEditAdjacent;
+
+  /// Keybind action label that hides or shows link previews on the focused message.
+  ///
+  /// In en, this message translates to:
+  /// **'Toggle embed suppression'**
+  String get keybindActionToggleEmbeds;
+
+  /// Toast shown when media is copied to the clipboard as its URL.
+  ///
+  /// In en, this message translates to:
+  /// **'URL copied to clipboard'**
+  String get chatMediaUrlCopied;
+
+  /// Message context menu submenu label with additional media actions.
+  ///
+  /// In en, this message translates to:
+  /// **'More media actions'**
+  String get chatMediaMoreActions;
+
+  /// Media context menu action that searches the web for the image.
+  ///
+  /// In en, this message translates to:
+  /// **'Reverse image search'**
+  String get chatMediaReverseImageSearch;
+
+  /// Media context menu action that copies the attachment ID to the clipboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy attachment ID'**
+  String get chatMediaCopyAttachmentId;
+
+  /// Message context menu submenu that removes every reaction of one emoji from a message.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove reactions'**
+  String get chatMessageRemoveReactions;
+
+  /// Hint next to the default search provider in a provider submenu.
+  ///
+  /// In en, this message translates to:
+  /// **'Default'**
+  String get searchProviderDefaultHint;
+
+  /// Message context menu action that copies the selected text.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy'**
+  String get chatMessageCopySelection;
+
+  /// Message context menu action that searches the web for the selected text.
+  ///
+  /// In en, this message translates to:
+  /// **'Search the web'**
+  String get chatMessageSearchWeb;
+
+  /// Media context menu action that copies the media. {kind} is the media type.
+  ///
+  /// In en, this message translates to:
+  /// **'{kind, select, image{Copy image} gif{Copy GIF} gifv{Copy GIF} video{Copy video} audio{Copy audio} file{Copy link} other{Copy media}}'**
+  String chatMediaCopy(String kind);
+
+  /// Media context menu action that copies the media URL. {kind} is the media type.
+  ///
+  /// In en, this message translates to:
+  /// **'{kind, select, image{Copy image link} gif{Copy GIF link} gifv{Copy GIF link} video{Copy video link} audio{Copy audio link} file{Copy file link} other{Copy link}}'**
+  String chatMediaCopyLink(String kind);
+
+  /// Media context menu action that opens the media URL in a browser. {kind} is the media type.
+  ///
+  /// In en, this message translates to:
+  /// **'{kind, select, image{Open image link} gif{Open GIF link} gifv{Open GIF link} video{Open video link} audio{Open audio link} file{Open file link} other{Open link}}'**
+  String chatMediaOpenLink(String kind);
+
+  /// Media context menu action that downloads the media. {kind} is the media type.
+  ///
+  /// In en, this message translates to:
+  /// **'{kind, select, image{Download image} gif{Download GIF} gifv{Download GIF} video{Download video} audio{Download audio} file{Download file} other{Download media}}'**
+  String chatMediaDownload(String kind);
+
+  /// Tooltip hint on a quick reaction in the message context menu. {shortcut} is a key such as 1.
+  ///
+  /// In en, this message translates to:
+  /// **'Press {shortcut} to react'**
+  String chatMessagePressShortcutToReact(String shortcut);
 }
 
 class _FluxerLocalizationsDelegate

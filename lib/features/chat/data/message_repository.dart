@@ -775,6 +775,18 @@ class MessageRepository {
     );
   }
 
+  Future<void> removeAllReactionsForEmoji({
+    required String channelId,
+    required String messageId,
+    required String emoji,
+  }) async {
+    await _client.channels.removeAllReactionsForEmoji(
+      channelId: channelId,
+      messageId: messageId,
+      emoji: emoji,
+    );
+  }
+
   Future<void> removeAllReactions({
     required String channelId,
     required String messageId,

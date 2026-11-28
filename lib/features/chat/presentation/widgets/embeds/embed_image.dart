@@ -6,6 +6,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_network
 import 'package:fluxer_app/features/chat/presentation/widgets/media/embed_animated_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/media_load_error_placeholder.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/media_thumb_hash_placeholder.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/menu_target/message_media_menu_region.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_double_tap_exemption.dart';
 import 'package:fluxer_app/features/chat/utils/embeds/embed_animated_image_url.dart';
 import 'package:fluxer_app/features/chat/utils/embeds/embed_gallery_utils.dart';
@@ -84,62 +85,69 @@ class EmbedImage extends ConsumerWidget {
       child: MediaThumbHashPlaceholder(thumbHash: media.placeholder),
     );
     const Widget errorPlaceholder = MediaLoadErrorPlaceholder();
-    return Container(
-      margin: const EdgeInsets.only(top: 4),
-      constraints: BoxConstraints(
-        maxWidth: dimensions.maxWidth,
-        maxHeight: dimensions.maxHeight,
+    return MessageMediaMenuRegion(
+      target: messageMediaMenuTargetForEmbed(
+        embed: embed,
+        media: media,
+        embedIndex: embedIndex,
       ),
-      child: MatureMediaOverlay(
-        channelId: channelId,
-        isMatureMedia: embed.isMatureMedia,
-        borderRadius: BorderRadius.circular(4),
-        child: ClipRRect(
+      child: Container(
+        margin: const EdgeInsets.only(top: 4),
+        constraints: BoxConstraints(
+          maxWidth: dimensions.maxWidth,
+          maxHeight: dimensions.maxHeight,
+        ),
+        child: MatureMediaOverlay(
+          channelId: channelId,
+          isMatureMedia: embed.isMatureMedia,
           borderRadius: BorderRadius.circular(4),
-          child: MessageDoubleTapExempt(
-            child: FluxerGestureDetector(
-              onTap: canOpenEmbedMediaViewer(media)
-                  ? () => openEmbedMediaViewer(
-                      context,
-                      media: media,
-                      title: embed.title,
-                      embedPageUrl: embed.url,
-                      animated: animate,
-                      embedIndex: embedIndex,
-                      channelId: channelId,
-                      messageId: messageId,
-                      actionScope: mediaActionScope,
-                    )
-                  : null,
-              child: animate
-                  ? SizedBox(
-                      width: cellWidth,
-                      height: cellHeight,
-                      child: EmbedAnimatedImage(
-                        animatedUrl: animatedEmbedImageUrl(
-                          embedMediaEffectiveUrl(media),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(4),
+            child: MessageDoubleTapExempt(
+              child: FluxerGestureDetector(
+                onTap: canOpenEmbedMediaViewer(media)
+                    ? () => openEmbedMediaViewer(
+                        context,
+                        media: media,
+                        title: embed.title,
+                        embedPageUrl: embed.url,
+                        animated: animate,
+                        embedIndex: embedIndex,
+                        channelId: channelId,
+                        messageId: messageId,
+                        actionScope: mediaActionScope,
+                      )
+                    : null,
+                child: animate
+                    ? SizedBox(
+                        width: cellWidth,
+                        height: cellHeight,
+                        child: EmbedAnimatedImage(
+                          animatedUrl: animatedEmbedImageUrl(
+                            embedMediaEffectiveUrl(media),
+                          ),
+                          staticUrl: staticEmbedImageUrl(
+                            embedMediaEffectiveUrl(media),
+                          ),
+                          placeholder: placeholder,
+                          errorPlaceholder: errorPlaceholder,
                         ),
-                        staticUrl: staticEmbedImageUrl(
-                          embedMediaEffectiveUrl(media),
+                      )
+                    : _EmbedStaticImage(
+                        imageUrl: buildHdrAwareImageUrl(
+                          url: embedMediaEffectiveUrl(media),
+                          mode: hdrDisplayMode,
+                          contentType: media.contentType,
                         ),
+                        contentType: media.contentType,
+                        cellWidth: cellWidth,
+                        cellHeight: cellHeight,
+                        sourceWidth: media.width,
+                        sourceHeight: media.height,
                         placeholder: placeholder,
                         errorPlaceholder: errorPlaceholder,
                       ),
-                    )
-                  : _EmbedStaticImage(
-                      imageUrl: buildHdrAwareImageUrl(
-                        url: embedMediaEffectiveUrl(media),
-                        mode: hdrDisplayMode,
-                        contentType: media.contentType,
-                      ),
-                      contentType: media.contentType,
-                      cellWidth: cellWidth,
-                      cellHeight: cellHeight,
-                      sourceWidth: media.width,
-                      sourceHeight: media.height,
-                      placeholder: placeholder,
-                      errorPlaceholder: errorPlaceholder,
-                    ),
+              ),
             ),
           ),
         ),

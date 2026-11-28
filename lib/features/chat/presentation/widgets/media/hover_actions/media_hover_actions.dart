@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/menu_target/message_media_menu_region.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_action_bar.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/attachment_download_service.dart';
 import 'package:fluxer_app/features/chat/utils/media/favorite_media_utils.dart';
@@ -63,6 +64,16 @@ class _MediaHoverActionsState extends ConsumerState<MediaHoverActions> {
 
   @override
   Widget build(BuildContext context) {
+    final Attachment? attachment = widget.attachment;
+    return MessageMediaMenuRegion(
+      target: attachment == null
+          ? null
+          : messageMediaMenuTargetForAttachment(attachment),
+      child: _buildHoverActions(context),
+    );
+  }
+
+  Widget _buildHoverActions(BuildContext context) {
     final MessageMediaActionScope? scope = widget.actionScope;
     if (scope == null || !usesDesktopPointerUi(context) || !_fits) {
       return widget.child;

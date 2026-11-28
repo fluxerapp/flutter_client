@@ -204,6 +204,7 @@ class MessageQuickReactionRow extends StatelessWidget {
     required this.guildId,
     required this.onReaction,
     this.onAddMore,
+    this.menuShortcuts = false,
     super.key,
   });
 
@@ -211,6 +212,7 @@ class MessageQuickReactionRow extends StatelessWidget {
   final String? guildId;
   final ValueChanged<QuickReactionItem> onReaction;
   final VoidCallback? onAddMore;
+  final bool menuShortcuts;
 
   @override
   Widget build(BuildContext context) {
@@ -222,6 +224,7 @@ class MessageQuickReactionRow extends StatelessWidget {
             items: items,
             onReaction: onReaction,
             onAddMore: onAddMore,
+            menuShortcuts: menuShortcuts,
           ),
     );
   }

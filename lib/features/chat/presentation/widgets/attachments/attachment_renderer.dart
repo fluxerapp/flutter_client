@@ -8,6 +8,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attach
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attachment_render_state.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attachment_video.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/voice_message_player.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/menu_target/message_media_menu_region.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_upload_progress.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/spoiler_overlay.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/uploading_attachment_utils.dart';
@@ -119,7 +120,10 @@ class AttachmentRenderer extends ConsumerWidget {
       );
     }
     if (renderState.shouldRenderAsFile) {
-      return AttachmentFile(attachment: attachment);
+      return MessageMediaMenuRegion(
+        target: messageMediaMenuTargetForAttachment(attachment),
+        child: AttachmentFile(attachment: attachment),
+      );
     }
     return switch (renderState.type) {
       AttachmentRenderType.image => AttachmentImage(
@@ -145,8 +149,14 @@ class AttachmentRenderer extends ConsumerWidget {
               attachment: attachment,
             )
             ? VoiceMessagePlayer(attachment: attachment)
-            : AttachmentAudio(attachment: attachment),
-      AttachmentRenderType.file => AttachmentFile(attachment: attachment),
+            : MessageMediaMenuRegion(
+                target: messageMediaMenuTargetForAttachment(attachment),
+                child: AttachmentAudio(attachment: attachment),
+              ),
+      AttachmentRenderType.file => MessageMediaMenuRegion(
+        target: messageMediaMenuTargetForAttachment(attachment),
+        child: AttachmentFile(attachment: attachment),
+      ),
     };
   }
 }

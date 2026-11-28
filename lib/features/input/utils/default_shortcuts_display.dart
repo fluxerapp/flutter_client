@@ -4,6 +4,8 @@ import 'package:fluxer_app/features/input/domain/keybind_section.dart';
 
 const List<(KeybindAction, KeybindAction)> kShortcutMergePairs =
     <(KeybindAction, KeybindAction)>[
+      (KeybindAction.messageReplyPrev, KeybindAction.messageReplyNext),
+      (KeybindAction.messageEditPrev, KeybindAction.messageEditNext),
       (KeybindAction.navGuildPrev, KeybindAction.navGuildNext),
       (KeybindAction.navChannelPrev, KeybindAction.navChannelNext),
       (KeybindAction.navHistoryBack, KeybindAction.navHistoryForward),
@@ -17,7 +19,11 @@ const Map<KeybindSection, List<KeybindAction>> kShortcutSectionDisplayOrder =
     <KeybindSection, List<KeybindAction>>{
       KeybindSection.messages: <KeybindAction>[
         KeybindAction.messageReply,
+        KeybindAction.messageReplyPrev,
+        KeybindAction.messageReplyNext,
         KeybindAction.messageEdit,
+        KeybindAction.messageEditPrev,
+        KeybindAction.messageEditNext,
         KeybindAction.messageDelete,
         KeybindAction.messageReact,
         KeybindAction.messageForward,

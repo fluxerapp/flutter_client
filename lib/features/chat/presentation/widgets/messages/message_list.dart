@@ -65,6 +65,7 @@ import 'package:fluxer_app/features/chat/presentation/'
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_reactions_bar.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'widgets/messages/message_tile_cache.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/selection/message_list_selection_area.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/system/system_message_desktop_frame.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'widgets/messages/system_message.dart';
@@ -1078,76 +1079,80 @@ class _MessageListState extends ConsumerState<MessageList> {
                   : null;
               _leadingFillerExtent = leadingFiller?.specs.totalHeight ?? 0;
               _trailingFillerExtent = trailingFiller?.specs.totalHeight ?? 0;
-              final Widget list = AnimatedImagePlaybackScope(
-                controller: _animatedImagePlaybackController,
-                child: ListenableBuilder(
-                  listenable: _deferHorizontalWhileCoasting,
-                  builder: (BuildContext context, Widget? child) {
-                    return DeferHorizontalDragWhileCoasting(
-                      defer: _deferHorizontalWhileCoasting.value,
-                      child: child!,
-                    );
-                  },
-                  child: _builtViewport = MessageListViewport(
-                    anchorEpoch: _anchorEpoch,
-                    withheldLeading: _pendingOlderReveal,
-                    stream: channelStream,
-                    anchorId: _anchorId,
-                    anchorFraction: _anchorFraction,
-                    anchorEdge: _anchorEdge,
-                    controller: _scrollController,
-                    leadingFiller: leadingFiller,
-                    trailingFiller: trailingFiller,
-                    centerKey: _unreadCenterKey,
-                    itemBuilder: (BuildContext context, int dataIndex) =>
-                        _centerStreamTile(
-                          context: context,
-                          stream: channelStream,
-                          dataIndex: dataIndex,
-                          highlightedMessageId: highlightedMessageId,
-                          replyingToMessageId: replyingToMessageId,
-                          currentUserId: currentUserId,
-                          isDmChannel: isDmChannel,
-                          guildId: guildId,
-                          channelPermissionBits: channelPermissionBits,
-                          channelCanSendMessages:
-                              channelActions.canSendMessages,
-                          channelCanAddReactions:
-                              channelActions.canAddReactions,
-                          channelCanPinMessage: channelActions.canPinMessage,
-                          channelCanManageMessages:
-                              channelActions.canManageMessages,
-                          renderSettings: messageRenderSettings,
-                          blockedUserIds: blockedUserIds,
-                          revealedCollapsedGroupKey: revealedCollapsedGroupKey,
-                          isGuildSendDisabled: isGuildSendDisabled,
-                        ),
-                    childIndexForKey:
-                        (
-                          Key key,
-                          int startInclusive,
-                          int endExclusive, {
-                          required bool reverse,
-                        }) => _centerChildIndexForStream(
-                          key,
-                          channelStream,
-                          streamIndex,
-                          startInclusive,
-                          endExclusive,
-                          reverse: reverse,
-                        ),
-                    scrollCacheExtentPixels: _useCompactScrollCache
-                        ? _kMessageListCompactScrollCacheExtent
-                        : _kMessageListScrollCacheExtent,
-                    onScrollNotification: _onScrollNotification,
-                    onScrollMetricsNotification: _onScrollMetricsNotification,
-                    isLoadingMore: isLoadingMore,
-                    isLoadingNewer: isLoadingNewer,
-                    onPointerDown: _onViewportPointerDown,
-                    onPointerUp: _onViewportPointerUp,
-                    trailingInset: _statusOverlayInset,
-                    liveLeadingPad: _unreadOpenLayout ? _openPad : null,
-                    startOfChannelHeader: startOfChannelHeader,
+              final Widget list = MessageListSelectionArea(
+                enabled: usesDesktopPointerUi(context),
+                child: AnimatedImagePlaybackScope(
+                  controller: _animatedImagePlaybackController,
+                  child: ListenableBuilder(
+                    listenable: _deferHorizontalWhileCoasting,
+                    builder: (BuildContext context, Widget? child) {
+                      return DeferHorizontalDragWhileCoasting(
+                        defer: _deferHorizontalWhileCoasting.value,
+                        child: child!,
+                      );
+                    },
+                    child: _builtViewport = MessageListViewport(
+                      anchorEpoch: _anchorEpoch,
+                      withheldLeading: _pendingOlderReveal,
+                      stream: channelStream,
+                      anchorId: _anchorId,
+                      anchorFraction: _anchorFraction,
+                      anchorEdge: _anchorEdge,
+                      controller: _scrollController,
+                      leadingFiller: leadingFiller,
+                      trailingFiller: trailingFiller,
+                      centerKey: _unreadCenterKey,
+                      itemBuilder: (BuildContext context, int dataIndex) =>
+                          _centerStreamTile(
+                            context: context,
+                            stream: channelStream,
+                            dataIndex: dataIndex,
+                            highlightedMessageId: highlightedMessageId,
+                            replyingToMessageId: replyingToMessageId,
+                            currentUserId: currentUserId,
+                            isDmChannel: isDmChannel,
+                            guildId: guildId,
+                            channelPermissionBits: channelPermissionBits,
+                            channelCanSendMessages:
+                                channelActions.canSendMessages,
+                            channelCanAddReactions:
+                                channelActions.canAddReactions,
+                            channelCanPinMessage: channelActions.canPinMessage,
+                            channelCanManageMessages:
+                                channelActions.canManageMessages,
+                            renderSettings: messageRenderSettings,
+                            blockedUserIds: blockedUserIds,
+                            revealedCollapsedGroupKey:
+                                revealedCollapsedGroupKey,
+                            isGuildSendDisabled: isGuildSendDisabled,
+                          ),
+                      childIndexForKey:
+                          (
+                            Key key,
+                            int startInclusive,
+                            int endExclusive, {
+                            required bool reverse,
+                          }) => _centerChildIndexForStream(
+                            key,
+                            channelStream,
+                            streamIndex,
+                            startInclusive,
+                            endExclusive,
+                            reverse: reverse,
+                          ),
+                      scrollCacheExtentPixels: _useCompactScrollCache
+                          ? _kMessageListCompactScrollCacheExtent
+                          : _kMessageListScrollCacheExtent,
+                      onScrollNotification: _onScrollNotification,
+                      onScrollMetricsNotification: _onScrollMetricsNotification,
+                      isLoadingMore: isLoadingMore,
+                      isLoadingNewer: isLoadingNewer,
+                      onPointerDown: _onViewportPointerDown,
+                      onPointerUp: _onViewportPointerUp,
+                      trailingInset: _statusOverlayInset,
+                      liveLeadingPad: _unreadOpenLayout ? _openPad : null,
+                      startOfChannelHeader: startOfChannelHeader,
+                    ),
                   ),
                 ),
               );

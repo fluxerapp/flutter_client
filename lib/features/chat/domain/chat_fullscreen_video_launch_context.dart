@@ -48,6 +48,7 @@ class MessageActionPermissions {
     required this.developerMode,
     this.isSendDisabled = false,
     this.canPublish = false,
+    this.isPreviewing = false,
   });
 
   final bool isOwnMessage;
@@ -61,6 +62,7 @@ class MessageActionPermissions {
   final bool developerMode;
   final bool isSendDisabled;
   final bool canPublish;
+  final bool isPreviewing;
 }
 
 class MessageMediaActionScope {

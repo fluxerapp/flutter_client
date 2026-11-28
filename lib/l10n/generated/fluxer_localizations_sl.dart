@@ -18496,4 +18496,98 @@ class FluxerLocalizationsSl extends FluxerLocalizations {
 
   @override
   String get mediaViewerResetPosition => 'Reset media position';
+
+  @override
+  String get keybindActionReplyAdjacent => 'Reply to messages above or below';
+
+  @override
+  String get keybindActionEditAdjacent => 'Edit your messages above or below';
+
+  @override
+  String get keybindActionToggleEmbeds => 'Toggle embed suppression';
+
+  @override
+  String get chatMediaUrlCopied => 'URL copied to clipboard';
+
+  @override
+  String get chatMediaMoreActions => 'More media actions';
+
+  @override
+  String get chatMediaReverseImageSearch => 'Reverse image search';
+
+  @override
+  String get chatMediaCopyAttachmentId => 'Copy attachment ID';
+
+  @override
+  String get chatMessageRemoveReactions => 'Remove reactions';
+
+  @override
+  String get searchProviderDefaultHint => 'Default';
+
+  @override
+  String get chatMessageCopySelection => 'Copy';
+
+  @override
+  String get chatMessageSearchWeb => 'Search the web';
+
+  @override
+  String chatMediaCopy(String kind) {
+    String _temp0 = intl.Intl.selectLogic(kind, {
+      'image': 'Copy image',
+      'gif': 'Copy GIF',
+      'gifv': 'Copy GIF',
+      'video': 'Copy video',
+      'audio': 'Copy audio',
+      'file': 'Copy link',
+      'other': 'Copy media',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String chatMediaCopyLink(String kind) {
+    String _temp0 = intl.Intl.selectLogic(kind, {
+      'image': 'Copy image link',
+      'gif': 'Copy GIF link',
+      'gifv': 'Copy GIF link',
+      'video': 'Copy video link',
+      'audio': 'Copy audio link',
+      'file': 'Copy file link',
+      'other': 'Copy link',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String chatMediaOpenLink(String kind) {
+    String _temp0 = intl.Intl.selectLogic(kind, {
+      'image': 'Open image link',
+      'gif': 'Open GIF link',
+      'gifv': 'Open GIF link',
+      'video': 'Open video link',
+      'audio': 'Open audio link',
+      'file': 'Open file link',
+      'other': 'Open link',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String chatMediaDownload(String kind) {
+    String _temp0 = intl.Intl.selectLogic(kind, {
+      'image': 'Download image',
+      'gif': 'Download GIF',
+      'gifv': 'Download GIF',
+      'video': 'Download video',
+      'audio': 'Download audio',
+      'file': 'Download file',
+      'other': 'Download media',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String chatMessagePressShortcutToReact(String shortcut) {
+    return 'Press $shortcut to react';
+  }
 }

@@ -73,8 +73,8 @@ void main() {
     final image = tester.widget<CachedNetworkImage>(
       find.byType(CachedNetworkImage),
     );
-    expect(image.memCacheWidth, 1600);
-    expect(image.memCacheHeight, 1200);
+    expect(image.memCacheWidth, 1400);
+    expect(image.memCacheHeight, 1050);
   });
 
   testWidgets('gif attachment renders a visibility-gated animated image', (

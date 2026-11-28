@@ -5,6 +5,7 @@ import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
+import 'package:fluxer_app/features/bookmarks/utils/saved_message_actions.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/ack_batcher_provider.dart';
 import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
@@ -21,6 +22,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression
 import 'package:fluxer_app/features/chat/providers/channel/channel_header_search_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_provider.dart';
+import 'package:fluxer_app/features/chat/utils/messages/message_embed_suppression.dart';
 import 'package:fluxer_app/features/chat/utils/messages/message_link.dart';
 import 'package:fluxer_app/features/dm/presentation/create_dm_flow.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
@@ -34,6 +36,7 @@ import 'package:fluxer_app/features/input/providers/focused_message_provider.dar
 import 'package:fluxer_app/features/input/providers/keybind_handler_registry.dart';
 import 'package:fluxer_app/features/input/providers/keybind_preferences_provider.dart';
 import 'package:fluxer_app/features/input/providers/keyboard_mode_provider.dart';
+import 'package:fluxer_app/features/input/services/keybind_message_actions.dart';
 import 'package:fluxer_app/features/input/services/keybind_navigation.dart';
 import 'package:fluxer_app/features/notifications/data/notifications_repository.dart';
 import 'package:fluxer_app/features/notifications/domain/unread_inbox_entry.dart';
@@ -53,6 +56,7 @@ import 'package:fluxer_app/features/voice/tts/tts_locale_utils.dart';
 import 'package:fluxer_app/features/voice/utils/callkit/incoming_call_actions.dart';
 import 'package:fluxer_app/features/voice/utils/screen_share/screen_share_actions.dart';
 import 'package:fluxer_app/l10n/app_locale_provider.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 
@@ -560,6 +564,84 @@ void registerKeybindHandlers({
           return false;
         }
         await copyToClipboard(context: context, value: text);
+        return true;
+      });
+    })
+    ..register(KeybindAction.messageReplyPrev, () async {
+      final bool handled = stepAdjacentReply(ref, direction: -1);
+      if (handled) {
+        composerFocus.requestComposerFocus();
+      }
+      return handled;
+    })
+    ..register(KeybindAction.messageReplyNext, () async {
+      final bool handled = stepAdjacentReply(ref, direction: 1);
+      if (handled) {
+        composerFocus.requestComposerFocus();
+      }
+      return handled;
+    })
+    ..register(KeybindAction.messageEditPrev, () async {
+      final bool handled = stepAdjacentEdit(ref, direction: -1);
+      if (handled) {
+        composerFocus.requestComposerFocus();
+      }
+      return handled;
+    })
+    ..register(KeybindAction.messageEditNext, () async {
+      final bool handled = stepAdjacentEdit(ref, direction: 1);
+      if (handled) {
+        composerFocus.requestComposerFocus();
+      }
+      return handled;
+    })
+    ..register(KeybindAction.messageBookmark, () {
+      return withFocusedMessage((Message message) async {
+        if (!message.isUserMessage ||
+            !message.supportsInteractiveActions ||
+            !context.mounted) {
+          return false;
+        }
+        await toggleSavedMessageBookmark(
+          ref: ref,
+          l10n: FluxerLocalizations.of(context),
+          channelId: message.channelId,
+          messageId: message.id,
+        );
+        return true;
+      });
+    })
+    ..register(KeybindAction.messageToggleEmbeds, () {
+      return withFocusedMessage((Message message) async {
+        if (!canToggleEmbedsFromKeybind(ref, message)) {
+          return false;
+        }
+        await toggleMessageEmbedSuppression(ref: ref, message: message);
+        return true;
+      });
+    })
+    ..register(KeybindAction.messageCopyLink, () {
+      return withFocusedMessage((Message message) async {
+        if (!message.supportsInteractiveActions || !context.mounted) {
+          return false;
+        }
+        await copyToClipboard(
+          context: context,
+          value: messageLink(
+            channelId: message.channelId,
+            messageId: message.id,
+            guildId: ref.read(activeGuildIdProvider),
+          ),
+        );
+        return true;
+      });
+    })
+    ..register(KeybindAction.messageCopyId, () {
+      return withFocusedMessage((Message message) async {
+        if (!context.mounted) {
+          return false;
+        }
+        await copyToClipboard(context: context, value: message.id);
         return true;
       });
     })

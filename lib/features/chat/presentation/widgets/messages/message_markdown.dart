@@ -1,7 +1,10 @@
+import 'package:flutter/rendering.dart' show SelectionRegistrar;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_selection_area.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/selection/message_list_selection_area.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/selection/message_selection_content.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
 import 'package:fluxer_app/features/chat/utils/messages/markdown_timestamp_format.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -26,7 +29,7 @@ class MessageMarkdown extends ConsumerWidget {
     this.maxLines,
     this.overflow,
     this.trailingInlineWidget,
-    this.onSecondaryTapUpWithoutSelection,
+    this.onSecondaryTapUp,
     super.key,
   });
 
@@ -43,7 +46,7 @@ class MessageMarkdown extends ConsumerWidget {
   final int? maxLines;
   final TextOverflow? overflow;
   final Widget? trailingInlineWidget;
-  final GestureTapUpCallback? onSecondaryTapUpWithoutSelection;
+  final MessageSecondaryTapCallback? onSecondaryTapUp;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -78,21 +81,25 @@ class MessageMarkdown extends ConsumerWidget {
       trailingInlineWidget: trailingInlineWidget,
       astParser: parseNativeFluxerMarkdownAst,
     );
+    final SelectionRegistrar? listRegistrar = selectable
+        ? MessageListSelectionArea.registrarOf(context)
+        : null;
     return FluxerBoundedTextClip(
       child: MessageMarkdownBinding(
         channelId: channelId,
         guildId: guildId,
         mentionChannels: mentionChannels,
-        child: selectable
-            ? MessageSelectionArea(
+        child: !selectable
+            ? markdown
+            : listRegistrar != null
+            ? MessageSelectionContent(registrar: listRegistrar, child: markdown)
+            : MessageSelectionArea(
                 contextMenuBuilder:
                     settings.selectionContextMenuBuilder ??
                     selectionMenuBuilderFor(settings.searchEngines),
-                onSecondaryTapUpWithoutSelection:
-                    onSecondaryTapUpWithoutSelection,
+                onSecondaryTapUp: onSecondaryTapUp,
                 child: markdown,
-              )
-            : markdown,
+              ),
       ),
     );
   }

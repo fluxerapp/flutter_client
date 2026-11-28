@@ -10,6 +10,7 @@ import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/domain/message_media_menu_target.dart';
 import 'package:fluxer_app/features/chat/domain/message_translation.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/crosspost_community_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/message_reactions_sheet.dart';
@@ -24,6 +25,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_rich.
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_spoiler_wrap.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_theme.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_video.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/menu_target/message_media_menu_region.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/message_bottom_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'widgets/message_actions/message_context_menu.dart';
@@ -47,6 +49,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_r
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_row_layout.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_sticker_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_translation_indicator.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/selection/message_list_selection_area.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/timestamp/message_timestamp_tooltip.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_details_drawer_provider.dart';
@@ -92,6 +95,7 @@ import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/providers/member_icon_role_provider.dart';
 import 'package:fluxer_app/shared/providers/member_role_color.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
+import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_app/shared/utils/input_modality.dart';
@@ -230,6 +234,8 @@ class MessageItem extends ConsumerStatefulWidget {
 
   final String? previewRoleGuildId;
 
+  final bool isPreviewing;
+
   final MessageRenderSettings? renderSettings;
 
   const MessageItem({
@@ -265,6 +271,7 @@ class MessageItem extends ConsumerStatefulWidget {
     this.isJumpHighlighted = false,
     this.swipeToReplyEnabled = true,
     this.previewRoleGuildId,
+    this.isPreviewing = false,
     this.renderSettings,
     super.key,
   });
@@ -641,6 +648,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         ),
         isSendDisabled: widget.isSendDisabled,
         canPublish: _canPublish(message),
+        isPreviewing: widget.isPreviewing,
       ),
     );
   }
@@ -682,6 +690,9 @@ class _MessageItemState extends ConsumerState<MessageItem> {
       final String? linkUrl = renderObject is RenderBox
           ? fluxerMarkdownLinkHrefAt(renderObject, globalPosition)
           : null;
+      final MessageMediaMenuTarget? mediaTarget = renderObject is RenderBox
+          ? messageMediaMenuTargetAt(renderObject, globalPosition)
+          : null;
       FluxerHaptics.medium();
       final String? guildId = _guildIdForMessageActions();
       final MessageAction? action = await showMessageBottomSheet(
@@ -704,7 +715,10 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         quickReactionGuildId: guildId,
         onQuickReaction: _dispatchQuickReaction,
         attachmentCallbacks: _videoActionScope.callbacks,
+        isPreviewing: widget.isPreviewing,
         linkUrl: linkUrl,
+        mediaTarget: mediaTarget,
+        hostRef: ref,
       );
       _dispatchMenuAction(
         action,
@@ -722,8 +736,22 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     BuildContext context,
     Offset position, {
     Rect? anchorRect,
+    String? selectedText,
   }) async {
     final String? guildId = _guildIdForMessageActions();
+    final String selectionText =
+        selectedText ??
+        MessageListSelectionArea.maybeOf(context)?.takeSelectionSnapshot() ??
+        '';
+    final RenderObject? renderObject = anchorRect == null
+        ? context.findRenderObject()
+        : null;
+    final String? linkUrl = renderObject is RenderBox
+        ? fluxerMarkdownLinkHrefAt(renderObject, position)
+        : null;
+    final MessageMediaMenuTarget? mediaTarget = renderObject is RenderBox
+        ? messageMediaMenuTargetAt(renderObject, position)
+        : null;
     final ValueNotifier<bool> openFlag =
         (anchorRect == null ? _contextMenuOpen : _moreMenuOpen)..value = true;
     MessageMenuSelection? selection;
@@ -732,12 +760,16 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         context,
         position: position,
         anchorRect: anchorRect,
+        hostRef: ref,
         message: widget.message,
         permissions: _videoActionScope.permissions,
         callbacks: _videoActionScope.callbacks,
         onQuickReaction: _dispatchQuickReaction,
         quickReactionChannelId: widget.message.channelId,
         quickReactionGuildId: guildId,
+        linkUrl: linkUrl,
+        selectedText: selectionText,
+        mediaTarget: mediaTarget,
       );
     } finally {
       if (mounted) {
@@ -767,6 +799,15 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     unawaited(_showContextMenu(context, anchor.topLeft, anchorRect: anchor));
   }
 
+  void _copyCombinedMessageId() {
+    unawaited(
+      copyToClipboard(
+        context: context,
+        value: '${widget.message.channelId}-${widget.message.id}',
+      ),
+    );
+  }
+
   void _requestDelete(FluxerKeyModifiers modifiers) {
     final FluxerSelectCallback? onDeleteSelect = widget.onDeleteSelect;
     if (onDeleteSelect != null) {
@@ -790,6 +831,10 @@ class _MessageItemState extends ConsumerState<MessageItem> {
       return;
     }
     if (!context.mounted) {
+      return;
+    }
+    if (action == MessageAction.copyMessageId && modifiers.shift) {
+      _copyCombinedMessageId();
       return;
     }
     _handleAction(action, isMobile: isMobile);
@@ -1651,10 +1696,13 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                     ),
                   )) &&
               !isMobile),
-      onSecondaryTapUpWithoutSelection:
+      onSecondaryTapUp:
           usesDesktopPointerUi(context) && !widget.inboxPreviewMode
-          ? (TapUpDetails details) =>
-                _showContextMenu(context, details.globalPosition)
+          ? (TapUpDetails details, String selectedText) => _showContextMenu(
+              context,
+              details.globalPosition,
+              selectedText: selectedText,
+            )
           : null,
       channelId: msg.channelId,
       mentionChannels: msg.mentionChannels,
@@ -2593,8 +2641,9 @@ class _MessageItemState extends ConsumerState<MessageItem> {
           ),
         MessageActionBarButton(
           label: l10n.chatMessageCopyMessageId,
-          onTap: () =>
-              _handleAction(MessageAction.copyMessageId, isMobile: false),
+          onSelect: (FluxerKeyModifiers modifiers) => modifiers.shift
+              ? _copyCombinedMessageId()
+              : _handleAction(MessageAction.copyMessageId, isMobile: false),
           child: const PhosphorIcon(PhosphorIconsRegular.snowflake),
         ),
         if (interactive)
@@ -2604,12 +2653,13 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                 _handleAction(MessageAction.copyMessageLink, isMobile: false),
             child: const PhosphorIcon(PhosphorIconsBold.link),
           ),
-        MessageActionBarButton(
-          label: l10n.chatMessageMarkAsUnread,
-          onTap: () =>
-              _handleAction(MessageAction.markAsUnread, isMobile: false),
-          child: const PhosphorIcon(PhosphorIconsFill.envelopeOpen),
-        ),
+        if (!widget.isPreviewing)
+          MessageActionBarButton(
+            label: l10n.chatMessageMarkAsUnread,
+            onTap: () =>
+                _handleAction(MessageAction.markAsUnread, isMobile: false),
+            child: const PhosphorIcon(PhosphorIconsFill.envelopeOpen),
+          ),
         if (msg.isUserMessage && widget.canPinMessage)
           MessageActionBarButton(
             label: msg.isPinned ? l10n.chatMessageUnpin : l10n.chatMessagePin,
