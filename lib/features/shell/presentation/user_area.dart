@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/input/domain/keybind_action.dart';
 import 'package:fluxer_app/features/profile/domain/custom_status_utils.dart';
 import 'package:fluxer_app/features/profile/domain/presence_status_labels.dart';
 import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
@@ -178,6 +179,7 @@ class UserArea extends ConsumerWidget {
         tooltip: isMuted
             ? l10n.userAreaUnmuteMicrophone
             : l10n.userAreaMuteMicrophone,
+        tooltipKeybindAction: KeybindAction.voiceToggleMute,
         onPressed: () {
           unawaited(ref.read(voiceSessionProvider.notifier).toggleSelfMute());
         },
@@ -193,6 +195,7 @@ class UserArea extends ConsumerWidget {
         tooltip: isDeafened
             ? l10n.voiceControlUndeafen
             : l10n.voiceControlDeafen,
+        tooltipKeybindAction: KeybindAction.voiceToggleDeafen,
         onPressed: () {
           unawaited(ref.read(voiceSessionProvider.notifier).toggleSelfDeafen());
         },
@@ -201,6 +204,7 @@ class UserArea extends ConsumerWidget {
       UserPanelControlButton(
         icon: const PhosphorIcon(PhosphorIconsRegular.gear),
         tooltip: l10n.userAreaUserSettings,
+        tooltipKeybindAction: KeybindAction.systemToggleSettings,
         onPressed: onSettingsTap,
       ),
     ];

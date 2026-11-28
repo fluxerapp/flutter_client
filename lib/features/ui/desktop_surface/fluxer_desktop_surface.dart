@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:math' as math;
-import 'dart:ui' show ImageFilter;
 
 import 'package:flutter/gestures.dart' show kSecondaryButton;
 import 'package:flutter/rendering.dart' show RenderProxyBox;
@@ -8,10 +7,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_mix.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
+import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/input/providers/keyboard_mode_provider.dart';
 import 'package:fluxer_app/features/shell/foldable/crease_overlay_layout.dart';
 import 'package:fluxer_app/features/shell/foldable/device_fold_posture.dart';
+import 'package:fluxer_app/features/ui/modal/fluxer_modal_size.dart';
 import 'package:fluxer_app/features/ui/slider/fluxer_slider.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_key_modifiers.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
@@ -68,10 +69,12 @@ class FluxerDesktopPresentation {
     this.showPanelBorder = true,
     this.borderRadius,
     this.reveal = false,
+    this.modalSize,
   });
 
   final FluxerDesktopSurface? surface;
   final double? width;
+  final FluxerModalSize? modalSize;
   final FluxerDesktopPlacement placement;
   final BuildContext? anchorContext;
   final bool showPanelBorder;

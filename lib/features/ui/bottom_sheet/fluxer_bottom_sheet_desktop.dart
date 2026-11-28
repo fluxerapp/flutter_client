@@ -67,7 +67,7 @@ Future<T?> _showFluxerDesktopSheet<T>(
     origin: origin,
     dismissible: isDismissible,
     barrierTint: barrierColor,
-    duration: !isModal && presentation.reveal ? context.motion.panel : null,
+    duration: !isModal && presentation.reveal ? context.motion.popout : null,
     onCreated: (FluxerDesktopRoute<T> route) {
       _lastDesktopByNavigator[navigator] = route;
     },
@@ -76,7 +76,12 @@ Future<T?> _showFluxerDesktopSheet<T>(
       return _buildSheetWithBackHandler(
         child: isModal
             ? _FluxerDesktopModalFrame(
-                width: presentation.width ?? defaultModalWidth,
+                width:
+                    presentation.width ??
+                    presentation.modalSize?.desktopWidth(
+                      MediaQuery.sizeOf(sheetContext).width,
+                    ) ??
+                    defaultModalWidth,
                 borderRadius: presentation.borderRadius ?? 8,
                 maxHeight: maxHeight,
                 child: content,
@@ -337,7 +342,9 @@ class _FluxerDesktopAnchoredFrame extends StatelessWidget {
             ? kFluxerDesktopMenuPointerOffset
             : 0,
       ),
-      child: presentation.reveal && animation != null
+      child:
+          (presentation.reveal || surface == FluxerDesktopSurface.popout) &&
+              animation != null
           ? ScaleTransition(
               scale: animation.drive(
                 Tween<double>(

@@ -86,6 +86,7 @@ import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/channel_member_count_cache_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/guilds/services/guild_verification.dart';
+import 'package:fluxer_app/features/input/domain/keybind_action.dart';
 import 'package:fluxer_app/features/input/providers/chat_keybind_effects_provider.dart';
 import 'package:fluxer_app/features/input/providers/composer_focus_coordinator_provider.dart';
 import 'package:fluxer_app/features/input/providers/focused_message_provider.dart';
@@ -284,6 +285,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     required IconData icon,
     required VoidCallback? onPressed,
     required String tooltip,
+    KeybindAction? keybindAction,
     double iconSize = _kWideComposerIconSize,
     FluxerButtonSize touchSize = FluxerButtonSize.small,
     bool leadingTouchGap = false,
@@ -299,6 +301,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
         : WideComposerMouseButton(
             icon: icon,
             tooltip: tooltip,
+            keybindAction: keybindAction,
             onPressed: onPressed,
           );
     final Widget wrapped = _composerOpacity(
@@ -1715,6 +1718,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
               context: context,
               icon: PhosphorIconsFill.gif,
               tooltip: FluxerLocalizations.of(context).emojiTabGifs,
+              keybindAction: KeybindAction.chatToggleGif,
               leadingTouchGap: _touchGapBeforeWideExpressionButton(
                 composerButtonTabs,
                 ExpressionPickerTab.gifs,
@@ -1747,6 +1751,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
               context: context,
               icon: PhosphorIconsFill.imageSquare,
               tooltip: FluxerLocalizations.of(context).emojiTabMedia,
+              keybindAction: KeybindAction.chatToggleSavedMedia,
               leadingTouchGap: _touchGapBeforeWideExpressionButton(
                 composerButtonTabs,
                 ExpressionPickerTab.memes,
@@ -1779,6 +1784,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
               context: context,
               icon: PhosphorIconsFill.sticker,
               tooltip: FluxerLocalizations.of(context).emojiTabStickers,
+              keybindAction: KeybindAction.chatToggleSticker,
               leadingTouchGap: _touchGapBeforeWideExpressionButton(
                 composerButtonTabs,
                 ExpressionPickerTab.stickers,
@@ -1810,6 +1816,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
               context: context,
               icon: PhosphorIconsFill.smiley,
               tooltip: FluxerLocalizations.of(context).emojiTabEmojis,
+              keybindAction: KeybindAction.chatToggleEmoji,
               leadingTouchGap: _touchGapBeforeWideExpressionButton(
                 composerButtonTabs,
                 ExpressionPickerTab.emojis,

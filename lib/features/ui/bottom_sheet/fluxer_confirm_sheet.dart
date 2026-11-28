@@ -1,6 +1,7 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_autofocus.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 
@@ -57,13 +58,17 @@ class FluxerConfirmSheet {
                   SizedBox(height: layout.s4),
                 ?body,
                 SizedBox(height: layout.s4),
-                if (isDanger)
-                  FluxerButton.dangerPrimary(
-                    onPressed: confirm,
-                    label: confirmLabel,
-                  )
-                else
-                  FluxerButton.primary(onPressed: confirm, label: confirmLabel),
+                FluxerAutofocus(
+                  child: isDanger
+                      ? FluxerButton.dangerPrimary(
+                          onPressed: confirm,
+                          label: confirmLabel,
+                        )
+                      : FluxerButton.primary(
+                          onPressed: confirm,
+                          label: confirmLabel,
+                        ),
+                ),
                 if (cancelLabel != null) ...[
                   SizedBox(height: layout.s2),
                   FluxerButton.secondary(

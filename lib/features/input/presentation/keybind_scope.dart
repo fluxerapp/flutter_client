@@ -28,6 +28,7 @@ import 'package:fluxer_app/features/input/services/keybind_handlers.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/desktop_surface/fluxer_desktop_surface.dart';
 import 'package:fluxer_app/features/ui/input/text_editing_shortcuts.dart';
+import 'package:fluxer_app/features/ui/overlay/fluxer_layer_stack.dart';
 import 'package:fluxer_app/features/ui/roving_focus/fluxer_roving_focus_list.dart';
 import 'package:fluxer_app/features/voice/providers/pending_incoming_voice_calls_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -192,7 +193,13 @@ class _KeybindScopeState extends ConsumerState<KeybindScope>
   }
 
   bool _handleKeyEvent(KeyEvent event) {
-    if (isTouchPrimaryInput(ref) || KeybindRecorder.isRecording) {
+    if (KeybindRecorder.isRecording) {
+      return false;
+    }
+    if (FluxerLayerStack.instance.handleEscape(event)) {
+      return true;
+    }
+    if (isTouchPrimaryInput(ref)) {
       return false;
     }
     if (event is KeyUpEvent) {
@@ -202,6 +209,9 @@ class _KeybindScopeState extends ConsumerState<KeybindScope>
       return _dispatcher.matchHoldActions(event).any(_heldActions.contains);
     }
     if (event is! KeyDownEvent) {
+      return false;
+    }
+    if (event.logicalKey == LogicalKeyboardKey.escape && _isLayerOpen()) {
       return false;
     }
 
@@ -316,7 +326,7 @@ class _KeybindScopeState extends ConsumerState<KeybindScope>
     final ComposerFocusCoordinator composer = ref.read(
       composerFocusCoordinatorProvider,
     );
-    if (!composer.hasComposer || _isModalOpen()) {
+    if (!composer.hasComposer || _isLayerOpen()) {
       return false;
     }
     return composer.composerHasFocus() || !_isTextInputFocused();
@@ -329,7 +339,7 @@ class _KeybindScopeState extends ConsumerState<KeybindScope>
     }
     if (ref.read(keyboardModeProvider) ||
         _controlHasFocus() ||
-        _isModalOpen()) {
+        _isLayerOpen()) {
       return false;
     }
     final ComposerFocusCoordinator composer = ref.read(
@@ -434,6 +444,8 @@ class _KeybindScopeState extends ConsumerState<KeybindScope>
       channelHasUnread: channelHasUnread,
     );
   }
+
+  bool _isLayerOpen() => FluxerLayerStack.instance.hasLayers || _isModalOpen();
 
   bool _isModalOpen() {
     final BuildContext? rootContext = rootNavigatorKey.currentContext;

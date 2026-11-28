@@ -8,8 +8,10 @@ import 'package:fluxer_app/features/chat/presentation/sheets/channel_pins_sheet.
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/header/channel_header_icon_button.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/header/channel_pins_content.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_pins_open_request_provider.dart';
+import 'package:fluxer_app/features/input/domain/keybind_action.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/desktop_surface/fluxer_desktop_surface.dart';
+import 'package:fluxer_app/features/ui/overlay/fluxer_layer.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -196,7 +198,11 @@ class _ChannelPinsOverlayButtonState
     }
     return OverlayPortal(
       controller: _overlayController,
-      overlayChildBuilder: _buildOverlay,
+      overlayChildBuilder: (BuildContext context) => FluxerLayer(
+        onClose: _close,
+        trapFocus: usesDesktopPointerUi(context),
+        child: _buildOverlay(context),
+      ),
       child: CompositedTransformTarget(
         link: _layerLink,
         child: widget.anchorBuilder(context, isOpen: isOpen, toggle: _toggle),
@@ -227,6 +233,7 @@ ChannelPinsOverlayButton buildChannelPinsButton({
                 : l10n.channelHeaderPinnedMessages,
             isActive: isOpen,
             showIndicator: hasUnreadPins,
+            keybindAction: KeybindAction.chatTogglePins,
             onPressed: toggle,
           );
         },

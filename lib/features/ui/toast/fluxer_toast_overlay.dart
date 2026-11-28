@@ -111,8 +111,9 @@ class _ToastItem extends StatefulWidget {
 class _ToastItemState extends State<_ToastItem>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
-  late final Animation<Offset> _slideAnimation;
-  late final Animation<double> _fadeAnimation;
+  late final CurvedAnimation _fadeAnimation;
+
+  static const double _entranceOffset = -30;
 
   @override
   void initState() {
@@ -121,14 +122,10 @@ class _ToastItemState extends State<_ToastItem>
       vsync: this,
       duration: FluxerMotionTheme.panelDuration,
     );
-    _slideAnimation = Tween<Offset>(
-      begin: const Offset(0, -1),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
-    _fadeAnimation = Tween<double>(
-      begin: 0,
-      end: 1,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
+    _fadeAnimation = CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeOut,
+    );
     if (widget.entry.isVisible) {
       _controller.forward();
     }
@@ -155,6 +152,7 @@ class _ToastItemState extends State<_ToastItem>
 
   @override
   void dispose() {
+    _fadeAnimation.dispose();
     _controller.dispose();
     super.dispose();
   }
@@ -175,8 +173,12 @@ class _ToastItemState extends State<_ToastItem>
     final Widget? leading = widget.entry.toast.leading;
     final bool centerMessage = message.contains('\n') && leading != null;
 
-    return SlideTransition(
-      position: _slideAnimation,
+    return AnimatedBuilder(
+      animation: _fadeAnimation,
+      builder: (BuildContext context, Widget? child) => Transform.translate(
+        offset: Offset(0, _entranceOffset * (1 - _fadeAnimation.value)),
+        child: child,
+      ),
       child: FadeTransition(
         opacity: _fadeAnimation,
         child: IgnorePointer(

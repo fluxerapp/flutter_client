@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/input/domain/keybind_action.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
@@ -12,6 +13,7 @@ class ChannelHeaderIconButton extends ConsumerWidget {
     required this.onPressed,
     this.isActive = false,
     this.showIndicator = false,
+    this.keybindAction,
     super.key,
   });
 
@@ -20,6 +22,7 @@ class ChannelHeaderIconButton extends ConsumerWidget {
   final VoidCallback onPressed;
   final bool isActive;
   final bool showIndicator;
+  final KeybindAction? keybindAction;
 
   static const double _visualSize = 32;
   static const double _iconSize = 24;
@@ -33,6 +36,7 @@ class ChannelHeaderIconButton extends ConsumerWidget {
         onPressed: onPressed,
         isActive: isActive,
         showIndicator: showIndicator,
+        keybindAction: keybindAction,
       );
     }
     final bool touchPrimary = isTouchPrimaryInput(ref);
@@ -91,6 +95,7 @@ class _DesktopChannelHeaderIconButton extends StatelessWidget {
     required this.onPressed,
     required this.isActive,
     required this.showIndicator,
+    this.keybindAction,
   });
 
   final IconData icon;
@@ -98,6 +103,7 @@ class _DesktopChannelHeaderIconButton extends StatelessWidget {
   final VoidCallback onPressed;
   final bool isActive;
   final bool showIndicator;
+  final KeybindAction? keybindAction;
 
   @override
   Widget build(BuildContext context) {
@@ -105,6 +111,7 @@ class _DesktopChannelHeaderIconButton extends StatelessWidget {
     return FluxerTooltip(
       message: label,
       position: FluxerTooltipPosition.below,
+      keybindAction: keybindAction,
       child: FluxerTappable(
         onTap: onPressed,
         selected: isActive,

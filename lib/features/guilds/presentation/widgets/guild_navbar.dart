@@ -107,6 +107,7 @@ import 'package:fluxer_app/features/shell/navigation/root_overlay_navigation.dar
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_guild_acronym.dart';
 import 'package:fluxer_app/features/ui/keybind_hint/fluxer_keybind_hint.dart';
+import 'package:fluxer_app/features/ui/tooltip/fluxer_tooltip_keybind_hint.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -721,11 +722,13 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
           label: l10n.guildNavbarAddCommunity,
           icon: PhosphorIconsBold.plus,
           onTap: () => unawaited(showAddGuildModal(context, ref)),
+          keybindAction: KeybindAction.navAddGuild,
         );
       case _NavbarListEntryKind.help:
         return _DashedGuildIcon(
           label: l10n.guildNavbarHelp,
           icon: PhosphorIconsBold.questionMark,
+          keybindAction: KeybindAction.miscHelp,
           onTap: () =>
               handleExternalLinkTap(context, InstanceConstants.helpCenterUrl),
         );

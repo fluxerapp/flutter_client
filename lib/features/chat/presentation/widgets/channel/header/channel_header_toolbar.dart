@@ -26,6 +26,7 @@ import 'package:fluxer_app/features/dm/providers/create_dm_view_model.dart';
 import 'package:fluxer_app/features/favorites/domain/favorite_guild_id.dart';
 import 'package:fluxer_app/features/favorites/providers/favorite_channels_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_permissions_provider.dart';
+import 'package:fluxer_app/features/input/domain/keybind_action.dart';
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
 import 'package:fluxer_app/features/notifications/presentation/inbox_popout.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/appearance_preferences_provider.dart';
@@ -151,6 +152,7 @@ class ChannelHeaderToolbar extends ConsumerWidget {
             icon: PhosphorIconsFill.users,
             label: l10n.channelHeaderMemberList,
             isActive: isMemberListVisible,
+            keybindAction: KeybindAction.chatToggleMemberList,
             onPressed: () => ref
                 .read(channelListViewModelProvider.notifier)
                 .toggleMemberList(
@@ -177,6 +179,7 @@ class ChannelHeaderToolbar extends ConsumerWidget {
                   icon: PhosphorIconsFill.tray,
                   label: l10n.channelHeaderInbox,
                   isActive: isOpen,
+                  keybindAction: KeybindAction.chatToggleInbox,
                   onPressed: toggle,
                 ),
           )

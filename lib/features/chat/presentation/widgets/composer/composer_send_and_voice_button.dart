@@ -10,6 +10,7 @@ import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_blocked_provider.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_command.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_voice_button_visibility.dart';
+import 'package:fluxer_app/features/input/domain/keybind_combo.dart';
 import 'package:fluxer_app/features/settings/providers/preferences/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -186,6 +187,7 @@ class ComposerSendAndVoiceButton extends ConsumerWidget {
                   child: WideComposerMouseButton(
                     icon: PhosphorIconsFill.paperPlaneRight,
                     tooltip: l10n.composerSendMessage,
+                    keybindCombo: const KeybindCombo(key: 'Enter'),
                     onPressed: sendOnPressed,
                   ),
                 )

@@ -19,12 +19,14 @@ class _DashedGuildIcon extends StatefulWidget {
   final IconData icon;
   final VoidCallback onTap;
   final bool isSelected;
+  final KeybindAction? keybindAction;
 
   const _DashedGuildIcon({
     required this.label,
     required this.icon,
     required this.onTap,
     this.isSelected = false,
+    this.keybindAction,
   });
 
   @override
@@ -56,7 +58,15 @@ class _DashedGuildIconState extends State<_DashedGuildIcon> {
       ),
       child: Center(
         child: _RightTooltip(
-          content: _TooltipLabel(label: widget.label),
+          content: widget.keybindAction == null
+              ? _TooltipLabel(label: widget.label)
+              : Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    _TooltipLabel(label: widget.label),
+                    FluxerTooltipKeybindHint(action: widget.keybindAction),
+                  ],
+                ),
           child: MouseRegion(
             onEnter: (_) => setState(() => _isHovered = true),
             onExit: (_) => setState(() => _isHovered = false),

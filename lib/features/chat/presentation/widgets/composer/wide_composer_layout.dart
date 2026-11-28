@@ -1,4 +1,6 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/input/domain/keybind_action.dart';
+import 'package:fluxer_app/features/input/domain/keybind_combo.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -168,12 +170,16 @@ class WideComposerMouseButton extends StatelessWidget {
     required this.icon,
     required this.tooltip,
     required this.onPressed,
+    this.keybindAction,
+    this.keybindCombo,
     super.key,
   });
 
   final IconData icon;
   final String tooltip;
   final VoidCallback? onPressed;
+  final KeybindAction? keybindAction;
+  final KeybindCombo? keybindCombo;
 
   @override
   Widget build(BuildContext context) {
@@ -182,6 +188,8 @@ class WideComposerMouseButton extends StatelessWidget {
       semanticLabel: tooltip,
       onPressed: onPressed,
       showTooltip: true,
+      tooltipKeybindAction: keybindAction,
+      tooltipKeybindCombo: keybindCombo,
       extent: WideComposerLayout.actionButtonExtent,
       iconSize: WideComposerLayout.mouseButtonIconSize,
       borderRadius: WideComposerLayout.mouseButtonRadius,

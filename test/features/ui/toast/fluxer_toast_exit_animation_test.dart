@@ -93,6 +93,9 @@ void main() {
       await tester.pump(const Duration(milliseconds: 50));
       expect(find.text('Auto dismiss'), findsOneWidget);
 
+      await tester.pump(FluxerToast.minimumDuration);
+      expect(find.text('Auto dismiss'), findsOneWidget);
+
       await tester.pump(fluxerToastAnimationDuration);
       await tester.pump();
 

@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:math' as math;
 
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/desktop/downloads/desktop_download.dart';
 import 'package:fluxer_app/core/desktop/downloads/desktop_downloads_provider.dart';
@@ -10,6 +9,7 @@ import 'package:fluxer_app/features/shell/presentation/widgets/native_downloads/
 import 'package:fluxer_app/features/shell/presentation/widgets/native_downloads/native_downloads_panel.dart';
 import 'package:fluxer_app/features/shell/presentation/widgets/native_downloads/native_downloads_pressable.dart';
 import 'package:fluxer_app/features/shell/presentation/widgets/native_downloads/native_downloads_style.dart';
+import 'package:fluxer_app/features/ui/overlay/fluxer_layer.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/icons/phosphor.dart';
@@ -140,16 +140,6 @@ class _NativeDownloadsPopoutState extends ConsumerState<_NativeDownloadsPopout>
     }
   }
 
-  KeyEventResult _handleKeyEvent(FocusNode node, KeyEvent event) {
-    if (!_isOpen ||
-        event is! KeyDownEvent ||
-        event.logicalKey != LogicalKeyboardKey.escape) {
-      return KeyEventResult.ignored;
-    }
-    _close();
-    return KeyEventResult.handled;
-  }
-
   double _viewportPadding(Size overlay) => switch (overlay.shortestSide) {
     < 768 => 8,
     < 1024 => 12,
@@ -211,19 +201,18 @@ class _NativeDownloadsPopoutState extends ConsumerState<_NativeDownloadsPopout>
 
   @override
   Widget build(BuildContext context) {
-    return Focus(
-      canRequestFocus: false,
-      skipTraversal: true,
-      includeSemantics: false,
-      onKeyEvent: _handleKeyEvent,
-      child: OverlayPortal.overlayChildLayoutBuilder(
-        controller: _overlayController,
-        overlayChildBuilder: _buildOverlay,
-        child: TapRegion(
-          groupId: kNativeTitlebarTapGroup,
-          onTapOutside: (_) => _close(),
-          child: _NativeDownloadsTrigger(isOpen: _isOpen, onPressed: _toggle),
-        ),
+    return OverlayPortal.overlayChildLayoutBuilder(
+      controller: _overlayController,
+      overlayChildBuilder:
+          (BuildContext context, OverlayChildLayoutInfo info) => FluxerLayer(
+            onClose: _close,
+            active: _isOpen,
+            child: _buildOverlay(context, info),
+          ),
+      child: TapRegion(
+        groupId: kNativeTitlebarTapGroup,
+        onTapOutside: (_) => _close(),
+        child: _NativeDownloadsTrigger(isOpen: _isOpen, onPressed: _toggle),
       ),
     );
   }

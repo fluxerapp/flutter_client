@@ -119,6 +119,7 @@ class FluxerDesktopRoute<T> extends PopupRoute<T> {
     required this.dismissible,
     required this.dismissLabel,
     required this.duration,
+    this.reverseDuration,
     this.origin,
     this.barrierTint,
   });
@@ -129,6 +130,7 @@ class FluxerDesktopRoute<T> extends PopupRoute<T> {
   final bool dismissible;
   final String dismissLabel;
   final Duration duration;
+  final Duration? reverseDuration;
   final Route<dynamic>? origin;
   final Color? barrierTint;
 
@@ -149,6 +151,9 @@ class FluxerDesktopRoute<T> extends PopupRoute<T> {
 
   @override
   Duration get transitionDuration => duration;
+
+  @override
+  Duration get reverseTransitionDuration => reverseDuration ?? duration;
 
   @override
   Widget buildPage(
@@ -179,35 +184,42 @@ class FluxerDesktopRoute<T> extends PopupRoute<T> {
   }
 
   @override
+  Curve get barrierCurve =>
+      _isModal ? const Interval(0, 0.57, curve: Curves.easeOut) : Curves.ease;
+
+  @override
   Widget buildTransitions(
     BuildContext context,
     Animation<double> animation,
     Animation<double> secondaryAnimation,
     Widget child,
   ) {
-    final CurvedAnimation curved = CurvedAnimation(
-      parent: animation,
-      curve: Curves.easeOut,
-    );
-    if (!_isModal) {
-      return FadeTransition(opacity: curved, child: child);
+    if (surface == FluxerDesktopSurface.menu) {
+      return FadeTransition(
+        opacity: CurvedAnimation(parent: animation, curve: Curves.easeOut),
+        child: child,
+      );
     }
+    if (!_isModal) {
+      return FadeTransition(
+        opacity: CurvedAnimation(parent: animation, curve: Curves.easeInOut),
+        child: child,
+      );
+    }
+    final CurvedAnimation spring = CurvedAnimation(
+      parent: animation,
+      curve: FluxerMotionTheme.modalSpringCurve,
+      reverseCurve: Curves.easeOut,
+    );
     return FadeTransition(
-      opacity: curved,
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          IgnorePointer(
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
-              child: const SizedBox.expand(),
-            ),
-          ),
-          ScaleTransition(
-            scale: Tween<double>(begin: 0.98, end: 1).animate(curved),
-            child: child,
-          ),
-        ],
+      opacity: CurvedAnimation(
+        parent: animation,
+        curve: const Interval(0, 0.57, curve: Curves.easeOut),
+        reverseCurve: Curves.easeOut,
+      ),
+      child: ScaleTransition(
+        scale: Tween<double>(begin: 0.95, end: 1).animate(spring),
+        child: child,
       ),
     );
   }
@@ -336,9 +348,14 @@ Future<T?> pushFluxerDesktopRoute<T>(
     dismissLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
     duration:
         duration ??
-        (surface == FluxerDesktopSurface.modal
-            ? context.motion.normal
-            : Duration.zero),
+        switch (surface) {
+          FluxerDesktopSurface.modal => context.motion.modal,
+          FluxerDesktopSurface.popout => context.motion.popout,
+          FluxerDesktopSurface.menu => Duration.zero,
+        },
+    reverseDuration: surface == FluxerDesktopSurface.modal
+        ? context.motion.normal
+        : null,
     capturedThemes: InheritedTheme.capture(
       from: context,
       to: navigator.context,

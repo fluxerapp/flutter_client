@@ -121,6 +121,18 @@ class FluxerMotionTheme extends ThemeExtension<FluxerMotionTheme> {
   final Curve pushCurve;
   final Curve sheetCurve;
 
+  Duration get popout => panel > suppressedDuration ? popoutDuration : panel;
+
+  Duration get modal => panel > suppressedDuration ? modalDuration : panel;
+
+  static const Duration popoutDuration = Duration(milliseconds: 250);
+  static const Duration modalDuration = Duration(milliseconds: 350);
+  static const Curve modalSpringCurve = FluxerSpringCurve(
+    stiffness: 500,
+    damping: 37.5,
+    duration: modalDuration,
+  );
+
   @override
   FluxerMotionTheme copyWith({
     Duration? hover,

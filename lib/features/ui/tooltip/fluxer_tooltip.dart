@@ -1,12 +1,19 @@
 import 'dart:async';
 import 'dart:math' as math;
 
+import 'package:flutter/services.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/input/domain/keybind_action.dart';
+import 'package:fluxer_app/features/input/domain/keybind_combo.dart';
 import 'package:fluxer_app/features/ui/desktop_surface/fluxer_desktop_surface.dart';
 import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
+import 'package:fluxer_app/features/ui/tooltip/fluxer_tooltip_keybind_hint.dart';
+import 'package:fluxer_app/features/ui/tooltip/fluxer_tooltip_max_width.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
+
+export 'package:fluxer_app/features/ui/tooltip/fluxer_tooltip_max_width.dart';
 
 enum FluxerTooltipPosition { above, below, left, right }
 
@@ -16,6 +23,9 @@ class FluxerTooltip extends StatefulWidget {
     this.message,
     this.richMessage,
     this.position = FluxerTooltipPosition.above,
+    this.maxWidth = FluxerTooltipMaxWidth.standard,
+    this.keybindAction,
+    this.keybindCombo,
     super.key,
   }) : assert(
          message != null || richMessage != null,
@@ -26,6 +36,11 @@ class FluxerTooltip extends StatefulWidget {
   final String? message;
   final Widget? richMessage;
   final FluxerTooltipPosition position;
+  final FluxerTooltipMaxWidth maxWidth;
+  final KeybindAction? keybindAction;
+  final KeybindCombo? keybindCombo;
+
+  bool get _hasKeybind => keybindAction != null || keybindCombo != null;
 
   @override
   State<FluxerTooltip> createState() => _FluxerTooltipState();
@@ -45,6 +60,7 @@ class _FluxerTooltipState extends State<FluxerTooltip>
   Timer? _hideTimer;
   Timer? _longPressTimer;
   bool _isHovering = false;
+  bool _isFocused = false;
 
   static const Duration _fadeDuration = Duration(milliseconds: 100);
   static const Duration _showDelay = Duration(milliseconds: 500);
@@ -52,7 +68,6 @@ class _FluxerTooltipState extends State<FluxerTooltip>
   static const Duration _longPressDuration = Duration(seconds: 2);
   static const double _tooltipGap = 8;
   static const double _screenInset = 8;
-  static const double _maxWidth = 190;
 
   @override
   void initState() {
@@ -147,6 +162,37 @@ class _FluxerTooltipState extends State<FluxerTooltip>
     });
   }
 
+  void _handleFocusChange(bool focused) {
+    if (focused == _isFocused) {
+      return;
+    }
+    _isFocused = focused;
+    if (focused) {
+      if (HardwareKeyboard.instance.logicalKeysPressed.isNotEmpty) {
+        _showTimer?.cancel();
+        _showTooltip();
+      }
+      return;
+    }
+    if (!_isHovering) {
+      _hideTooltip();
+    }
+  }
+
+  Widget? _resolvedRichMessage() {
+    if (widget.richMessage != null) {
+      return widget.richMessage;
+    }
+    if (widget._hasKeybind) {
+      return FluxerTooltipWithKeybind(
+        label: widget.message!,
+        action: widget.keybindAction,
+        combo: widget.keybindCombo,
+      );
+    }
+    return null;
+  }
+
   void _handleLongPress() {
     _showTooltip();
     _longPressTimer?.cancel();
@@ -191,12 +237,10 @@ class _FluxerTooltipState extends State<FluxerTooltip>
             borderRadius: layout.radiusMd,
             border: Border.all(color: colors.backgroundModifierAccent),
           ),
-          child:
-              widget.richMessage ??
-              Text(
-                widget.message!,
-                style: textStyles.bodySmall.copyWith(color: colors.textPrimary),
-              ),
+          child: DefaultTextStyle.merge(
+            style: textStyles.bodySmall.copyWith(color: colors.textPrimary),
+            child: _resolvedRichMessage() ?? Text(widget.message!),
+          ),
         ),
       ),
     );
@@ -216,10 +260,12 @@ class _FluxerTooltipState extends State<FluxerTooltip>
     final Color surface = fluxerFormSurfaceBackground(context);
     final Color border = colors.backgroundModifierAccent;
 
+    final double? maxWidth = widget.maxWidth.width;
+    final Widget? richMessage = _resolvedRichMessage();
     final Widget bubble = Container(
-      constraints: widget.richMessage == null
-          ? const BoxConstraints(maxWidth: _maxWidth)
-          : null,
+      constraints: maxWidth == null || widget.richMessage != null
+          ? null
+          : BoxConstraints(maxWidth: maxWidth),
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
       decoration: fluxerDesktopFloatingDecoration(
         context,
@@ -237,8 +283,7 @@ class _FluxerTooltipState extends State<FluxerTooltip>
         ).copyWith(color: colors.textPrimary),
         textAlign: TextAlign.center,
         child:
-            widget.richMessage ??
-            Text(widget.message!, textAlign: TextAlign.center),
+            richMessage ?? Text(widget.message!, textAlign: TextAlign.center),
       ),
     );
 
@@ -287,13 +332,19 @@ class _FluxerTooltipState extends State<FluxerTooltip>
   @override
   Widget build(BuildContext context) {
     final String? semanticsLabel = widget.message;
-    final Widget target = MouseRegion(
-      onEnter: _handleMouseEnter,
-      onExit: _handleMouseExit,
-      child: FluxerGestureDetector(
-        onLongPress: _handleLongPress,
-        behavior: HitTestBehavior.translucent,
-        child: widget.child,
+    final Widget target = Focus(
+      canRequestFocus: false,
+      skipTraversal: true,
+      includeSemantics: false,
+      onFocusChange: _handleFocusChange,
+      child: MouseRegion(
+        onEnter: _handleMouseEnter,
+        onExit: _handleMouseExit,
+        child: FluxerGestureDetector(
+          onLongPress: _handleLongPress,
+          behavior: HitTestBehavior.translucent,
+          child: widget.child,
+        ),
       ),
     );
     return OverlayPortal.overlayChildLayoutBuilder(

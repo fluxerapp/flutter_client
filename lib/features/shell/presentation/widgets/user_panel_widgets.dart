@@ -1,4 +1,5 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/input/domain/keybind_action.dart';
 import 'package:fluxer_app/features/ui/desktop_surface/fluxer_desktop_surface.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/features/ui/tooltip/fluxer_tooltip.dart';
@@ -33,6 +34,7 @@ class UserPanelControlButton extends StatefulWidget {
     this.isActive = false,
     this.isSelected = false,
     this.tooltip,
+    this.tooltipKeybindAction,
     super.key,
   });
 
@@ -41,6 +43,7 @@ class UserPanelControlButton extends StatefulWidget {
   final bool isActive;
   final bool isSelected;
   final String? tooltip;
+  final KeybindAction? tooltipKeybindAction;
 
   @override
   State<UserPanelControlButton> createState() => _UserPanelControlButtonState();
@@ -115,7 +118,11 @@ class _UserPanelControlButtonState extends State<UserPanelControlButton> {
     if (widget.tooltip == null || widget.tooltip!.isEmpty) {
       return button;
     }
-    return FluxerTooltip(message: widget.tooltip, child: button);
+    return FluxerTooltip(
+      message: widget.tooltip,
+      keybindAction: widget.tooltipKeybindAction,
+      child: button,
+    );
   }
 
   @override

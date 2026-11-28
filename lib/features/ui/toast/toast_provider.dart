@@ -108,7 +108,7 @@ class Toast extends _$Toast {
       isVisible: true,
     );
     state = [entry];
-    _autoDismissTimer = Timer(toast.duration, () => dismiss(entry.id));
+    _autoDismissTimer = Timer(toast.displayDuration, () => dismiss(entry.id));
   }
 
   void _remove(int id) {

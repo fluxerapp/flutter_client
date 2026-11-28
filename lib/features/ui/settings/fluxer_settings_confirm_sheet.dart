@@ -32,16 +32,17 @@ Future<bool?> showFluxerSettingsConfirmSheet(
               ),
             ),
             SizedBox(height: layout.s5),
-            if (isDanger)
-              FluxerButton.dangerPrimary(
-                onPressed: () => Navigator.of(sheetContext).pop(true),
-                label: confirmLabel,
-              )
-            else
-              FluxerButton.primary(
-                onPressed: () => Navigator.of(sheetContext).pop(true),
-                label: confirmLabel,
-              ),
+            FluxerAutofocus(
+              child: isDanger
+                  ? FluxerButton.dangerPrimary(
+                      onPressed: () => Navigator.of(sheetContext).pop(true),
+                      label: confirmLabel,
+                    )
+                  : FluxerButton.primary(
+                      onPressed: () => Navigator.of(sheetContext).pop(true),
+                      label: confirmLabel,
+                    ),
+            ),
           ],
         ),
       );

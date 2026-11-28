@@ -29,7 +29,9 @@ class WideSettingsModalOverlay extends StatelessWidget {
           FluxerGestureDetector(
             onTap: () => Navigator.of(context).maybePop(),
             behavior: HitTestBehavior.opaque,
-            child: ColoredBox(color: Colors.black.withValues(alpha: 0.35)),
+            child: ColoredBox(
+              color: Colors.black.withValues(alpha: desktop ? 0.85 : 0.35),
+            ),
           ),
           Padding(
             padding: insets,

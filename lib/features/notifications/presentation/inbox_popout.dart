@@ -16,6 +16,7 @@ import 'package:fluxer_app/features/notifications/providers/notifications_provid
 import 'package:fluxer_app/features/settings/providers/preferences/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/desktop_surface/fluxer_desktop_surface.dart';
+import 'package:fluxer_app/features/ui/overlay/fluxer_layer.dart';
 import 'package:fluxer_app/features/ui/settings/fluxer_settings_confirm_sheet.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
@@ -191,7 +192,12 @@ class _InboxPopoutButtonState extends State<InboxPopoutButton>
     final bool isOpen = _overlayController.isShowing;
     return OverlayPortal.overlayChildLayoutBuilder(
       controller: _overlayController,
-      overlayChildBuilder: _buildOverlay,
+      overlayChildBuilder:
+          (BuildContext context, OverlayChildLayoutInfo info) => FluxerLayer(
+            onClose: _close,
+            trapFocus: usesDesktopPointerUi(context),
+            child: _buildOverlay(context, info),
+          ),
       child: widget.anchorBuilder(context, isOpen: isOpen, toggle: _toggle),
     );
   }

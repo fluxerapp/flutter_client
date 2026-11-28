@@ -7,7 +7,9 @@ import 'package:fluxer_app/features/shell/utils/shell_popup_presentation.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/desktop_surface/fluxer_desktop_surface.dart';
+import 'package:fluxer_app/features/ui/modal/fluxer_modal_size.dart';
 import 'package:fluxer_app/features/ui/overlay/fluxer_overlay_back_handler.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_autofocus.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -36,14 +38,16 @@ class FluxerModal {
     Widget? trailing,
     VoidCallback? onBack,
     bool centered = false,
+    FluxerModalSize size = FluxerModalSize.small,
     bool? useRootNavigator,
   }) {
-    return showDialog<T>(
-      context: context,
-      useRootNavigator:
-          useRootNavigator ?? resolveShellPopupUseRootNavigator(context),
-      barrierColor: Colors.transparent,
-      builder: (dialogContext) {
+    final bool desktopRoute =
+        usesDesktopPointerUi(context) && (centered || !isMobileLayout(context));
+    return _presentFluxerModal<T>(
+      context,
+      desktopRoute: desktopRoute,
+      useRootNavigator: useRootNavigator,
+      builder: (BuildContext dialogContext) {
         void close() => Navigator.of(dialogContext).pop();
         void pop([T? result]) => Navigator.of(dialogContext).pop(result);
         final List<Widget> footerActions =
@@ -103,7 +107,9 @@ class FluxerModal {
 
           return ConstrainedBox(
             constraints: BoxConstraints(
-              maxWidth: desktop ? 440 : 400,
+              maxWidth: desktop
+                  ? size.desktopWidth(mediaQuery.size.width)
+                  : 400,
               maxHeight: dialogMaxHeight,
             ),
             child: Column(
@@ -170,6 +176,7 @@ class FluxerModal {
           dialogContext,
           close: close,
           onBack: onBack,
+          routeBackdrop: desktopRoute,
           child: useMobileFullscreen
               ? SafeArea(
                   child: Align(
@@ -203,13 +210,14 @@ class FluxerModal {
     BuildContext context, {
     required String semanticLabel,
     required FluxerModalBuilder builder,
+    FluxerModalSize size = FluxerModalSize.small,
     bool? useRootNavigator,
   }) {
-    return showDialog<T>(
-      context: context,
-      useRootNavigator:
-          useRootNavigator ?? resolveShellPopupUseRootNavigator(context),
-      barrierColor: Colors.transparent,
+    final bool desktopRoute = usesDesktopPointerUi(context);
+    return _presentFluxerModal<T>(
+      context,
+      desktopRoute: desktopRoute,
+      useRootNavigator: useRootNavigator,
       builder: (BuildContext dialogContext) {
         void close() => Navigator.of(dialogContext).pop();
         final layout = dialogContext.layout;
@@ -218,6 +226,7 @@ class FluxerModal {
         return _buildFluxerModalOverlay(
           dialogContext,
           close: close,
+          routeBackdrop: desktopRoute,
           child: CreaseAwareAlign(
             child: Dialog(
               insetPadding: const EdgeInsets.symmetric(
@@ -234,7 +243,13 @@ class FluxerModal {
                 explicitChildNodes: true,
                 label: semanticLabel,
                 child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 440),
+                  constraints: BoxConstraints(
+                    maxWidth: desktopRoute
+                        ? size.desktopWidth(
+                            MediaQuery.sizeOf(dialogContext).width,
+                          )
+                        : 440,
+                  ),
                   child: SingleChildScrollView(
                     child: builder(dialogContext, close),
                   ),
@@ -248,10 +263,35 @@ class FluxerModal {
   }
 }
 
+Future<T?> _presentFluxerModal<T>(
+  BuildContext context, {
+  required bool desktopRoute,
+  required bool? useRootNavigator,
+  required WidgetBuilder builder,
+}) {
+  final bool useRoot =
+      useRootNavigator ?? resolveShellPopupUseRootNavigator(context);
+  if (desktopRoute) {
+    return pushFluxerDesktopRoute<T>(
+      context,
+      navigator: Navigator.of(context, rootNavigator: useRoot),
+      surface: FluxerDesktopSurface.modal,
+      builder: builder,
+    );
+  }
+  return showDialog<T>(
+    context: context,
+    useRootNavigator: useRoot,
+    barrierColor: Colors.transparent,
+    builder: builder,
+  );
+}
+
 Widget _buildFluxerModalOverlay(
   BuildContext context, {
   required VoidCallback close,
   required Widget child,
+  required bool routeBackdrop,
   VoidCallback? onBack,
 }) {
   return wrapFluxerOverlayBackHandler(
@@ -263,13 +303,16 @@ Widget _buildFluxerModalOverlay(
         Positioned.fill(
           child: FluxerGestureDetector(
             onTap: close,
-            child: ColoredBox(
-              color: Colors.black.withValues(alpha: 0.35),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
-                child: const SizedBox.expand(),
-              ),
-            ),
+            behavior: HitTestBehavior.opaque,
+            child: routeBackdrop
+                ? const SizedBox.expand()
+                : ColoredBox(
+                    color: Colors.black.withValues(alpha: 0.35),
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+                      child: const SizedBox.expand(),
+                    ),
+                  ),
           ),
         ),
         AnimatedPadding(
@@ -326,22 +369,23 @@ class FluxerConfirmModal {
         );
       },
       actionsBuilder: (pop) => [
-        if (isDanger)
-          FluxerButton.dangerPrimary(
-            onPressed: () {
-              onConfirm();
-              pop(true);
-            },
-            label: resolvedConfirmLabel,
-          )
-        else
-          FluxerButton.primary(
-            onPressed: () {
-              onConfirm();
-              pop(true);
-            },
-            label: resolvedConfirmLabel,
-          ),
+        FluxerAutofocus(
+          child: isDanger
+              ? FluxerButton.dangerPrimary(
+                  onPressed: () {
+                    onConfirm();
+                    pop(true);
+                  },
+                  label: resolvedConfirmLabel,
+                )
+              : FluxerButton.primary(
+                  onPressed: () {
+                    onConfirm();
+                    pop(true);
+                  },
+                  label: resolvedConfirmLabel,
+                ),
+        ),
         const SizedBox(height: 8),
         FluxerButton.secondary(onPressed: () => pop(false), label: l10n.cancel),
       ],

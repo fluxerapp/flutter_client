@@ -1,6 +1,8 @@
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/input/domain/keybind_action.dart';
+import 'package:fluxer_app/features/input/domain/keybind_combo.dart';
 import 'package:fluxer_app/features/ui/animation/animation_controller_visibility_extension.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_variant.dart';
@@ -274,6 +276,8 @@ class FluxerButton extends StatefulWidget {
     required String this.semanticLabel,
     required this.onPressed,
     bool showTooltip = false,
+    KeybindAction? tooltipKeybindAction,
+    KeybindCombo? tooltipKeybindCombo,
     double extent = 24,
     double iconSize = 16,
     double borderRadius = 4,
@@ -290,6 +294,8 @@ class FluxerButton extends StatefulWidget {
     super.key,
   }) : _desktopIcon = _FluxerDesktopIconStyle(
          showTooltip: showTooltip,
+         tooltipKeybindAction: tooltipKeybindAction,
+         tooltipKeybindCombo: tooltipKeybindCombo,
          extent: extent,
          borderRadius: borderRadius,
          circle: circle,

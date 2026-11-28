@@ -8,6 +8,7 @@ import 'package:fluxer_app/features/channels/presentation/widgets/channel_notifi
 import 'package:fluxer_app/features/channels/providers/channel_notification_menu_provider.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/header/channel_header_icon_button.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/ui/overlay/fluxer_layer.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -186,7 +187,11 @@ class _ChannelNotificationSettingsButtonState
     final bool isOpen = _overlayController.isShowing;
     return OverlayPortal(
       controller: _overlayController,
-      overlayChildBuilder: _buildOverlay,
+      overlayChildBuilder: (BuildContext context) => FluxerLayer(
+        onClose: _close,
+        trapFocus: usesDesktopPointerUi(context),
+        child: _buildOverlay(context),
+      ),
       child: CompositedTransformTarget(
         link: _layerLink,
         child: widget.anchorBuilder(context, isOpen: isOpen, toggle: _toggle),

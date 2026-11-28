@@ -1,6 +1,8 @@
 import 'package:flutter/services.dart';
 import 'package:fluxer_app/features/ui/focus_ring/fluxer_focus_ring.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_autofocus.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
 class FluxerActivatable extends StatefulWidget {
   const FluxerActivatable({
@@ -68,6 +70,8 @@ class _FluxerActivatableState extends State<FluxerActivatable> {
         },
         child: Focus(
           focusNode: widget.focusNode,
+          autofocus:
+              FluxerAutofocus.of(context) && usesDesktopPointerUi(context),
           includeSemantics: false,
           canRequestFocus: widget.enabled && (widget.focusable ?? canActivate),
           onFocusChange: _handleFocusChange,

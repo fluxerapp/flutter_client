@@ -7,6 +7,8 @@ class _FluxerDesktopIconStyle {
     required this.borderRadius,
     required this.circle,
     required this.active,
+    this.tooltipKeybindAction,
+    this.tooltipKeybindCombo,
     this.color,
     this.hoverColor,
     this.background,
@@ -18,6 +20,8 @@ class _FluxerDesktopIconStyle {
   });
 
   final bool showTooltip;
+  final KeybindAction? tooltipKeybindAction;
+  final KeybindCombo? tooltipKeybindCombo;
   final double extent;
   final double borderRadius;
   final bool circle;
@@ -89,5 +93,10 @@ Widget _buildFluxerDesktopIconButton(
   if (!style.showTooltip) {
     return button;
   }
-  return FluxerTooltip(message: label, child: button);
+  return FluxerTooltip(
+    message: label,
+    keybindAction: style.tooltipKeybindAction,
+    keybindCombo: style.tooltipKeybindCombo,
+    child: button,
+  );
 }
